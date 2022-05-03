@@ -3,10 +3,10 @@
 <p align="center">
     <img src="https://github.com/HIITCoin/HiiTCoin/blob/main/assets/logo.png?raw=true" alt="Logo" width="120" height="120">
 
-  <h3 align="center">Jukathon</h3>
+  <h3 align="center">HiiTCoin</h3>
 
   <p align="center">
-    This is my solo project in which I developed a smartphone app using React Native. It loads all sounds from a device (after asking for permission) and then a user can play audio of their liking.
+    This is my group project in which we developed a smartphone app using React Native.
     <br />
 
 ## Installation:
