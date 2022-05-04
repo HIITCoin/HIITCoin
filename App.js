@@ -1,16 +1,25 @@
 import React from "react";
 import { NativeBaseProvider, Box, Text, extendTheme, StatusBar } from "native-base";
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import LoginScreen from "./screens/LoginScreen";
+import HomeScreen from "./screens/HomeScreen";
 import { colorTheme } from "./misc/colorTheme";
+
+const Stack = createNativeStackNavigator();
 
 const colors = extendTheme({ colors: colorTheme });
 
 export default function App() {
   return (
     <NativeBaseProvider theme={colors}>
-      <StatusBar hidden />
-      <Box flex={1} bg='colors.bg' alignItems="center" justifyContent="center">
-        <Text color='colors.text'>Hello!</Text>
-      </Box>
+      {/* <StatusBar hidden /> */}
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen options={{ headerShown: false }} name="Login" component={LoginScreen} />
+          <Stack.Screen name="Home" component={HomeScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
     </NativeBaseProvider>
   );
 }
