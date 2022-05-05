@@ -1,9 +1,10 @@
-import { StyleSheet, View, TouchableOpacity } from 'react-native'
+import { StyleSheet, View, TouchableOpacity, Keyboard } from 'react-native'
 import React, {useEffect, useState} from 'react'
-import { KeyboardAvoidingView, Input, Box, Icon, Button, Center, flex, Text} from 'native-base'
+import { KeyboardAvoidingView, Input, Box, Icon, Button, Center, flex, Text, keyboardDismissHandlerManager} from 'native-base'
 import { MaterialIcons } from '@expo/vector-icons';
 import { auth } from '../firebase';
 import { useNavigation } from '@react-navigation/core';
+import { TouchableWithoutFeedback } from 'react-native';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
@@ -26,6 +27,7 @@ const LoginScreen = () => {
       .then(userCredentials => {
         const user = userCredentials.user;
         console.log("New user", user.email);
+
       })
       .catch(error => alert(error.message))
   }
@@ -41,6 +43,7 @@ const LoginScreen = () => {
   }
 
   return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <KeyboardAvoidingView bg="colors.bg" height="100%"
       behavior="padding" //when keyboard slides up it won't cover the input field and users will see what they type
     >
@@ -48,13 +51,13 @@ const LoginScreen = () => {
         <Text fontSize="6xl" color="colors.text">HiiTCoin</Text>
       </Box>
       <Box alignSelf="center">
-        <Input mx="3" placeholder="Email" w="75%" maxWidth="300px"
+        <Input mx="3" placeholder=" Email" w="75%" maxWidth="300px"
           variant="rounded" margin="2" marginTop="30%" color="colors.other"
           InputLeftElement={<Icon as={<MaterialIcons name="person" />} size={5} ml="2" color="muted.400" />}
           value={email}
           onChangeText={text => setEmail(text)}
         />
-        <Input mx="3" placeholder="Password" w="75%" maxWidth="300px"
+        <Input mx="3" placeholder=" Password" w="75%" maxWidth="300px"
           secureTextEntry
           variant="rounded" margin="2" color="colors.other"
           InputLeftElement={<Icon as={<MaterialIcons name="vpn-key" />} size={5} ml="2" color="muted.400" />}
@@ -75,6 +78,7 @@ const LoginScreen = () => {
         </Button>
     </Box>
     </KeyboardAvoidingView>
+    </TouchableWithoutFeedback>
   )
 }
 
