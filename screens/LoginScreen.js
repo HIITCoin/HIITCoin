@@ -1,4 +1,4 @@
-import { StyleSheet, View, TouchableOpacity } from 'react-native'
+import { StyleSheet, View, TouchableOpacity, Platform } from 'react-native'
 import React, {useEffect, useState} from 'react'
 import { KeyboardAvoidingView, Input, Box, Icon, Button, Center, flex, Text} from 'native-base'
 import { MaterialIcons } from '@expo/vector-icons';
@@ -10,6 +10,8 @@ const LoginScreen = () => {
   const [password, setPassword] = useState('');
 
   const navigation = useNavigation();
+  const behavior = Platform.OS === 'ios' ? 'position' : 'padding'
+  const offsetKeyBoard = Platform.OS === 'ios' ? 5 : 0
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
@@ -42,7 +44,8 @@ const LoginScreen = () => {
 
   return (
     <KeyboardAvoidingView bg="colors.bg" height="100%"
-      behavior="padding" //when keyboard slides up it won't cover the input field and users will see what they type
+      behavior={behavior}
+      keyboardVerticalOffset={offsetKeyBoard} //when keyboard slides up it won't cover the input field and users will see what they type
     >
       <Box marginTop="30%" alignSelf="center">
         <Text fontSize="6xl" color="colors.text">HiiTCoin</Text>
