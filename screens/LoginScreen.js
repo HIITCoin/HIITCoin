@@ -15,7 +15,7 @@ const LoginScreen = () => {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
       if (user) {
-        navigation.navigate("Home")
+        navigation.navigate("Workouts")
       }
     })
     return unsubscribe;
@@ -45,7 +45,7 @@ const LoginScreen = () => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <KeyboardAvoidingView bg="colors.bg" height="100%"
-      behavior="padding" //when keyboard slides up it won't cover the input field and users will see what they type
+      behavior="padding"
     >
       <Box marginTop="30%" alignSelf="center">
         <Text fontSize="6xl" color="colors.text">HiiTCoin</Text>
