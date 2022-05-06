@@ -1,4 +1,4 @@
-import { StyleSheet, View, TouchableOpacity, Platform } from "react-native";
+import { StyleSheet, View, TouchableOpacity, Platform, Keyboard, TouchableWithoutFeedback} from "react-native";
 import React, { useEffect, useState } from "react";
 import {
   KeyboardAvoidingView,
@@ -9,6 +9,7 @@ import {
   Center,
   flex,
   Text,
+  keyboardDismissHandlerManager
 } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
 import {
@@ -55,6 +56,7 @@ const LoginScreen = () => {
   };
 
   return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <KeyboardAvoidingView
       bg="colors.bg"
       height="100%"
@@ -117,7 +119,8 @@ const LoginScreen = () => {
         </Button>
       </Box>
     </KeyboardAvoidingView>
-  );
-};
+    </TouchableWithoutFeedback>
+  )
+}
 
 export default LoginScreen;
