@@ -12,7 +12,7 @@ const HomeScreen = () => {
 				<HStack justifyContent="space-between">
 					<Pressable
 						//implement navigation.navigate("where")
-						onPress={() => console.log("Home pressed")}
+						onPress={() => navigation.navigate("Home")}
 					>
 						<MaterialIcons
 							name="home"
@@ -22,7 +22,7 @@ const HomeScreen = () => {
 					</Pressable>
 					<Pressable
 						//implement navigation.navigate("where")
-						onPress={() => navigation.navigate("Profile")}
+						onPress={() => console.log("Account pressed")}
 					>
 						<MaterialIcons
 							name="person"
@@ -33,11 +33,12 @@ const HomeScreen = () => {
 				</HStack>
 				{/* Get userName from props/state/auth and implement here */}
 				<Text fontSize="6xl" color="colors.text">
-					Hello, User
+					User Name
 				</Text>
 			</Box>
 			<VStack space={4} alignItems="center" bg="colors.bg">
 				<Box
+					//To align center, change <Box> to Center
 					w="100%"
 					h="10"
 					bg="colors.bg"
@@ -53,11 +54,12 @@ const HomeScreen = () => {
 							color="colors.text"
 							marginLeft="10px"
 						>
-							Profile
+							Personal Info
 						</Text>
 					</Pressable>
 				</Box>
 				<Box
+					//To align left, change <Box> to Center
 					w="100%"
 					h="10"
 					bg="colors.bg"
@@ -78,6 +80,7 @@ const HomeScreen = () => {
 					</Pressable>
 				</Box>
 				<Box
+					//To align left, change <Box> to Center
 					w="100%"
 					h="10"
 					bg="colors.bg"
@@ -93,11 +96,12 @@ const HomeScreen = () => {
 							color="colors.text"
 							marginLeft="10px"
 						>
-							Workout!
+							Edit Profile
 						</Text>
 					</Pressable>
 				</Box>
 				<Box
+					//To align left, change <Box> to Center
 					w="100%"
 					h="10"
 					bg="colors.bg"
@@ -115,7 +119,30 @@ const HomeScreen = () => {
 							color="colors.text"
 							marginLeft="10px"
 						>
-							Quick Timer
+							Badges
+						</Text>
+					</Pressable>
+				</Box>
+				<Box
+					//To align left, change <Box> to Center
+					w="100%"
+					h="10"
+					bg="colors.bg"
+					rounded="md"
+					borderWidth="2px"
+					borderColor="colors.text"
+					shadow={3}
+					justifyContent="center"
+				>
+					<Pressable
+						onPress={() => console.log("Quick Timer pressed")}
+					>
+						<Text
+							fontSize="xl"
+							color="colors.text"
+							marginLeft="10px"
+						>
+							Settings
 						</Text>
 					</Pressable>
 				</Box>
