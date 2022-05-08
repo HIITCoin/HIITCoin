@@ -17,8 +17,10 @@ import {
   flex,
   Text,
   keyboardDismissHandlerManager,
-  FormControl
+  FormControl,
+  ScrollView,
 } from "native-base";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { MaterialIcons } from "@expo/vector-icons";
 import {
   auth,
@@ -49,9 +51,10 @@ const SignupScreen = () => {
     });
     return unsubscribe;
   }, []);
-  const validate = () => {
+  const validate = (data) => {
+    // data will be user object made from all data in state
 
-  }
+  };
   const handleSignUp = async () => {
     try {
       const { user } = await createUserWithEmailAndPassword(
@@ -76,182 +79,251 @@ const SignupScreen = () => {
   };
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <KeyboardAvoidingView
-        bg="colors.bg"
-        height="100%"
-        behavior={behavior}
-        keyboardVerticalOffset={offsetKeyBoard} //when keyboard slides up it won't cover the input field and users will see what they type
-      >
-        <Box marginTop="20%" alignSelf="center">
-          <Text fontSize="3xl" color="colors.text">
-            Signup
-          </Text>
-        </Box>
-        <Box alignSelf="center">
-        <FormControl isRequired marginTop="30%">
-        <FormControl.Label marginBottom="0%" _text={{
-          bold: true,
-          ml: 5,
-        }}>Email</FormControl.Label>
-          <Input
-            mx="3"
-            placeholder="Email"
-            w="75%"
-            maxWidth="300px"
-            variant="rounded"
-            margin="2"
-            color="colors.other"
-            InputLeftElement={
-              <Icon
-                as={<MaterialIcons name="person" />}
-                size={5}
-                ml="2"
-                color="muted.400"
+    <KeyboardAwareScrollView style={{height:"150%", backgroundColor:'#1B1B3A'}}>
+      <TouchableWithoutFeedback bg="colors.bg" height = "150%" onPress={Keyboard.dismiss}>
+        <KeyboardAvoidingView
+          bg="colors.bg"
+          height="150%"
+         // behavior={behavior}
+          keyboardVerticalOffset={offsetKeyBoard} //when keyboard slides up it won't cover the input field and users will see what they type
+        >
+          <Box marginTop="20%" alignSelf="center">
+            <Text fontSize="3xl" color="colors.text">
+              Signup
+            </Text>
+          </Box>
+          <Box alignSelf="center">
+            <FormControl isRequired marginTop="0%">
+              <FormControl.Label
+                marginBottom="0%"
+                _text={{
+                  bold: true,
+                  ml: 5,
+                  color: 'colors.text'
+                }}
+              >
+                Email
+              </FormControl.Label>
+              <Input
+                mx="3"
+                placeholder="Email"
+                w="75%"
+                maxWidth="300px"
+                variant="rounded"
+                margin="2"
+                color="colors.other"
+                InputLeftElement={
+                  <Icon
+                    as={<MaterialIcons name="person" />}
+                    size={5}
+                    ml="2"
+                    color="muted.400"
+                  />
+                }
+                value={email}
+                onChangeText={(text) => setEmail(text)}
               />
-            }
-            value={email}
-            onChangeText={(text) => setEmail(text)}
-          />
-          </FormControl>
-          <FormControl isRequired>
-          <FormControl.Label marginBottom="0%" _text={{
-            bold: true,
-            ml: 5,
-          }}>Password</FormControl.Label>
-          <Input
-            mx="3"
-            placeholder="Password"
-            w="75%"
-            maxWidth="300px"
-            secureTextEntry
-            variant="rounded"
-            margin="2"
-            color="colors.other"
-            InputLeftElement={
-              <Icon
-                as={<MaterialIcons name="vpn-key" />}
-                size={5}
-                ml="2"
-                color="muted.400"
+            </FormControl>
+            <FormControl isRequired>
+              <FormControl.Label
+                marginBottom="0%"
+                _text={{
+                  bold: true,
+                  ml: 5,
+                  color: 'colors.text'
+                }}
+              >
+                Password
+              </FormControl.Label>
+              <Input
+                mx="3"
+                placeholder="Password"
+                w="75%"
+                maxWidth="300px"
+                secureTextEntry
+                variant="rounded"
+                margin="2"
+                color="colors.other"
+                InputLeftElement={
+                  <Icon
+                    as={<MaterialIcons name="vpn-key" />}
+                    size={5}
+                    ml="2"
+                    color="muted.400"
+                  />
+                }
+                value={password}
+                onChangeText={(text) => setPassword(text)}
               />
-            }
-            value={password}
-            onChangeText={(text) => setPassword(text)}
-          />
-          </FormControl>
+            </FormControl>
 
-          {/*firstName*/}
-          <Input
-            mx="3"
-            placeholder="First Name"
-            w="75%"
-            maxWidth="300px"
-            secureTextEntry
-            variant="rounded"
-            margin="2"
-            color="colors.other"
-            InputLeftElement={
-              <Icon
-                as={<MaterialIcons name="vpn-key" />}
-                size={5}
-                ml="2"
-                color="muted.400"
+            {/*firstName*/}
+            <FormControl isRequired>
+              <FormControl.Label
+                marginBottom="0%"
+                _text={{
+                  bold: true,
+                  ml: 5,
+                  color: 'colors.text'
+                }}
+              >
+                First Name
+              </FormControl.Label>
+              <Input
+                mx="3"
+                placeholder="First Name"
+                w="75%"
+                maxWidth="300px"
+                variant="rounded"
+                margin="2"
+                color="colors.other"
+                InputLeftElement={
+                  <Icon
+                    as={<MaterialIcons name="vpn-key" />}
+                    size={5}
+                    ml="2"
+                    color="muted.400"
+                  />
+                }
+                value={firstName}
+                onChangeText={(text) => setFirstName(text)}
               />
-            }
-            value={firstName}
-            onChangeText={(text) => setFirstName(text)}
-          />
-          <Input
-            mx="3"
-            placeholder="Last Name"
-            w="75%"
-            maxWidth="300px"
-            secureTextEntry
-            variant="rounded"
-            margin="2"
-            color="colors.other"
-            InputLeftElement={
-              <Icon
-                as={<MaterialIcons name="vpn-key" />}
-                size={5}
-                ml="2"
-                color="muted.400"
+            </FormControl>
+            <FormControl isRequired>
+              <FormControl.Label
+                marginBottom="0%"
+                _text={{
+                  bold: true,
+                  ml: 5,
+                  color: 'colors.text'
+                }}
+              >
+                Last Name
+              </FormControl.Label>
+              <Input
+                mx="3"
+                placeholder="Last Name"
+                w="75%"
+                maxWidth="300px"
+                variant="rounded"
+                margin="2"
+                color="colors.other"
+                InputLeftElement={
+                  <Icon
+                    as={<MaterialIcons name="vpn-key" />}
+                    size={5}
+                    ml="2"
+                    color="muted.400"
+                  />
+                }
+                value={lastName}
+                onChangeText={(text) => setLastName(text)}
               />
-            }
-            value={lastName}
-            onChangeText={(text) => setLastName(text)}
-          />
-          <Input
-            mx="3"
-            placeholder="Height(in inches)"
-            w="75%"
-            maxWidth="300px"
-            secureTextEntry
-            variant="rounded"
-            margin="2"
-            color="colors.other"
-            keyboardType="numeric"
-            InputLeftElement={
-              <Icon
-                as={<MaterialIcons name="vpn-key" />}
-                size={5}
-                ml="2"
-                color="muted.400"
+            </FormControl>
+            <FormControl isRequired>
+              <FormControl.Label
+                marginBottom="0%"
+                _text={{
+                  bold: true,
+                  ml: 5,
+                  color: 'colors.text'
+                }}
+              >
+                Height
+              </FormControl.Label>
+              <Input
+                mx="3"
+                placeholder="Height(in inches)"
+                w="75%"
+                maxWidth="300px"
+                variant="rounded"
+                margin="2"
+                color="colors.other"
+                keyboardType="numeric"
+                InputLeftElement={
+                  <Icon
+                    as={<MaterialIcons name="vpn-key" />}
+                    size={5}
+                    ml="2"
+                    color="muted.400"
+                  />
+                }
+                value={String(height)}
+                onChangeText={(text) => setHeight(String(text))}
               />
-            }
-            value={String(height)}
-            onChangeText={(text) => setHeight(String(text))}
-          />
-          <Input
-            mx="3"
-            placeholder="Weight(lbs)"
-            w="75%"
-            maxWidth="300px"
-            secureTextEntry
-            variant="rounded"
-            margin="2"
-            color="colors.other"
-            keyboardType="numeric"
-            InputLeftElement={
-              <Icon
-                as={<MaterialIcons name="vpn-key" />}
-                size={5}
-                ml="2"
-                color="muted.400"
+            </FormControl>
+            <FormControl isRequired>
+              <FormControl.Label
+                marginBottom="0%"
+                _text={{
+                  bold: true,
+                  ml: 5,
+                  color: 'colors.text'
+                }}
+              >
+                Weight
+              </FormControl.Label>
+              <Input
+                mx="3"
+                placeholder="Weight(lbs)"
+                w="75%"
+                maxWidth="300px"
+                variant="rounded"
+                margin="2"
+                color="colors.other"
+                keyboardType="numeric"
+                InputLeftElement={
+                  <Icon
+                    as={<MaterialIcons name="vpn-key" />}
+                    size={5}
+                    ml="2"
+                    color="muted.400"
+                  />
+                }
+                value={String(weight)}
+                onChangeText={(text) => setWeight(String(text))}
               />
-            }
-            value={String(weight)}
-            onChangeText={(text) => setWeight(String(text))}
-          />
-          <Input
-            mx="3"
-            placeholder="Age(years)"
-            w="75%"
-            maxWidth="300px"
-            secureTextEntry
-            variant="rounded"
-            margin="2"
-            color="colors.other"
-            InputLeftElement={
-              <Icon
-                as={<MaterialIcons name="vpn-key" />}
-                size={5}
-                ml="2"
-                color="muted.400"
-              />
-            }
-            value={String(age)}
-            onChangeText={(text) => setAge(String(text))}
-          />
-        </Box>
-        <Box marginHorizontal={50} display={"flex"} flexDirection="row">
-          <Button width="60%" flex={1} margin={5} onPress={handleSignUp}>
-            Sign Up
-          </Button>
-        </Box>
-      </KeyboardAvoidingView>
-    </TouchableWithoutFeedback>
+            </FormControl>
+            <FormControl isRequired>
+              <FormControl.Label
+                marginBottom="0%"
+                _text={{
+                  bold: true,
+                  ml: 5,
+                  color: 'colors.text'
+                }}
+              >
+                Age
+              </FormControl.Label>
+            <Input
+              mx="3"
+              placeholder="Age(years)"
+              w="75%"
+              maxWidth="300px"
+              variant="rounded"
+              margin="2"
+              color="colors.other"
+              InputLeftElement={
+                <Icon
+                  as={<MaterialIcons name="vpn-key" />}
+                  size={5}
+                  ml="2"
+                  color="muted.400"
+                />
+              }
+              value={String(age)}
+              onChangeText={(text) => setAge(String(text))}
+            />
+            </FormControl>
+          </Box>
+          <Box marginHorizontal={50} display={"flex"} flexDirection="row">
+            <Button width="60%" flex={1} margin={5} onPress={handleSignUp}>
+              Sign Up
+            </Button>
+          </Box>
+        </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
+    </KeyboardAwareScrollView>
   );
 };
 
