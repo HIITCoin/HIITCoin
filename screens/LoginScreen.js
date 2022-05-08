@@ -37,19 +37,18 @@ const LoginScreen = () => {
     return unsubscribe;
   }, []);
 
-  const handleSignUp = async () => {
-    try {
-      const user = await createUserWithEmailAndPassword(auth, email, password);
-      console.log("New user", user.email);
-    } catch (error) {
-      alert(error.message);
-    }
+  const handleSignUp = async () => { 
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        navigation.navigate("Signup");
+      }
+    });
   };
 
   const handleSignIn = async() => {
     try {
-      const user = await signInWithEmailAndPassword(auth, email, password);
-      console.log("Welcome back", user.email);
+      const {user} = await signInWithEmailAndPassword(auth, email, password);
+      console.log("Welcome back", user.email, user.uid);
     } catch (error) {
       alert(error.message);
     }
