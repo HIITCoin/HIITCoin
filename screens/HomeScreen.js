@@ -1,11 +1,37 @@
 import { Pressable, StyleSheet } from "react-native"
-import React from "react"
+import React, {useState, useEffect} from "react"
 import { KeyboardAvoidingView, Text, VStack, Flex, Box } from "native-base"
 import { MaterialIcons } from "@expo/vector-icons"
 import { useNavigation } from "@react-navigation/native"
+import { getDocs,collection } from "firebase/firestore"
+import { db } from "../firebase"
+import { getAuth, signOut } from "firebase/auth";
 
 const HomeScreen = () => {
 	const navigation = useNavigation()
+  const auth = getAuth()
+  const exCollection = collection(db, 'Exercises')
+
+  useEffect(() => {
+    const getExer = async () => {
+      let arr =[]
+      const data = await getDocs(exCollection).then(snapshot => {
+        snapshot.docs.forEach(doc => arr.push({...doc.data(), id: doc.id}))
+      })
+      console.log(arr)
+    }
+    getExer()
+  }, [])
+
+  const handleSignOut = async() => {
+    try {
+      const user = await signOut(auth);
+      console.log("Get out");
+      navigation.navigate("Login")
+    } catch (error) {
+      alert(error.message);
+    }
+  };
 	return (
 		<KeyboardAvoidingView bg="colors.bg" height="100%">
 			<Box marginTop="20%" marginBottom="10%">
@@ -125,6 +151,30 @@ const HomeScreen = () => {
 							marginLeft="10px"
 						>
 							Quick Timer
+						</Text>
+					</Pressable>
+				</Box>
+
+        <Box
+					w="100%"
+					h="10"
+					bg="colors.bg"
+					rounded="md"
+					borderWidth="2px"
+					borderColor="colors.text"
+					shadow={3}
+					//To align left, change <Box> to Center
+					justifyContent="center"
+				>
+					<Pressable
+						onPress={handleSignOut}
+					>
+						<Text
+							fontSize="xl"
+							color="colors.text"
+							marginLeft="10px"
+						>
+							Log Out
 						</Text>
 					</Pressable>
 				</Box>

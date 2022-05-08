@@ -110,7 +110,7 @@ const LoginScreen = () => {
           onChangeText={(text) => setPassword(text)}
         />
       </Box>
-      <Box marginHorizontal={50} display={flex} flexDirection="row">
+      <Box marginHorizontal={50} display={'flex'} flexDirection="row">
         <Button width="60%" flex={1} margin={5} onPress={handleSignIn}>
           Sign In
         </Button>
