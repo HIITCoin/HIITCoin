@@ -4,7 +4,7 @@ import { KeyboardAvoidingView, Text, VStack, Box, HStack } from "native-base"
 import { MaterialIcons } from "@expo/vector-icons"
 import { useNavigation } from "@react-navigation/native"
 
-const ProfileScreen = () => {
+const SettingsScreen = () => {
 	const navigation = useNavigation()
 	return (
 		<KeyboardAvoidingView bg="colors.bg" height="100%">
@@ -22,7 +22,7 @@ const ProfileScreen = () => {
 					</Pressable>
 					<Pressable
 						//implement navigation.navigate("where")
-						onPress={() => console.log("Account pressed")}
+						onPress={() => navigation.navigate("Profile")}
 					>
 						<MaterialIcons
 							name="person"
@@ -33,7 +33,7 @@ const ProfileScreen = () => {
 				</HStack>
 				{/* Get userName from props/state/auth and implement here */}
 				<Text fontSize="6xl" color="colors.text">
-					User Name
+					Settings
 				</Text>
 			</Box>
 			<VStack space={4} alignItems="center" bg="colors.bg">
@@ -48,13 +48,13 @@ const ProfileScreen = () => {
 					shadow={3}
 					justifyContent="center"
 				>
-					<Pressable onPress={() => navigation.navigate("Profile")}>
+					<Pressable onPress={() => console.log("Dark Mode toggled?")}>
 						<Text
 							fontSize="xl"
 							color="colors.text"
 							marginLeft="10px"
 						>
-							Personal Info
+							Dark Mode?
 						</Text>
 					</Pressable>
 				</Box>
@@ -69,13 +69,13 @@ const ProfileScreen = () => {
 					shadow={3}
 					justifyContent="center"
 				>
-					<Pressable onPress={() => console.log("Stats pressed")}>
+					<Pressable onPress={() => console.log("Notifications pressed")}>
 						<Text
 							fontSize="xl"
 							color="colors.text"
 							marginLeft="10px"
 						>
-							Stats
+							Notifications
 						</Text>
 					</Pressable>
 				</Box>
@@ -90,36 +90,13 @@ const ProfileScreen = () => {
 					shadow={3}
 					justifyContent="center"
 				>
-					<Pressable onPress={() => console.log("Edit Profile pressed")}>
+					<Pressable onPress={() => console.log("Privacy pressed")}>
 						<Text
 							fontSize="xl"
 							color="colors.text"
 							marginLeft="10px"
 						>
-							Edit Profile
-						</Text>
-					</Pressable>
-				</Box>
-				<Box
-					//To align left, change <Box> to Center
-					w="100%"
-					h="10"
-					bg="colors.bg"
-					rounded="md"
-					borderWidth="2px"
-					borderColor="colors.text"
-					shadow={3}
-					justifyContent="center"
-				>
-					<Pressable
-						onPress={() => console.log("Quick Timer pressed")}
-					>
-						<Text
-							fontSize="xl"
-							color="colors.text"
-							marginLeft="10px"
-						>
-							Badges
+							Privacy
 						</Text>
 					</Pressable>
 				</Box>
@@ -135,14 +112,37 @@ const ProfileScreen = () => {
 					justifyContent="center"
 				>
 					<Pressable
-						onPress={() => navigation.navigate("Settings")}
+						onPress={() => console.log("Accessibility pressed")}
 					>
 						<Text
 							fontSize="xl"
 							color="colors.text"
 							marginLeft="10px"
 						>
-							Settings
+							Accessibility
+						</Text>
+					</Pressable>
+				</Box>
+				<Box
+					//To align left, change <Box> to Center
+					w="100%"
+					h="10"
+					bg="colors.bg"
+					rounded="md"
+					borderWidth="2px"
+					borderColor="colors.text"
+					shadow={3}
+					justifyContent="center"
+				>
+					<Pressable
+						onPress={() => console.log("About Us pressed")}
+					>
+						<Text
+							fontSize="xl"
+							color="colors.text"
+							marginLeft="10px"
+						>
+							About Us
 						</Text>
 					</Pressable>
 				</Box>
@@ -151,6 +151,6 @@ const ProfileScreen = () => {
 	)
 }
 
-export default ProfileScreen
+export default SettingsScreen
 
 const styles = StyleSheet.create({})
