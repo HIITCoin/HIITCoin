@@ -27,6 +27,7 @@ import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
 } from "../firebase";
+import { makeUser } from "../misc/helperFunctions";
 import { useNavigation } from "@react-navigation/core";
 
 const SignupScreen = () => {
@@ -51,28 +52,52 @@ const SignupScreen = () => {
     });
     return unsubscribe;
   }, []);
+  useEffect(() => {
+    let reset = () => {
+      setEmail('')
+      setAge('')
+      setFirstName('')
+      setHeight('')
+      setWeight('')
+      setLastName('')
+      setPassword('')
+    } 
+    return reset
+  }, [])
   const validate = (data) => {
     // data will be user object made from all data in state
-
+    //required
+    for (let field in data) {
+      if(!String(data[field]).length){
+        alert('Please fill out all the fields, we talked about this already')
+        return false
+      }
+    } 
+    return true
   };
   const handleSignUp = async () => {
     try {
+      let dbUserInstance = {
+        firstName,
+        lastName,
+        height: Number(height),
+        weight: Number(weight),
+        age: Number(weight),
+      }; 
+      console.log(dbUserInstance)
+     if (validate(dbUserInstance)) {
       const { user } = await createUserWithEmailAndPassword(
         auth,
         email,
         password
       );
       if (user) {
-        const dbUserInstance = {
-          firstName,
-          lastName,
-          height: Number(height),
-          weight: Number(weight),
-          age: Number(weight),
-        };
         console.log("New user", user.email);
+        dbUserInstance.id = user.uid
+        await makeUser(dbUserInstance)
         navigation.navigate("Home");
       }
+    }
     } catch (error) {
       alert(error.message);
     }
