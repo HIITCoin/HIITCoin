@@ -4,6 +4,7 @@ import { NavigationContainer } from "@react-navigation/native"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import LoginScreen from "./screens/LoginScreen"
 import HomeScreen from "./screens/HomeScreen"
+import SignupScreen from "./screens/SignupScreen"
 import ProfileScreen from "./screens/ProfileScreen"
 import { colorTheme } from "./misc/colorTheme"
 
@@ -29,6 +30,11 @@ export default function App() {
 					/>
 					<Stack.Screen
 						options={{ headerShown: false }}
+						name="Signup"
+						component={SignupScreen}
+          />
+          <Stack.Screen 
+            options={{ headerShown: true }}
 						name="Profile"
 						component={ProfileScreen}
 					/>
