@@ -6,7 +6,7 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  onAuthStateChanged,
+  onAuthStateChanged
 } from "firebase/auth";
 
 // App's Firebase configuration
@@ -44,4 +44,4 @@ async function seedDb() {
 }
 seedDb();
 
-export { firebaseConfig, auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged };
+export { db, firebaseConfig, auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged };

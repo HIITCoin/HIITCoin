@@ -1,44 +1,18 @@
 import { Pressable, StyleSheet } from "react-native"
-import React, {useState, useEffect} from "react"
-import { KeyboardAvoidingView, Text, VStack, Flex, Box, HStack } from "native-base"
+import React from "react"
+import { KeyboardAvoidingView, Text, VStack, Box, HStack } from "native-base"
 import { MaterialIcons } from "@expo/vector-icons"
 import { useNavigation } from "@react-navigation/native"
-import { getDocs,collection } from "firebase/firestore"
-import { db } from "../firebase"
-import { getAuth, signOut } from "firebase/auth";
 
 const HomeScreen = () => {
 	const navigation = useNavigation()
-  const auth = getAuth()
-  const exCollection = collection(db, 'Exercises')
-
-  useEffect(() => {
-    const getExer = async () => {
-      let arr =[]
-      const data = await getDocs(exCollection).then(snapshot => {
-        snapshot.docs.forEach(doc => arr.push({...doc.data(), id: doc.id}))
-      })
-      console.log(arr)
-    }
-    getExer()
-  }, [])
-
-  const handleSignOut = async() => {
-    try {
-      await signOut(auth);
-      console.log("Get out");
-      navigation.navigate("Login")
-    } catch (error) {
-      alert(error.message);
-    }
-  };
 	return (
 		<KeyboardAvoidingView bg="colors.bg" height="100%">
 			<Box marginTop="20%" marginBottom="10%" >
 				<HStack justifyContent="space-between">
 					<Pressable
 						//implement navigation.navigate("where")
-						onPress={() => console.log("Home pressed")}
+						onPress={() => navigation.navigate("Home")}
 					>
 						<MaterialIcons
 							name="home"
@@ -48,7 +22,7 @@ const HomeScreen = () => {
 					</Pressable>
 					<Pressable
 						//implement navigation.navigate("where")
-						onPress={() => navigation.navigate("Profile")}
+						onPress={() => console.log("Account pressed")}
 					>
 						<MaterialIcons
 							name="person"
@@ -59,11 +33,12 @@ const HomeScreen = () => {
 				</HStack>
 				{/* Get userName from props/state/auth and implement here */}
 				<Text fontSize="6xl" color="colors.text">
-					Hello, User
+					User Name
 				</Text>
 			</Box>
 			<VStack space={4} alignItems="center" bg="colors.bg">
 				<Box
+					//To align center, change <Box> to Center
 					w="100%"
 					h="10"
 					bg="colors.bg"
@@ -79,11 +54,12 @@ const HomeScreen = () => {
 							color="colors.text"
 							marginLeft="10px"
 						>
-							Profile
+							Personal Info
 						</Text>
 					</Pressable>
 				</Box>
 				<Box
+					//To align left, change <Box> to Center
 					w="100%"
 					h="10"
 					bg="colors.bg"
@@ -104,6 +80,7 @@ const HomeScreen = () => {
 					</Pressable>
 				</Box>
 				<Box
+					//To align left, change <Box> to Center
 					w="100%"
 					h="10"
 					bg="colors.bg"
@@ -119,11 +96,12 @@ const HomeScreen = () => {
 							color="colors.text"
 							marginLeft="10px"
 						>
-							Workout!
+							Edit Profile
 						</Text>
 					</Pressable>
 				</Box>
 				<Box
+					//To align left, change <Box> to Center
 					w="100%"
 					h="10"
 					bg="colors.bg"
@@ -141,12 +119,12 @@ const HomeScreen = () => {
 							color="colors.text"
 							marginLeft="10px"
 						>
-							Quick Timer
+							Badges
 						</Text>
 					</Pressable>
 				</Box>
-
-        <Box
+				<Box
+					//To align left, change <Box> to Center
 					w="100%"
 					h="10"
 					bg="colors.bg"
@@ -154,18 +132,17 @@ const HomeScreen = () => {
 					borderWidth="2px"
 					borderColor="colors.text"
 					shadow={3}
-					//To align left, change <Box> to Center
 					justifyContent="center"
 				>
 					<Pressable
-						onPress={handleSignOut}
+						onPress={() => console.log("Quick Timer pressed")}
 					>
 						<Text
 							fontSize="xl"
 							color="colors.text"
 							marginLeft="10px"
 						>
-							Log Out
+							Settings
 						</Text>
 					</Pressable>
 				</Box>

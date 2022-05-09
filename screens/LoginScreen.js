@@ -37,19 +37,18 @@ const LoginScreen = () => {
     return unsubscribe;
   }, []);
 
-  const handleSignUp = async () => {
-    try {
-      const user = await createUserWithEmailAndPassword(auth, email, password);
-      console.log("New user", user.email);
-    } catch (error) {
-      alert(error.message);
-    }
+  const handleSignUp = async () => { 
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        navigation.navigate("Signup");
+      }
+    });
   };
 
   const handleSignIn = async() => {
     try {
-      const user = await signInWithEmailAndPassword(auth, email, password);
-      console.log("Welcome back", user.email);
+      const {user} = await signInWithEmailAndPassword(auth, email, password);
+      console.log("Welcome back", user.email, user.uid);
     } catch (error) {
       alert(error.message);
     }
@@ -110,7 +109,7 @@ const LoginScreen = () => {
           onChangeText={(text) => setPassword(text)}
         />
       </Box>
-      <Box marginHorizontal={50} display={flex} flexDirection="row">
+      <Box marginHorizontal={50} display={'flex'} flexDirection="row">
         <Button width="60%" flex={1} margin={5} onPress={handleSignIn}>
           Sign In
         </Button>
