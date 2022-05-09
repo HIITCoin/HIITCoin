@@ -36,17 +36,17 @@ export default function App() {
 						component={SignupScreen}
           />
           <Stack.Screen
-            options={{ headerShown: true }}
+            options={{ headerShown: false }}
 						name="Profile"
 						component={ProfileScreen}
 					/>
           <Stack.Screen
-            options={{ headerShown: true }}
+            options={{ headerShown: false }}
 						name="Settings"
 						component={SettingsScreen}
 					/>
           <Stack.Screen
-            options={{ headerShown: true }}
+            options={{ headerShown: false }}
 						name="Personal Info"
 						component={PersonalInfoScreen}
 					/>

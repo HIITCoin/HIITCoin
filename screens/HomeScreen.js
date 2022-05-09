@@ -73,7 +73,7 @@ const HomeScreen = () => {
 					shadow={3}
 					justifyContent="center"
 				>
-					<Pressable onPress={() => console.log("Profile pressed")}>
+					<Pressable onPress={() => navigation.navigate("Profile")}>
 						<Text
 							fontSize="xl"
 							color="colors.text"
