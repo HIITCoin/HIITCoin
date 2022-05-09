@@ -5,6 +5,7 @@ import {
   doc,
   Timestamp,
   getDocs,
+  getDoc,
   query,
   collection,
   addDoc,
@@ -22,37 +23,30 @@ export const makeUser = async (user) => {
   });
   createHistory()
 };
-//add a workouthistory subcollection here
-// let col = getDocs(
-//   //gets entire workout history for one user
-//   query(collection(db, "Users", auth.currentUser.uid, "Workout-History"))
-// ).then((snapshot) => snapshot.docs.forEach((doc) => console.log(doc.data())));
 //get user doc by id (auth)
-//set doc in user doc at new collection name
-// const history = collection(
-//   db,
-//   "Users",
-//   auth.currentUser.uid,
-//   "Workout-History",
-// )
+export const getUser = async () => {
+    const user = await getDoc(doc(db, 'Users', auth.currentUser.uid))
+    return user.data()
+}
+//Andrey
 //get a list of all user workouts
-//get indidual workout
+//get individual workout
+//add new workout to workouts list
+//(delete workout from workouts list)
+//edit a workout
+//get an array of all exercises by name
+//get single exercise by name
+
+//Khalid
 //submit workout to workout history(attach date to workout)
 //get workout history
-//add new workout to workouts list
-//(delete workout)
-//edit a workout
-//points
 //add points to user points
 //workout history has point fields for all body areas?
 //change user info
 
 //exercises
-//get an array of all exercises by name
-//get single exercise by name
 
-//set workout history for particular user on creation
-//get user
+
  export const createHistory = async () => {
    await addDoc(
     collection(db, "Users", auth.currentUser.uid, "Workout-History"),
@@ -62,11 +56,3 @@ export const makeUser = async (user) => {
   );
 };
 
-
-// const history = await getDocs(
-//     collection(db, "Users", auth.currentUser.uid, "Workout-History")
-//   ).then((snapshot) => {
-//     snapshot.docs.forEach((doc) => {
-//       setDoc(doc, { workouts: ["yay"] });
-//     });
-//   });
