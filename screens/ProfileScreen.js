@@ -22,7 +22,7 @@ const ProfileScreen = () => {
 					</Pressable>
 					<Pressable
 						//implement navigation.navigate("where")
-						onPress={() => console.log("Account pressed")}
+						onPress={() => navigation.navigate("Profile")}
 					>
 						<MaterialIcons
 							name="person"
@@ -48,7 +48,7 @@ const ProfileScreen = () => {
 					shadow={3}
 					justifyContent="center"
 				>
-					<Pressable onPress={() => navigation.navigate("Profile")}>
+					<Pressable onPress={() => navigation.navigate("Personal Info")}>
 						<Text
 							fontSize="xl"
 							color="colors.text"

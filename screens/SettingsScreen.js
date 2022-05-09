@@ -38,27 +38,6 @@ const SettingsScreen = () => {
 			</Box>
 			<VStack space={4} alignItems="center" bg="colors.bg">
 				<Box
-					//To align center, change <Box> to Center
-					w="100%"
-					h="10"
-					bg="colors.bg"
-					rounded="md"
-					borderWidth="2px"
-					borderColor="colors.text"
-					shadow={3}
-					justifyContent="center"
-				>
-					<Pressable onPress={() => console.log("Dark Mode toggled?")}>
-						<Text
-							fontSize="xl"
-							color="colors.text"
-							marginLeft="10px"
-						>
-							Dark Mode?
-						</Text>
-					</Pressable>
-				</Box>
-				<Box
 					//To align left, change <Box> to Center
 					w="100%"
 					h="10"
