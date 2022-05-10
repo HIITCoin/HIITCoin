@@ -13,11 +13,15 @@ import HomeScreen from './screens/HomeScreen';
 import Workouts from './screens/Workouts';
 import NewWorkout from './screens/NewWorkout';
 import SingleWorkout from './screens/SingleWorkout';
+import PersonalInfoScreen from "./screens/PersonalInfoScreen"
+import SignupScreen from "./screens/SignupScreen"
+import ProfileScreen from "./screens/ProfileScreen"
+import SettingsScreen from "./screens/SettingsScreen"
 import { colorTheme } from './misc/colorTheme';
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator()
 
-const colors = extendTheme({ colors: colorTheme });
+const colors = extendTheme({ colors: colorTheme })
 
 export default function App() {
   return (
@@ -34,6 +38,26 @@ export default function App() {
           <Stack.Screen name="Workouts" component={Workouts} />
           <Stack.Screen name="New Workout" component={NewWorkout} />
           <Stack.Screen name="Single Workout" component={SingleWorkout} />
+            <Stack.Screen
+						options={{ headerShown: false }}
+						name="Signup"
+						component={SignupScreen}
+          />
+          <Stack.Screen
+            options={{ headerShown: false }}
+						name="Profile"
+						component={ProfileScreen}
+					/>
+          <Stack.Screen
+            options={{ headerShown: false }}
+						name="Settings"
+						component={SettingsScreen}
+					/>
+          <Stack.Screen
+            options={{ headerShown: false }}
+						name="Personal Info"
+						component={PersonalInfoScreen}
+					/>
         </Stack.Navigator>
       </NavigationContainer>
     </NativeBaseProvider>
