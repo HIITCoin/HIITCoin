@@ -36,7 +36,6 @@ const LoginScreen = () => {
     });
     return unsubscribe;
   }, []);
-
   const handleSignUp = async () => { 
     onAuthStateChanged(auth, (user) => {
       if (!user) {
@@ -53,7 +52,7 @@ const LoginScreen = () => {
       alert(error.message);
     }
   };
-
+  //if user is logged in navigate to home
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <KeyboardAvoidingView

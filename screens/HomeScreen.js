@@ -13,7 +13,7 @@ import { useNavigation } from "@react-navigation/native";
 import { getDocs, collection, doc, query, setDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { getAuth, signOut } from "firebase/auth";
-import { createHistory, getUser } from "../misc/helperFunctions";
+import { createHistory, getUser, createOrSubmitHistory } from "../misc/helperFunctions";
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -27,7 +27,7 @@ const HomeScreen = () => {
       const data = await getDocs(exCollection).then((snapshot) => {
         snapshot.docs.forEach((doc) => arr.push({ ...doc.data(), id: doc.id }));
       });
-      console.log(auth.currentUser.uid, auth.currentUser.email)
+     console.log(auth.currentUser.uid, auth.currentUser.email, user.firstName, user.lastName)
     };
     getExer();
   }, []);
