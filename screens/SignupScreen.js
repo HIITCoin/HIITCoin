@@ -82,7 +82,7 @@ const SignupScreen = () => {
         lastName,
         height: Number(height),
         weight: Number(weight),
-        age: Number(weight),
+        age: Number(age),
       }; 
       console.log(dbUserInstance)
      if (validate(dbUserInstance)) {
