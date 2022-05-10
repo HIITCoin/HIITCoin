@@ -1,8 +1,8 @@
-import { Pressable, StyleSheet } from "react-native"
-import React from "react"
-import { KeyboardAvoidingView, Text, VStack, Box, HStack } from "native-base"
-import { MaterialIcons } from "@expo/vector-icons"
-import { useNavigation } from "@react-navigation/native"
+import { Pressable, StyleSheet } from "react-native";
+import React from "react";
+import { KeyboardAvoidingView, Text, VStack, Box, HStack } from "native-base";
+import { MaterialIcons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 const ProfileScreen = () => {
 	const navigation = useNavigation()
@@ -153,4 +153,4 @@ const ProfileScreen = () => {
 
 export default ProfileScreen
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({});

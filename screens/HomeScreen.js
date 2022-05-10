@@ -1,33 +1,50 @@
-import { Pressable, StyleSheet } from "react-native"
-import React, {useState, useEffect} from "react"
-import { KeyboardAvoidingView, Text, VStack, Flex, Box, HStack } from "native-base"
-import { MaterialIcons } from "@expo/vector-icons"
-import { useNavigation } from "@react-navigation/native"
-import { getDocs,collection } from "firebase/firestore"
-import { db } from "../firebase"
+import { Pressable, StyleSheet } from "react-native";
+import React, { useState, useEffect } from "react";
+import {
+  KeyboardAvoidingView,
+  Text,
+  VStack,
+  Flex,
+  Box,
+  HStack,
+} from "native-base";
+import { MaterialIcons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
+import { getDocs, collection, doc, query, setDoc } from "firebase/firestore";
+import { db } from "../firebase";
 import { getAuth, signOut } from "firebase/auth";
+import { addNewWorkout, createHistory, getExercises, getSingleExercise, getSingleWorkout, getUser, getUserWorkouts } from "../misc/helperFunctions";
 
 const HomeScreen = () => {
-	const navigation = useNavigation()
-  const auth = getAuth()
-  const exCollection = collection(db, 'Exercises')
+  const navigation = useNavigation();
+  const auth = getAuth();
+  const exCollection = collection(db, "Exercises");
 
   useEffect(() => {
     const getExer = async () => {
-      let arr =[]
-      const data = await getDocs(exCollection).then(snapshot => {
-        snapshot.docs.forEach(doc => arr.push({...doc.data(), id: doc.id}))
-      })
-      console.log(arr)
-    }
-    getExer()
-  }, [])
+      let arr = [];
+      // console.log('getUser', await getUser());
+      // Andrey's helpers
+      // console.log('getUserWorkouts', await getUserWorkouts());
+      // console.log('getSingleWorkout', await getSingleWorkout("test2"))
+      // console.log('addNewWorkout', await addNewWorkout({name: 'test1', exercises: [{name: 'Leg Press'}, {name: 'Dumbell Lunges'}], rounds: 1, restRounds: 60}))
+      // console.log('getUserWorkouts again', await getUserWorkouts());
+      // console.log('getExercises', await getExercises());
+      // console.log('getSingleExercise', await getSingleExercise("Chest Press"))
 
-  const handleSignOut = async() => {
+      const data = await getDocs(exCollection).then((snapshot) => {
+        snapshot.docs.forEach((doc) => arr.push({ ...doc.data(), id: doc.id }));
+      });
+      console.log(auth.currentUser.uid, auth.currentUser.email)
+    };
+    getExer();
+  }, []);
+
+  const handleSignOut = async () => {
     try {
       await signOut(auth);
       console.log("Get out");
-      navigation.navigate("Login")
+      navigation.navigate("Login");
     } catch (error) {
       alert(error.message);
     }
@@ -145,35 +162,28 @@ const HomeScreen = () => {
 						</Text>
 					</Pressable>
 				</Box>
-
         <Box
-					w="100%"
-					h="10"
-					bg="colors.bg"
-					rounded="md"
-					borderWidth="2px"
-					borderColor="colors.text"
-					shadow={3}
-					//To align left, change <Box> to Center
-					justifyContent="center"
-				>
-					<Pressable
-						onPress={handleSignOut}
-					>
-						<Text
-							fontSize="xl"
-							color="colors.text"
-							marginLeft="10px"
-						>
-							Log Out
-						</Text>
-					</Pressable>
-				</Box>
-			</VStack>
-		</KeyboardAvoidingView>
-	)
-}
+          w="100%"
+          h="10"
+          bg="colors.bg"
+          rounded="md"
+          borderWidth="2px"
+          borderColor="colors.text"
+          shadow={3}
+          //To align left, change <Box> to Center
+          justifyContent="center"
+        >
+          <Pressable onPress={handleSignOut}>
+            <Text fontSize="xl" color="colors.text" marginLeft="10px">
+              Log Out
+            </Text>
+          </Pressable>
+        </Box>
+      </VStack>
+    </KeyboardAvoidingView>
+  );
+};
 
-export default HomeScreen
+export default HomeScreen;
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({});
