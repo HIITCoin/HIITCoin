@@ -19,6 +19,7 @@ import {
   onAuthStateChanged
 } from "../firebase";
 import { useNavigation } from "@react-navigation/core";
+import { TouchableWithoutFeedback } from 'react-native';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
