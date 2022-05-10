@@ -24,6 +24,7 @@ import { TouchableWithoutFeedback } from 'react-native';
 const Workouts = () => {
   const workoutsArr = [
     {
+      id: 1,
       name: 'Leg Day :-)',
       rounds: 3,
       restBetweenRounds: 3,
@@ -47,6 +48,7 @@ const Workouts = () => {
       ],
     },
     {
+      id: 2,
       name: 'Arm day :-)',
       rounds: 2,
       restBetweenRounds: 5,
@@ -98,6 +100,7 @@ const Workouts = () => {
           bg="colors.text"
           p="5"
           rounded="8"
+          width="80%"
         >
           <Text
             alignSelf="center"
@@ -111,14 +114,18 @@ const Workouts = () => {
         <Box>
           {workoutsArr.map((workout) => (
             <Button
-              onPress={handleSingleWorkout(workout)}
+              key={workout.id}
+              onPress={() => {
+                handleSingleWorkout(workout);
+              }}
               alignSelf="center"
               marginTop="5%"
               alignSelf="center"
               shadow="3"
-              bg="colors.text"
+              bg="colors.red"
               p="5"
               rounded="8"
+              width="80%"
             >
               <Text
                 alignSelf="center"
