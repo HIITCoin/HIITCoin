@@ -31,7 +31,7 @@ const HomeScreen = () => {
       // console.log('getUserWorkouts again', await getUserWorkouts());
       // console.log('getExercises', await getExercises());
       // console.log('getSingleExercise', await getSingleExercise("Chest Press"))
-
+	  const user = await getUser()
       const data = await getDocs(exCollection).then((snapshot) => {
         snapshot.docs.forEach((doc) => arr.push({ ...doc.data(), id: doc.id }));
       });
