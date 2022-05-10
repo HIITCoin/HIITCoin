@@ -6,6 +6,8 @@ import LoginScreen from "./screens/LoginScreen"
 import HomeScreen from "./screens/HomeScreen"
 import SignupScreen from "./screens/SignupScreen"
 import ProfileScreen from "./screens/ProfileScreen"
+import SettingsScreen from "./screens/SettingsScreen"
+import PersonalInfoScreen from "./screens/PersonalInfoScreen"
 import { colorTheme } from "./misc/colorTheme"
 
 const Stack = createNativeStackNavigator()
@@ -33,10 +35,20 @@ export default function App() {
 						name="Signup"
 						component={SignupScreen}
           />
-          <Stack.Screen 
-            options={{ headerShown: true }}
+          <Stack.Screen
+            options={{ headerShown: false }}
 						name="Profile"
 						component={ProfileScreen}
+					/>
+          <Stack.Screen
+            options={{ headerShown: false }}
+						name="Settings"
+						component={SettingsScreen}
+					/>
+          <Stack.Screen
+            options={{ headerShown: false }}
+						name="Personal Info"
+						component={PersonalInfoScreen}
 					/>
 				</Stack.Navigator>
 			</NavigationContainer>
