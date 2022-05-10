@@ -8,6 +8,7 @@ import {
   getDoc,
   query,
   collection,
+  where,
   addDoc,
 } from "firebase/firestore";
 export const makeUser = async (user) => {
@@ -30,12 +31,61 @@ export const getUser = async () => {
 }
 //Andrey
 //get a list of all user workouts
-//get individual workout
+export const getUserWorkouts = async () => {
+  const userData = await getDoc(doc(db, 'Users', auth.currentUser.uid));
+  return userData.data().workouts;
+}
+
+//get individual workout (almost there, need to query deeper)
+export const getSingleWorkout = async (workoutName) => {
+  let workout = [];
+  const workoutsRef = collection(db, "Exercises");
+  const workoutsQuery = query(workoutsRef, where("name", "==", workoutName));
+  const workoutsSnapshot = await getDocs(workoutsQuery);
+  workoutsSnapshot.docs.forEach((work) => {
+    workout.push(work.data())
+  })
+  return workout[0];
+}
+
 //add new workout to workouts list
+export const addNewWorkout = async (workout) => {
+  const userRef = doc(db, 'Users', auth.currentUser.uid);
+  const oldData = await getUserWorkouts();
+  setDoc(userRef, { workouts: [...oldData, workout] }, { merge: true });
+}
+
 //(delete workout from workouts list)
-//edit a workout
+//edit a workout (SAME AS ADD NEW WORKSHOP?)
+export const editWorkout = async (workout) => {
+  const userRef = doc(db, 'Users', auth.currentUser.uid);
+  const oldData = await getUserWorkouts();
+  setDoc(userRef, { workouts: [...oldData, workout] }, { merge: true });
+}
+
 //get an array of all exercises by name
+export const getExercises = async () => {
+  let exercises = []; // resultant array
+  const exercisesRef = collection(db, "Exercises"); // obtaining reference to exercises
+  const exercisesQuery = query(exercisesRef); // querying to read from exercises collection
+  const exercisesSnapshot = await getDocs(exercisesQuery);
+  exercisesSnapshot.forEach((exercise) => { // for each item in the colletion...
+    exercises.push(exercise.data()); // ...
+  });
+  return exercises;
+}
+
 //get single exercise by name
+export const getSingleExercise = async (exerciseName) => {
+  let exercise = [];
+  const exercisesRef = collection(db, "Exercises");
+  const exercisesQuery = query(exercisesRef, where("name", "==", exerciseName));
+  const exercisesSnapshot = await getDocs(exercisesQuery);
+  exercisesSnapshot.docs.forEach((exer) => {
+    exercise.push(exer.data())
+  })
+  return exercise[0];
+}
 
 //Khalid
 //submit workout to workout history(attach date to workout)
