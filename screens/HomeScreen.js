@@ -13,7 +13,8 @@ import { useNavigation } from "@react-navigation/native";
 import { getDocs, collection, doc, query, setDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { getAuth, signOut } from "firebase/auth";
-import { addNewWorkout, createOrSubmitHistory, getExercises, getSingleExercise, getSingleWorkout, getUser, getUserWorkouts } from "../misc/helperFunctions";
+import { addNewWorkout, createOrSubmitHistory, getExercises, getSingleExercise, deleteWorkout, getSingleWorkout, editWorkout, getUser, getUserWorkouts } from "../misc/helperFunctions";
+import { sampleWorkoutInList } from "../misc/sampleData";
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -23,14 +24,16 @@ const HomeScreen = () => {
   useEffect(() => {
     const getExer = async () => {
       let arr = [];
-      // console.log('getUser', await getUser());
-      // Andrey's helpers
       // console.log('getUserWorkouts', await getUserWorkouts());
       // console.log('getSingleWorkout', await getSingleWorkout("test2"))
-      // console.log('addNewWorkout', await addNewWorkout({name: 'test1', exercises: [{name: 'Leg Press'}, {name: 'Dumbell Lunges'}], rounds: 1, restRounds: 60}))
-      // console.log('getUserWorkouts again', await getUserWorkouts());
+      // console.log('deleteWorkout', await deleteWorkout("test1"))
+      // console.log('addNewWorkout', await addNewWorkout({name: 'test3', exercises: [{name: 'Leg Press'}, {name: 'Dumbell Lunges'}], rounds: 1, restRounds: 60}))
       // console.log('getExercises', await getExercises());
       // console.log('getSingleExercise', await getSingleExercise("Chest Press"))
+      // console.log('editWorkout', await editWorkout(sampleWorkoutInList));
+      // console.log('getUserWorkouts again', await getUserWorkouts());
+      console.log('createOrSubmit', await createOrSubmitHistory(sampleWorkoutInList));
+
 	  const user = await getUser()
       const data = await getDocs(exCollection).then((snapshot) => {
         snapshot.docs.forEach((doc) => arr.push({ ...doc.data(), id: doc.id }));
