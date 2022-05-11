@@ -5,8 +5,8 @@ import {
   Platform,
   Keyboard,
   TouchableWithoutFeedback,
-} from 'react-native';
-import React, { useEffect, useState } from 'react';
+} from "react-native";
+import React, { useEffect, useState } from "react";
 import {
   KeyboardAvoidingView,
   Input,
@@ -17,15 +17,15 @@ import {
   flex,
   Text,
   keyboardDismissHandlerManager,
-} from 'native-base';
-import { MaterialIcons } from '@expo/vector-icons';
+} from "native-base";
+import { MaterialIcons } from "@expo/vector-icons";
 import {
   auth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   onAuthStateChanged,
-} from '../firebase';
-import { useNavigation } from '@react-navigation/core';
+} from "../firebase";
+import { useNavigation } from "@react-navigation/core";
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
@@ -55,7 +55,7 @@ const LoginScreen = () => {
   const handleSignIn = async () => {
     try {
       const { user } = await signInWithEmailAndPassword(auth, email, password);
-      console.log('Welcome back', user.email, user.uid);
+      console.log("Welcome back", user.email, user.uid);
     } catch (error) {
       alert(error.message);
     }
@@ -116,7 +116,7 @@ const LoginScreen = () => {
             onChangeText={(text) => setPassword(text)}
           />
         </Box>
-        <Box marginHorizontal={50} display={'flex'} flexDirection="row">
+        <Box marginHorizontal={50} display={"flex"} flexDirection="row">
           <Button width="60%" flex={1} margin={5} onPress={handleSignIn}>
             Sign In
           </Button>

@@ -23,7 +23,6 @@ import {
   getUserWorkouts,
 } from "../misc/helperFunctions";
 
-
 const HomeScreen = () => {
   const navigation = useNavigation();
   const auth = getAuth();
@@ -52,6 +51,16 @@ const HomeScreen = () => {
     getExer();
   }, []);
 
+  const [firstName, setFirstName] = useState("");
+
+  useEffect(() => {
+    const getUserInfo = async () => {
+      const user = await getUser();
+      setFirstName(user.firstName);
+    };
+    getUserInfo();
+  }, []);
+
   const handleSignOut = async () => {
     try {
       await signOut(auth);
@@ -61,7 +70,7 @@ const HomeScreen = () => {
       alert(error.message);
     }
   };
-
+  
   return (
     <KeyboardAvoidingView bg="colors.bg" height="100%">
       <Box marginTop="20%" marginBottom="10%">
@@ -81,7 +90,7 @@ const HomeScreen = () => {
         </HStack>
         {/* Get userName from props/state/auth and implement here */}
         <Text fontSize="6xl" color="colors.text">
-          Hello, User
+          Hello, {firstName}
         </Text>
       </Box>
       <VStack space={4} alignItems="center" bg="colors.bg">
