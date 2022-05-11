@@ -13,8 +13,15 @@ import { useNavigation } from "@react-navigation/native";
 import { getDocs, collection, doc, query, setDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { getAuth, signOut } from "firebase/auth";
-import { addNewWorkout, createOrSubmitHistory, getExercises, getSingleExercise, deleteWorkout, getSingleWorkout, editWorkout, getUser, getUserWorkouts } from "../misc/helperFunctions";
-import { sampleWorkoutInList } from "../misc/sampleData";
+import {
+  addNewWorkout,
+  createOrSubmitHistory,
+  getExercises,
+  getSingleExercise,
+  getSingleWorkout,
+  getUser,
+  getUserWorkouts,
+} from "../misc/helperFunctions";
 
 
 const HomeScreen = () => {
@@ -31,15 +38,16 @@ const HomeScreen = () => {
       // console.log('addNewWorkout', await addNewWorkout({name: 'test3', exercises: [{name: 'Leg Press'}, {name: 'Dumbell Lunges'}], rounds: 1, restRounds: 60}))
       // console.log('getExercises', await getExercises());
       // console.log('getSingleExercise', await getSingleExercise("Chest Press"))
-      // console.log('editWorkout', await editWorkout(sampleWorkoutInList));
-      // console.log('getUserWorkouts again', await getUserWorkouts());
-      console.log('createOrSubmit', await createOrSubmitHistory(sampleWorkoutInList));
-
-	  const user = await getUser()
+      const user = await getUser();
       const data = await getDocs(exCollection).then((snapshot) => {
         snapshot.docs.forEach((doc) => arr.push({ ...doc.data(), id: doc.id }));
       });
-     console.log(auth.currentUser.uid, auth.currentUser.email, user.firstName, user.lastName)
+      console.log(
+        auth.currentUser.uid,
+        auth.currentUser.email,
+        user.firstName,
+        user.lastName
+      );
     };
     getExer();
   }, []);
@@ -60,13 +68,13 @@ const HomeScreen = () => {
         <HStack justifyContent="space-between">
           <Pressable
             //implement navigation.navigate("where")
-            onPress={() => console.log('Home pressed')}
+            onPress={() => console.log("Home pressed")}
           >
             <MaterialIcons name="home" size={50} color="#9067C6" />
           </Pressable>
           <Pressable
             //implement navigation.navigate("where")
-            onPress={() => navigation.navigate('Profile')}
+            onPress={() => navigation.navigate("Profile")}
           >
             <MaterialIcons name="person" color="#9067C6" size={50} />
           </Pressable>
@@ -87,7 +95,7 @@ const HomeScreen = () => {
           shadow={3}
           justifyContent="center"
         >
-          <Pressable onPress={() => navigation.navigate('Profile')}>
+          <Pressable onPress={() => navigation.navigate("Profile")}>
             <Text fontSize="xl" color="colors.text" marginLeft="10px">
               Profile
             </Text>
@@ -103,7 +111,7 @@ const HomeScreen = () => {
           shadow={3}
           justifyContent="center"
         >
-          <Pressable onPress={() => console.log('Stats pressed')}>
+          <Pressable onPress={() => console.log("Stats pressed")}>
             <Text fontSize="xl" color="colors.text" marginLeft="10px">
               Stats
             </Text>
@@ -119,7 +127,7 @@ const HomeScreen = () => {
           shadow={3}
           justifyContent="center"
         >
-          <Pressable onPress={() => navigation.navigate('Workouts')}>
+          <Pressable onPress={() => navigation.navigate("Workouts")}>
             <Text fontSize="xl" color="colors.text" marginLeft="10px">
               Workout!
             </Text>
@@ -135,7 +143,7 @@ const HomeScreen = () => {
           shadow={3}
           justifyContent="center"
         >
-          <Pressable onPress={() => console.log('Quick Timer pressed')}>
+          <Pressable onPress={() => console.log("Quick Timer pressed")}>
             <Text fontSize="xl" color="colors.text" marginLeft="10px">
               Quick Timer
             </Text>

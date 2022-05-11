@@ -34,8 +34,16 @@ export const getUser = async () => {
   //set storage
   return user.data();
 };
-
-//get a list of all user workouts✅
+//change user info
+export const editUser = async (newData, oldData) => {
+  const user = await getUser();
+  console.log(user)
+  await setDoc(doc(db, "Users", auth.currentUser.uid), {...user, newData}, {merge: true})
+  const afterUser = await getUser()
+  console.log(afterUser)
+}
+//Andrey
+//get a list of all user workouts
 export const getUserWorkouts = async () => {
   const userData = await getDoc(doc(db, 'Users', auth.currentUser.uid));
   return userData.data().workouts;
@@ -110,7 +118,7 @@ export const getWorkoutHistory = async () => {
   }
 };
 
-//change user info
+
 //returns an array that contains 1. total points gained in workout
 //2. breakdown of points by body part
 export function calculatePoints(workout) {
