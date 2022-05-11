@@ -35,7 +35,7 @@ export const getUser = async () => {
   return user.data();
 };
 //change user info
-export const editUser = async (newData) => {
+export const editUser = async (newData, oldData) => {
   const user = await getUser();
   console.log(user)
   await setDoc(doc(db, "Users", auth.currentUser.uid), {...user, newData}, {merge: true})
