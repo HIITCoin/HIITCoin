@@ -1,5 +1,5 @@
-import { StyleSheet, View, TouchableOpacity, Keyboard } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import { StyleSheet, View, TouchableOpacity, Keyboard } from "react-native";
+import React, { useEffect, useState } from "react";
 import {
   KeyboardAvoidingView,
   Input,
@@ -15,15 +15,23 @@ import {
   Spacer,
   Flex,
   HStack,
-} from 'native-base';
-import { MaterialIcons } from '@expo/vector-icons';
-import { auth } from '../firebase';
-import { useNavigation } from '@react-navigation/core';
-import { TouchableWithoutFeedback } from 'react-native';
-import { ScrollView } from 'react-native';
+} from "native-base";
+import { MaterialIcons } from "@expo/vector-icons";
+import { auth } from "../firebase";
+import { useNavigation } from "@react-navigation/core";
+import { TouchableWithoutFeedback } from "react-native";
+import { ScrollView } from "react-native";
+import { deleteWorkout } from "../misc/helperFunctions";
 
 const SingleWorkout = ({ route }) => {
   let workout = route.params.workout;
+
+  const navigation = useNavigation();
+
+  const handleDeleteWorkout = (name) => {
+    deleteWorkout(name);
+    navigation.navigate("Workouts");
+  };
 
   return (
     <ScrollView>
@@ -65,6 +73,25 @@ const SingleWorkout = ({ route }) => {
               Edit Workout
             </Text>
           </Button>
+          <Button
+            alignSelf="center"
+            marginTop="5%"
+            shadow="3"
+            bg="colors.text"
+            p="5"
+            rounded="8"
+            width="80%"
+            onPress={() => handleDeleteWorkout(workout.name)}
+          >
+            <Text
+              alignSelf="center"
+              color="white"
+              fontWeight="medium"
+              fontSize="4xl"
+            >
+              Delete Workout
+            </Text>
+          </Button>
           <Box
             marginTop="5%"
             alignSelf="center"
@@ -82,8 +109,9 @@ const SingleWorkout = ({ route }) => {
               Rounds: {workout.rounds}
             </Text>
           </Box>
-          {workout.exercises.map((exercise) => (
+          {workout.exercises.map((exercise, index) => (
             <Box
+              key={exercise.name + index}
               alignSelf="center"
               marginTop="5%"
               alignSelf="center"
@@ -99,10 +127,10 @@ const SingleWorkout = ({ route }) => {
                 fontWeight="medium"
                 fontSize="4xl"
               >
-                {exercise.name}:{'\n'}Sets: {exercise.sets}
-                {'\n'}Reps: {exercise.reps}
-                {'\n'}Duration: {exercise.duration}
-                {'\n'}Rest: {exercise.rest}
+                {exercise.name}:{"\n"}Sets: {exercise.sets}
+                {"\n"}Reps: {exercise.reps}
+                {"\n"}Duration: {exercise.duration}
+                {"\n"}Rest: {exercise.rest}
               </Text>
             </Box>
           ))}

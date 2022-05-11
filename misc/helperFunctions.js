@@ -10,8 +10,9 @@ import {
   collection,
   where,
   addDoc,
-  serverTimestamp
+  serverTimestamp,
 } from "firebase/firestore";
+
 export const makeUser = async (user) => {
   const user2 = await setDoc(doc(db, "Users", user.id), {
     firstName: user.firstName,
@@ -25,6 +26,7 @@ export const makeUser = async (user) => {
   });
   console.log(user);
 };
+
 //get user doc by id (auth)✅
 export const getUser = async () => {
   //check local user
@@ -34,49 +36,73 @@ export const getUser = async () => {
   //set storage
   return user.data();
 };
-//change user info
+
 export const editUser = async (newData, oldData) => {
   const user = await getUser();
-  console.log(user)
-  await setDoc(doc(db, "Users", auth.currentUser.uid), {...user, newData}, {merge: true})
-  const afterUser = await getUser()
-  console.log(afterUser)
-}
-//Andrey
-//get a list of all user workouts
+  console.log(user);
+  await setDoc(
+    doc(db, "Users", auth.currentUser.uid),
+    { ...user, newData },
+    { merge: true }
+  );
+  const afterUser = await getUser();
+  console.log(afterUser);
+};
+
+//get a list of all user workouts✅
 export const getUserWorkouts = async () => {
-  const userData = await getDoc(doc(db, 'Users', auth.currentUser.uid));
+  const userData = await getDoc(doc(db, "Users", auth.currentUser.uid));
   return userData.data().workouts;
-}
+};
 
 //get individual workout✅
 export const getSingleWorkout = async (workoutName) => {
   const workouts = await getUserWorkouts();
-  let workout = workouts.filter((work) => work.name === workoutName)
+  let workout = workouts.filter((work) => work.name === workoutName);
   return workout[0];
-}
+};
 
 //add new workout to workouts list✅
 export const addNewWorkout = async (newWorkout) => {
-  const userRef = doc(db, 'Users', auth.currentUser.uid);
+  const userRef = doc(db, "Users", auth.currentUser.uid);
   const userWorkouts = await getUserWorkouts();
-  setDoc(userRef, { workouts: [...userWorkouts, newWorkout] }, { merge: true });
-}
+  const repeat = userWorkouts.some((workout) => {
+    if (workout.name === newWorkout.name) return true;
+    else return false;
+  });
+  if (!repeat) {
+    setDoc(
+      userRef,
+      { workouts: [...userWorkouts, newWorkout] },
+      { merge: true }
+    );
+    return true;
+  } else {
+    console.log("Error");
+    return false;
+  }
+};
 
 //delete workout from workouts list ✅
 export const deleteWorkout = async (workoutName) => {
-  const userRef = doc(db, 'Users', auth.currentUser.uid);
+  const userRef = doc(db, "Users", auth.currentUser.uid);
   const userWorkouts = await getUserWorkouts();
-  const newUserWorkouts = userWorkouts.filter((work) => work.name !== workoutName)
+  const newUserWorkouts = userWorkouts.filter(
+    (work) => work.name !== workoutName
+  );
   setDoc(userRef, { workouts: [...newUserWorkouts] }, { merge: true });
-}
+};
 
 //edit a workout (SAME AS ADD NEW WORKSHOP?)
-export const editWorkout = async (workout) => {
-  const userRef = doc(db, 'Users', auth.currentUser.uid);
+export const editWorkout = async (oldWorkout, workout) => {
+  const userRef = doc(db, "Users", auth.currentUser.uid);
   const oldData = await getUserWorkouts();
-  setDoc(userRef, { workouts: [...oldData, workout] }, { merge: true });
-}
+  const newData = oldData.map((workoutObj) => {
+    if (workoutObj.name === oldWorkout.name) return workout;
+    else return workoutObj;
+  });
+  setDoc(userRef, { workouts: [...newData] }, { merge: true });
+};
 
 //get an array of all exercises by name✅
 export const getExercises = async () => {
@@ -84,11 +110,12 @@ export const getExercises = async () => {
   const exercisesRef = collection(db, "Exercises"); // obtaining reference to exercises
   const exercisesQuery = query(exercisesRef); // querying to read from exercises collection
   const exercisesSnapshot = await getDocs(exercisesQuery);
-  exercisesSnapshot.forEach((exercise) => { // for each item in the colletion...
+  exercisesSnapshot.forEach((exercise) => {
+    // for each item in the colletion...
     exercises.push(exercise.data()); // ...
   });
   return exercises;
-}
+};
 
 //get single exercise by name✅
 export const getSingleExercise = async (exerciseName) => {
@@ -97,10 +124,10 @@ export const getSingleExercise = async (exerciseName) => {
   const exercisesQuery = query(exercisesRef, where("name", "==", exerciseName));
   const exercisesSnapshot = await getDocs(exercisesQuery);
   exercisesSnapshot.docs.forEach((exer) => {
-    exercise.push(exer.data())
-  })
+    exercise.push(exer.data());
+  });
   return exercise[0];
-}
+};
 
 //Khalid
 //submit workout to workout history(attach date to workout)
@@ -118,7 +145,7 @@ export const getWorkoutHistory = async () => {
   }
 };
 
-
+//change user info
 //returns an array that contains 1. total points gained in workout
 //2. breakdown of points by body part
 export function calculatePoints(workout) {

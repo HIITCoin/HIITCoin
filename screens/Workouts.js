@@ -1,5 +1,5 @@
-import { StyleSheet, View, TouchableOpacity, Keyboard } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import { StyleSheet, View, TouchableOpacity, Keyboard } from "react-native";
+import React, { useEffect, useState } from "react";
 import {
   KeyboardAvoidingView,
   Input,
@@ -15,77 +15,42 @@ import {
   Spacer,
   Flex,
   HStack,
-} from 'native-base';
-import { MaterialIcons } from '@expo/vector-icons';
-import { auth } from '../firebase';
-import { useNavigation } from '@react-navigation/core';
-import { TouchableWithoutFeedback } from 'react-native';
+  ScrollView,
+} from "native-base";
+import { MaterialIcons } from "@expo/vector-icons";
+import { auth, db } from "../firebase";
+import { useNavigation } from "@react-navigation/core";
+import { TouchableWithoutFeedback } from "react-native";
+import { getUserWorkouts } from "../misc/helperFunctions";
+import { doc, onSnapshot } from "firebase/firestore";
 
 const Workouts = () => {
-  const workoutsArr = [
-    {
-      id: 1,
-      name: 'Leg Day :-)',
-      rounds: 3,
-      restBetweenRounds: 3,
-      exercises: [
-        {
-          name: 'Squat',
-          weight: 150,
-          sets: 3,
-          reps: 5,
-          duration: 10,
-          rest: 2,
-        },
-        {
-          name: 'Leg Press',
-          weight: 300,
-          sets: 3,
-          reps: 3,
-          duration: 8,
-          rest: 1,
-        },
-      ],
-    },
-    {
-      id: 2,
-      name: 'Arm day :-)',
-      rounds: 2,
-      restBetweenRounds: 5,
-      exercises: [
-        {
-          name: 'Bench Press',
-          weight: 75,
-          sets: 3,
-          reps: 5,
-          duration: 10,
-          rest: 2,
-        },
-        {
-          name: 'Dumbell Curve',
-          weight: 15,
-          sets: 3,
-          reps: 3,
-          duration: 8,
-          rest: 1,
-        },
-      ],
-    },
-  ];
+  const [workouts, setWorkouts] = useState([]);
+
+  useEffect(() => {
+    const unsubscribe = onSnapshot(
+      doc(db, "Users", auth.currentUser.uid),
+      (user) => {
+        setWorkouts(user.data().workouts);
+        console.log(workouts);
+      }
+    );
+    return unsubscribe;
+  }, []);
 
   const navigation = useNavigation();
 
   const handleNewWorkout = () => {
-    navigation.navigate('New Workout');
+    navigation.navigate("New Workout");
   };
 
   const handleSingleWorkout = (workout) => {
-    navigation.navigate('Single Workout', { workout: workout });
+    navigation.navigate("Single Workout", { workout: workout });
   };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <KeyboardAvoidingView bg="colors.bg" height="100%" behavior="padding">
+      <ScrollView bg="colors.bg" height="100%" behavior="padding">
         <Box marginTop="5%" alignSelf="center">
           <Text fontSize="6xl" color="colors.text">
             My Workouts
@@ -112,9 +77,9 @@ const Workouts = () => {
           </Text>
         </Button>
         <Box>
-          {workoutsArr.map((workout) => (
+          {workouts.map((workout) => (
             <Button
-              key={workout.id}
+              key={workout.name}
               onPress={() => {
                 handleSingleWorkout(workout);
               }}
@@ -138,7 +103,7 @@ const Workouts = () => {
             </Button>
           ))}
         </Box>
-      </KeyboardAvoidingView>
+      </ScrollView>
     </TouchableWithoutFeedback>
   );
 };
