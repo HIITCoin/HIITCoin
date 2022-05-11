@@ -7,7 +7,7 @@ import { getUser } from "../misc/helperFunctions";
 
 const PersonalInfoScreen = () => {
   const navigation = useNavigation();
-
+  
   // const [firstName, setFirstName] = useState("");
   // const [lastName, setLastName] = useState("");
   const [height, setHeight] = useState("");

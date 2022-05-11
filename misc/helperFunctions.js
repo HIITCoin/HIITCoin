@@ -25,7 +25,7 @@ export const makeUser = async (user) => {
   });
   console.log(user);
 };
-//get user doc by id (auth)
+//get user doc by id (auth)✅
 export const getUser = async () => {
   //check local user
   //if not local then db query
@@ -34,6 +34,14 @@ export const getUser = async () => {
   //set storage
   return user.data();
 };
+//change user info
+export const editUser = async (newData, oldData) => {
+  const user = await getUser();
+  console.log(user)
+  await setDoc(doc(db, "Users", auth.currentUser.uid), {...user, newData}, {merge: true})
+  const afterUser = await getUser()
+  console.log(afterUser)
+}
 //Andrey
 //get a list of all user workouts
 export const getUserWorkouts = async () => {
@@ -41,26 +49,28 @@ export const getUserWorkouts = async () => {
   return userData.data().workouts;
 }
 
-//get individual workout (almost there, need to query deeper)
+//get individual workout✅
 export const getSingleWorkout = async (workoutName) => {
-  let workout = [];
-  const workoutsRef = collection(db, "Exercises");
-  const workoutsQuery = query(workoutsRef, where("name", "==", workoutName));
-  const workoutsSnapshot = await getDocs(workoutsQuery);
-  workoutsSnapshot.docs.forEach((work) => {
-    workout.push(work.data())
-  })
+  const workouts = await getUserWorkouts();
+  let workout = workouts.filter((work) => work.name === workoutName)
   return workout[0];
 }
 
-//add new workout to workouts list
-export const addNewWorkout = async (workout) => {
+//add new workout to workouts list✅
+export const addNewWorkout = async (newWorkout) => {
   const userRef = doc(db, 'Users', auth.currentUser.uid);
-  const oldData = await getUserWorkouts();
-  setDoc(userRef, { workouts: [...oldData, workout] }, { merge: true });
+  const userWorkouts = await getUserWorkouts();
+  setDoc(userRef, { workouts: [...userWorkouts, newWorkout] }, { merge: true });
 }
 
-//(delete workout from workouts list)
+//delete workout from workouts list ✅
+export const deleteWorkout = async (workoutName) => {
+  const userRef = doc(db, 'Users', auth.currentUser.uid);
+  const userWorkouts = await getUserWorkouts();
+  const newUserWorkouts = userWorkouts.filter((work) => work.name !== workoutName)
+  setDoc(userRef, { workouts: [...newUserWorkouts] }, { merge: true });
+}
+
 //edit a workout (SAME AS ADD NEW WORKSHOP?)
 export const editWorkout = async (workout) => {
   const userRef = doc(db, 'Users', auth.currentUser.uid);
@@ -68,7 +78,7 @@ export const editWorkout = async (workout) => {
   setDoc(userRef, { workouts: [...oldData, workout] }, { merge: true });
 }
 
-//get an array of all exercises by name
+//get an array of all exercises by name✅
 export const getExercises = async () => {
   let exercises = []; // resultant array
   const exercisesRef = collection(db, "Exercises"); // obtaining reference to exercises
@@ -80,7 +90,7 @@ export const getExercises = async () => {
   return exercises;
 }
 
-//get single exercise by name
+//get single exercise by name✅
 export const getSingleExercise = async (exerciseName) => {
   let exercise = [];
   const exercisesRef = collection(db, "Exercises");
@@ -108,7 +118,7 @@ export const getWorkoutHistory = async () => {
   }
 };
 
-//change user info
+
 //returns an array that contains 1. total points gained in workout
 //2. breakdown of points by body part
 export function calculatePoints(workout) {
@@ -139,8 +149,9 @@ export function calculatePoints(workout) {
 
 export const createOrSubmitHistory = async (workout) => {
   const [total, bodyPoints] = calculatePoints(workout);
-  const { rounds, roundRest, exercises } = workout;
+  const { rounds, roundRest, exercises, name } = workout;
   const workoutHistory = {
+    name,
     total,
     bodyPoints,
     rounds,

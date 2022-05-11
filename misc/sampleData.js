@@ -17,7 +17,7 @@ const exercise = {
   bodyPart: "chest",
 };
 //sample exercise in -workout- //
-const exerciseInWorkout = {
+export const exerciseInWorkout = {
   name: "Chest Press",
   difficulty: 3,
   basePoints: 10,
@@ -27,7 +27,7 @@ const exerciseInWorkout = {
   duration: 100,
   rest: 45,
 };
-const exerciseInWorkout2 = {
+export const exerciseInWorkout2 = {
   name: "Leg Press",
   difficulty: 3,
   basePoints: 10,
@@ -38,13 +38,15 @@ const exerciseInWorkout2 = {
   rest: 45,
 };
 //sample workout in a user's -workout list-
-const sampleWorkoutInList = {
+export const sampleWorkoutInList = {
   exercises: [exerciseInWorkout, exerciseInWorkout2],
+  name: 'sample workout name',
   rounds: 2,
   roundRest: 100,
 };
 //sample workout in user -workout-history-
 const sampleWorkoutInHistory = {
+  name: 'sample workout name',
   total: 0,
   bodyPoints: {},
   exercises: [exerciseInWorkout],

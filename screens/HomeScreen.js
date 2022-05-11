@@ -1,5 +1,5 @@
-import { Pressable, StyleSheet } from "react-native";
-import React, { useState, useEffect } from "react";
+import { Pressable, StyleSheet } from 'react-native';
+import React, { useState, useEffect } from 'react';
 import {
   KeyboardAvoidingView,
   Text,
@@ -26,20 +26,18 @@ import {
 const HomeScreen = () => {
   const navigation = useNavigation();
   const auth = getAuth();
-  const exCollection = collection(db, "Exercises");
+  const exCollection = collection(db, 'Exercises');
 
   useEffect(() => {
     const getExer = async () => {
       let arr = [];
-      // console.log('getUser', await getUser());
-      // Andrey's helpers
       // console.log('getUserWorkouts', await getUserWorkouts());
       // console.log('getSingleWorkout', await getSingleWorkout("test2"))
-      // console.log('addNewWorkout', await addNewWorkout({name: 'test1', exercises: [{name: 'Leg Press'}, {name: 'Dumbell Lunges'}], rounds: 1, restRounds: 60}))
-      // console.log('getUserWorkouts again', await getUserWorkouts());
+      // console.log('deleteWorkout', await deleteWorkout("test1"))
+      // console.log('addNewWorkout', await addNewWorkout({name: 'test3', exercises: [{name: 'Leg Press'}, {name: 'Dumbell Lunges'}], rounds: 1, restRounds: 60}))
       // console.log('getExercises', await getExercises());
       // console.log('getSingleExercise', await getSingleExercise("Chest Press"))
-
+      const user = await getUser();
       const data = await getDocs(exCollection).then((snapshot) => {
         snapshot.docs.forEach((doc) => arr.push({ ...doc.data(), id: doc.id }));
       });
@@ -66,12 +64,13 @@ const HomeScreen = () => {
   const handleSignOut = async () => {
     try {
       await signOut(auth);
-      console.log("Get out");
-      navigation.navigate("Login");
+      console.log('Get out');
+      navigation.navigate('Login');
     } catch (error) {
       alert(error.message);
     }
   };
+  
   return (
     <KeyboardAvoidingView bg="colors.bg" height="100%">
       <Box marginTop="20%" marginBottom="10%">
@@ -137,7 +136,7 @@ const HomeScreen = () => {
           shadow={3}
           justifyContent="center"
         >
-          <Pressable onPress={() => console.log("Workouts pressed")}>
+          <Pressable onPress={() => navigation.navigate("Workouts")}>
             <Text fontSize="xl" color="colors.text" marginLeft="10px">
               Workout!
             </Text>
