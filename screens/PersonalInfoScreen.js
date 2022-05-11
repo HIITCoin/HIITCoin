@@ -115,30 +115,6 @@ const PersonalInfoScreen = () => {
 					justifyContent="center"
 				>
 					<Pressable
-						onPress={() => console.log("Activity Level pressed")}
-					>
-						<Text
-							fontSize="xl"
-							color="colors.text"
-							marginLeft="10px"
-						>
-							Activity Level: Moderate
-							{/* Activity Level: {user.activityLevel} */}
-						</Text>
-					</Pressable>
-				</Box>
-				<Box
-					//To align left, change <Box> to Center
-					w="100%"
-					h="10"
-					bg="colors.bg"
-					rounded="md"
-					borderWidth="2px"
-					borderColor="colors.text"
-					shadow={3}
-					justifyContent="center"
-				>
-					<Pressable
 						onPress={() => console.log("Account Made pressed")}
 					>
 						<Text

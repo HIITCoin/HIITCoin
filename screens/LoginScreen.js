@@ -60,7 +60,7 @@ const LoginScreen = () => {
       alert(error.message);
     }
   };
-
+  //if user is logged in navigate to home
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <KeyboardAvoidingView
