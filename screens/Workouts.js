@@ -60,7 +60,6 @@ const Workouts = () => {
           onPress={handleNewWorkout}
           alignSelf="center"
           marginTop="5%"
-          alignSelf="center"
           shadow="3"
           bg="colors.text"
           p="5"
