@@ -91,7 +91,7 @@ const HomeScreen = () => {
           </Pressable>
         </HStack>
         {/* Get userName from props/state/auth and implement here */}
-        <Text fontSize="6xl" color="colors.text">
+        <Text fontSize="5xl" color="colors.text" textAlign="center">
           Hello, {firstName}
         </Text>
       </Box>
