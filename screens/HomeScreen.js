@@ -1,5 +1,5 @@
-import { Pressable, StyleSheet } from "react-native";
-import React, { useState, useEffect } from "react";
+import { Pressable, StyleSheet } from 'react-native';
+import React, { useState, useEffect } from 'react';
 import {
   KeyboardAvoidingView,
   Text,
@@ -23,10 +23,11 @@ import {
   getUserWorkouts,
 } from "../misc/helperFunctions";
 
+
 const HomeScreen = () => {
   const navigation = useNavigation();
   const auth = getAuth();
-  const exCollection = collection(db, "Exercises");
+  const exCollection = collection(db, 'Exercises');
 
   useEffect(() => {
     const getExer = async () => {
@@ -54,12 +55,13 @@ const HomeScreen = () => {
   const handleSignOut = async () => {
     try {
       await signOut(auth);
-      console.log("Get out");
-      navigation.navigate("Login");
+      console.log('Get out');
+      navigation.navigate('Login');
     } catch (error) {
       alert(error.message);
     }
   };
+
   return (
     <KeyboardAvoidingView bg="colors.bg" height="100%">
       <Box marginTop="20%" marginBottom="10%">
@@ -125,7 +127,7 @@ const HomeScreen = () => {
           shadow={3}
           justifyContent="center"
         >
-          <Pressable onPress={() => console.log("Workouts pressed")}>
+          <Pressable onPress={() => navigation.navigate("Workouts")}>
             <Text fontSize="xl" color="colors.text" marginLeft="10px">
               Workout!
             </Text>
