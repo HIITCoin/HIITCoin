@@ -45,7 +45,7 @@ const NewWorkout = ({ route }) => {
   const navigation = useNavigation();
 
   useEffect(() => {
-    let state = sampleWorkoutInList; //change to route.params.state
+    let state = route.params.state; //change to route.params.state
 
     console.log(state);
 
@@ -77,14 +77,14 @@ const NewWorkout = ({ route }) => {
     optionsArr.push(i);
   }
 
-  const handleNewExercise = () => {
+  const handleNewExercise = (index) => {
     const state = {
       rounds,
       name,
       roundRest,
       exercises,
     };
-    // navigation.navigate("CreateEditExercise", { state: state });
+    navigation.navigate("CreateEditExercise", { state: state, index: index });
   };
 
   console.log(roundRest);
@@ -203,10 +203,10 @@ const NewWorkout = ({ route }) => {
             </HStack>
           </Box>
           <Box alignItems="center">
-            {exercises.map((exercise) => (
+            {exercises.map((exercise, index) => (
               <Button
-                key={exercise.name}
-                onPress={handleNewExercise}
+                key={index}
+                onPress={(index) => handleNewExercise(index)}
                 w="80%"
                 h="20"
                 bg="colors.bg"
@@ -228,7 +228,7 @@ const NewWorkout = ({ route }) => {
             ))}
           </Box>
           <Box marginHorizontal={50} display={"flex"} flexDirection="row">
-            <Button width="60%" flex={1} margin={5} onPress={console.log()}>
+            <Button width="60%" flex={1} margin={5} onPress={handleNewExercise}>
               Add Exercise
             </Button>
           </Box>
