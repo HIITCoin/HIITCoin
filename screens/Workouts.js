@@ -84,7 +84,6 @@ const Workouts = () => {
               }}
               alignSelf="center"
               marginTop="5%"
-              alignSelf="center"
               shadow="3"
               bg="colors.red"
               p="5"
