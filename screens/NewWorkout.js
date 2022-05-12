@@ -1,6 +1,6 @@
-import { StyleSheet, View, TouchableOpacity, Keyboard } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import React, { useEffect, useState } from 'react';
+import { StyleSheet, View, TouchableOpacity, Keyboard } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import React, { useEffect, useState } from "react";
 import {
   KeyboardAvoidingView,
   Input,
@@ -17,18 +17,18 @@ import {
   Flex,
   HStack,
   FormControl,
-} from 'native-base';
-import { MaterialIcons } from '@expo/vector-icons';
-import { auth } from '../firebase';
-import { useNavigation } from '@react-navigation/core';
-import { TouchableWithoutFeedback } from 'react-native';
+} from "native-base";
+import { MaterialIcons } from "@expo/vector-icons";
+import { auth } from "../firebase";
+import { useNavigation } from "@react-navigation/core";
+import { TouchableWithoutFeedback } from "react-native";
 
 const NewWorkout = () => {
   const navigation = useNavigation();
 
   return (
     <KeyboardAwareScrollView
-      style={{ height: '150%', backgroundColor: '#1B1B3A' }}
+      style={{ height: "150%", backgroundColor: "#1B1B3A" }}
     >
       <TouchableWithoutFeedback
         bg="colors.bg"
@@ -41,7 +41,7 @@ const NewWorkout = () => {
           // behavior={behavior}
         >
           <Box marginTop="20%" alignSelf="center">
-            <Text fontSize="3xl" color="colors.text">
+            <Text fontSize="5xl" color="colors.text">
               Create Workout
             </Text>
           </Box>
@@ -52,7 +52,7 @@ const NewWorkout = () => {
                 _text={{
                   bold: true,
                   ml: 5,
-                  color: 'colors.text',
+                  color: "colors.text",
                 }}
               >
                 Name
@@ -73,7 +73,7 @@ const NewWorkout = () => {
                 _text={{
                   bold: true,
                   ml: 5,
-                  color: 'colors.text',
+                  color: "colors.text",
                 }}
               >
                 Rounds
@@ -97,7 +97,7 @@ const NewWorkout = () => {
                 _text={{
                   bold: true,
                   ml: 5,
-                  color: 'colors.text',
+                  color: "colors.text",
                 }}
               >
                 Rest Between Rounds
@@ -118,7 +118,7 @@ const NewWorkout = () => {
                 _text={{
                   bold: true,
                   ml: 5,
-                  color: 'colors.text',
+                  color: "colors.text",
                 }}
               >
                 Last Name
@@ -147,7 +147,7 @@ const NewWorkout = () => {
                 _text={{
                   bold: true,
                   ml: 5,
-                  color: 'colors.text',
+                  color: "colors.text",
                 }}
               >
                 Height
@@ -172,7 +172,7 @@ const NewWorkout = () => {
               />
             </FormControl>
           </Box>
-          <Box marginHorizontal={50} display={'flex'} flexDirection="row">
+          <Box marginHorizontal={50} display={"flex"} flexDirection="row">
             <Button width="60%" flex={1} margin={5}>
               Create Workout
             </Button>

@@ -27,7 +27,7 @@ import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
 } from "../firebase";
-import { getUser } from "../misc/helperFunctions";
+import { getUser, editUser } from "../misc/helperFunctions";
 import { useNavigation } from "@react-navigation/core";
 
 const EditProfileScreen = () => {
@@ -36,7 +36,7 @@ const EditProfileScreen = () => {
   const [height, setHeight] = useState("");
   const [weight, setWeight] = useState("");
   const [age, setAge] = useState("");
-  // const [startDate, setStartDate] = useState([])
+  const [editStatus, setEditStatus] = useState("");
 
   useEffect(() => {
     const getUserInfo = async () => {
@@ -46,7 +46,6 @@ const EditProfileScreen = () => {
       setHeight(user.height);
       setWeight(user.weight);
       setAge(user.age);
-      // setStartDate(user.startDate);
     };
     getUserInfo();
   }, []);
@@ -55,27 +54,6 @@ const EditProfileScreen = () => {
   const behavior = Platform.OS === "ios" ? "position" : "padding";
   const offsetKeyBoard = Platform.OS === "ios" ? 5 : 0;
 
-  // useEffect(() => {
-  //   const unsubscribe = onAuthStateChanged(auth, (user) => {
-  //     if (user) {
-  //       navigation.navigate("Home");
-  //     }
-  //   });
-  //   return unsubscribe;
-  // }, []);
-
-  // useEffect(() => {
-  //   let reset = () => {
-  //     setEmail('')
-  //     setAge('')
-  //     setFirstName('')
-  //     setHeight('')
-  //     setWeight('')
-  //     setLastName('')
-  //     setPassword('')
-  //   }
-  //   return reset
-  // }, [])
   const validate = (data) => {
     // data will be user object made from all data in state
     //required
@@ -88,33 +66,20 @@ const EditProfileScreen = () => {
     return true;
   };
 
-  // const handleEdit = async () => {
-  //   try {
-  //     let dbUserInstance = {
-  //       firstName,
-  //       lastName,
-  //       height: Number(height),
-  //       weight: Number(weight),
-  //       age: Number(age),
-  //     };
-  //     console.log(dbUserInstance)
-  //    if (validate(dbUserInstance)) {
-  //     // const { user } = await createUserWithEmailAndPassword(
-  //     //   auth,
-  //     //   email,
-  //     //   password
-  //     // );
-  //     if (user) {
-  //       console.log("New user", user.email);
-  //       dbUserInstance.id = user.uid
-  //       await makeUser(dbUserInstance)
-  //       navigation.navigate("Home");
-  //     }
-  //   }
-  //   } catch (error) {
-  //     alert(error.message);
-  //   }
-  // };
+  const handleEdit = async () => {
+    try {
+      await editUser({
+        firstName: firstName,
+        lastName: lastName,
+        height: height,
+        weight: weight,
+        age: age,
+      });
+      setEditStatus("Success!");
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
 
   return (
     <KeyboardAwareScrollView
@@ -132,8 +97,13 @@ const EditProfileScreen = () => {
           keyboardVerticalOffset={offsetKeyBoard} //when keyboard slides up it won't cover the input field and users will see what they type
         >
           <Box marginTop="20%" alignSelf="center">
-            <Text fontSize="3xl" color="colors.text">
+            <Text fontSize="5xl" color="colors.text">
               Edit Profile
+            </Text>
+            <Text color="colors.green" textAlign="center">
+              {editStatus === "Success!"
+                ? editStatus
+                : console.log("No bueno, onii-chan")}
             </Text>
           </Box>
           <Box alignSelf="center">
@@ -221,16 +191,8 @@ const EditProfileScreen = () => {
                 variant="rounded"
                 margin="2"
                 color="colors.other"
-                InputLeftElement={
-                  <Icon
-                    as={<MaterialIcons name="person" />}
-                    size={5}
-                    ml="2"
-                    color="muted.400"
-                  />
-                }
-                // value={firstName}
-                // onChangeText={(text) => setFirstName(text)}
+                value={firstName}
+                onChangeText={(text) => setFirstName(text)}
               />
             </FormControl>
             <FormControl isRequired>
@@ -252,16 +214,8 @@ const EditProfileScreen = () => {
                 variant="rounded"
                 margin="2"
                 color="colors.other"
-                InputLeftElement={
-                  <Icon
-                    as={<MaterialIcons name="person" />}
-                    size={5}
-                    ml="2"
-                    color="muted.400"
-                  />
-                }
-                // value={lastName}
-                // onChangeText={(text) => setLastName(text)}
+                value={lastName}
+                onChangeText={(text) => setLastName(text)}
               />
             </FormControl>
             <FormControl isRequired>
@@ -284,8 +238,8 @@ const EditProfileScreen = () => {
                 margin="2"
                 color="colors.other"
                 keyboardType="numeric"
-                // value={String(height)}
-                // onChangeText={(text) => setHeight(String(text))}
+                value={String(height)}
+                onChangeText={(text) => setHeight(String(text))}
               />
             </FormControl>
             <FormControl isRequired>
@@ -308,8 +262,8 @@ const EditProfileScreen = () => {
                 margin="2"
                 color="colors.other"
                 keyboardType="numeric"
-                // value={String(weight)}
-                // onChangeText={(text) => setWeight(String(text))}
+                value={String(weight)}
+                onChangeText={(text) => setWeight(String(text))}
               />
             </FormControl>
             <FormControl isRequired>
@@ -331,14 +285,13 @@ const EditProfileScreen = () => {
                 variant="rounded"
                 margin="2"
                 color="colors.other"
-                // value={String(age)}
-                // onChangeText={(text) => setAge(String(text))}
+                value={String(age)}
+                onChangeText={(text) => setAge(String(text))}
               />
             </FormControl>
           </Box>
           <Box marginHorizontal={50} display={"flex"} flexDirection="row">
-            {/* onPress={handleSignUp} */}
-            <Button width="60%" flex={1} margin={5}>
+            <Button width="60%" flex={1} margin={5} onPress={handleEdit}>
               Edit
             </Button>
           </Box>
