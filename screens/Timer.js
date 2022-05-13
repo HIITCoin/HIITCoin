@@ -1,24 +1,22 @@
-import { Pressable, Button } from "react-native";
+import { Pressable } from "react-native";
 import React, { useEffect, useState } from "react";
 import { KeyboardAvoidingView, Text, VStack, Box, HStack } from "native-base";
 import { FontAwesome } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { getUser } from "../misc/helperFunctions";
-import { auth, db } from "../firebase";
-import { doc, onSnapshot } from "firebase/firestore";
-// import { Stopwatch } from "react-native-stopwatch-timer";
 
 const Timer = () => {
   const navigation = useNavigation();
 
   const [secondsLeft, setSecondsLeft] = useState(60);
   const [timerOn, setTimerOn] = useState(false);
+  const [intervalId, setIntervalId] = useState("null");
 
-  let intervalId;
   useEffect(() => {
-    if (timerOn) startTimer();
-    else stopTimer();
-    return () => setTimerOn(false);
+    if (timerOn) {
+      startTimer();
+    } else if (!timerOn) {
+      stopTimer();
+    }
   }, [timerOn]);
 
   useEffect(() => {
@@ -28,17 +26,19 @@ const Timer = () => {
   }, [secondsLeft]);
 
   const startTimer = () => {
-    intervalId = setInterval(() => {
-      setSecondsLeft((secs) => {
-        if (secs > 0) return secs - 1;
-        else return 0;
-      });
-    }, 1000);
+    setIntervalId(
+      setInterval(() => {
+        setSecondsLeft((secs) => {
+          if (secs > 0) return secs - 1;
+          else return 0;
+        });
+      }, 1000)
+    );
   };
 
   const stopTimer = () => {
     clearInterval(intervalId);
-    intervalId = null;
+    setIntervalId(null);
   };
 
   //convert seconds left => , hours, minutes, seconds
