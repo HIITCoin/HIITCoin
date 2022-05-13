@@ -35,7 +35,7 @@ import {
   exerciseInWorkout2,
   sampleWorkoutInList,
 } from "../misc/sampleData";
-
+import { secondToMinutesAndSeconds } from "../misc/helperFunctions";
 const NewWorkout = ({ route }) => {
   let [rounds, setRounds] = React.useState(0);
   let [name, setName] = React.useState("");
@@ -61,16 +61,6 @@ const NewWorkout = ({ route }) => {
     setExercises(state.exercises);
   }, []);
 
-  const secondToMinutesAndSeconds = (secs) => {
-    console.log(secs);
-
-    let seconds = secs % 60;
-
-    let minutes = Math.floor(secs / 60);
-
-    return { minutes: minutes.toString(), seconds: seconds.toString() };
-  };
-
   let optionsArr = [];
 
   for (let i = 1; i <= 100; ++i) {
@@ -84,7 +74,7 @@ const NewWorkout = ({ route }) => {
       roundRest,
       exercises,
     };
-    // navigation.navigate("CreateEditExercise", { state: state });
+    navigation.navigate("CreateEditExercise", { state: state });
   };
 
   console.log(roundRest);
@@ -145,7 +135,7 @@ const NewWorkout = ({ route }) => {
                   Rounds
                 </FormControl.Label>
                 <Select
-                  selectedValue={rounds}
+                  value={rounds}
                   minWidth="200"
                   _selectedItem={{
                     bg: "teal.600",
@@ -228,7 +218,7 @@ const NewWorkout = ({ route }) => {
             ))}
           </Box>
           <Box marginHorizontal={50} display={"flex"} flexDirection="row">
-            <Button width="60%" flex={1} margin={5} onPress={console.log()}>
+            <Button width="60%" flex={1} margin={5} onPress={handleNewExercise}>
               Add Exercise
             </Button>
           </Box>
