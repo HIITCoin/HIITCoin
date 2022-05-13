@@ -19,6 +19,7 @@ import ProfileScreen from "./screens/ProfileScreen";
 import SettingsScreen from "./screens/SettingsScreen";
 import EditProfileScreen from "./screens/EditProfileScreen";
 import Timer from "./screens/Timer";
+import Stats from "./screens/Stats";
 import { colorTheme } from "./misc/colorTheme";
 
 const Stack = createNativeStackNavigator();
@@ -85,6 +86,11 @@ export default function App() {
             options={{ headerShown: false }}
             name="Timer"
             component={Timer}
+          />
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="Stats"
+            component={Stats}
           />
         </Stack.Navigator>
       </NavigationContainer>
