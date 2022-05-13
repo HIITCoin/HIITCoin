@@ -10,8 +10,8 @@ const Timer = () => {
   const navigation = useNavigation();
 
   const [myWorkout, setMyWorkout] = useState({});
-  const [secondsLeft, setSecondsLeft] = useState(0);
-  const [exerName, setExerName] = useState("");
+  const [secondsLeft, setSecondsLeft] = useState(60);
+  const [exerName, setExerName] = useState("Quick Timer");
   const [exerSets, setExerSets] = useState(0);
   const [exerReps, setExerReps] = useState(0);
   const [timerOn, setTimerOn] = useState(false);
