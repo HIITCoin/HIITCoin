@@ -3,13 +3,63 @@ import React, { useEffect, useState } from "react";
 import { KeyboardAvoidingView, Text, VStack, Box, HStack } from "native-base";
 import { FontAwesome } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { addNewWorkout, getSingleWorkout } from "../misc/helperFunctions";
 
 const Timer = () => {
+  // obtain workout prop from the workout component
   const navigation = useNavigation();
 
-  const [secondsLeft, setSecondsLeft] = useState(60);
+  const [myWorkout, setMyWorkout] = useState({});
+  const [secondsLeft, setSecondsLeft] = useState(0);
+  const [exerName, setExerName] = useState("");
+  const [exerSets, setExerSets] = useState(0);
+  const [exerReps, setExerReps] = useState(0);
   const [timerOn, setTimerOn] = useState(false);
   const [intervalId, setIntervalId] = useState("null");
+
+  useEffect(async () => {
+    const startWkout = async () => {
+      // console.log(
+      //   "addNewWorkout",
+      //   await addNewWorkout({
+      //     name: "testworkout",
+      //     exercises: [
+      //       {
+      //         name: "Leg Press",
+      //         basePoints: 10,
+      //         bodyPart: "legs",
+      //         diffuculty: 3,
+      //         duration: 70,
+      //         reps: 8,
+      //         sets: 4,
+      //         rest: 55,
+      //       },
+      //       {
+      //         name: "Chest Press",
+      //         basePoints: 10,
+      //         bodyPart: "chest",
+      //         diffuculty: 2,
+      //         duration: 65,
+      //         reps: 4,
+      //         sets: 6,
+      //         rest: 75,
+      //       },
+      //     ],
+      //     rounds: 3,
+      //     roundRest: 90,
+      //   })
+      // );
+      setMyWorkout(await getSingleWorkout("testworkout"));
+      setExerName(myWorkout.exercises[0].name);
+      setExerSets(myWorkout.exercises[0].sets);
+      setExerReps(myWorkout.exercises[0].reps);
+      setSecondsLeft(myWorkout.exercises[0].duration);
+      console.log(
+        myWorkout.exercises ? "wkout state is loaded" : "hit save again"
+      );
+    };
+    startWkout();
+  }, []);
 
   useEffect(() => {
     if (timerOn) {
@@ -59,15 +109,20 @@ const Timer = () => {
           Timer
         </Text>
       </Box>
-      <VStack space={4} alignItems="center" bg="colors.bg">
-        <Box w="100%" h="10" bg="colors.bg" justifyContent="center">
-          <Text fontSize="3xl" color="colors.text" textAlign="center">
-            1st Set | 4 Sets
-          </Text>
-        </Box>
+      <VStack space={5} alignItems="center" bg="colors.bg">
         <Box w="100%" h="20" bg="colors.bg" justifyContent="center">
           <Text fontSize="4xl" color="colors.other" textAlign="center">
-            Rest
+            {exerName}
+          </Text>
+        </Box>
+        <Box w="100%" h="10" bg="colors.bg" justifyContent="center">
+          <Text fontSize="3xl" color="colors.other" textAlign="center">
+            Sets left: {exerSets}
+          </Text>
+        </Box>
+        <Box w="100%" h="10" bg="colors.bg" justifyContent="center">
+          <Text fontSize="3xl" color="colors.other" textAlign="center">
+            Reps: {exerReps}
           </Text>
         </Box>
         <Box w="100%" h="40" bg="colors.bg" justifyContent="center">
