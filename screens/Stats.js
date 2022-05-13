@@ -3,17 +3,24 @@ import React, { useEffect, useState } from "react";
 import { KeyboardAvoidingView, Text, VStack, Box, HStack } from "native-base";
 import { FontAwesome } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { getUser } from "../misc/helperFunctions";
-import { auth, db } from "../firebase";
-import { doc, onSnapshot } from "firebase/firestore";
-// import { Stopwatch } from "react-native-stopwatch-timer";
+import { MaterialIcons } from "@expo/vector-icons";
 
 const Stats = () => {
   const navigation = useNavigation();
 
   return (
     <KeyboardAvoidingView bg="colors.bg" height="100%">
-      <Box marginTop="20%" marginBottom="5%">
+      <Box marginTop="20%">
+        <HStack justifyContent="space-between">
+          <Pressable onPress={() => navigation.navigate("Home")}>
+            <MaterialIcons name="home" size={50} color="#9067C6" />
+          </Pressable>
+          <Pressable onPress={() => navigation.navigate("Profile")}>
+            <MaterialIcons name="person" color="#9067C6" size={50} />
+          </Pressable>
+        </HStack>
+      </Box>
+      <Box marginBottom="5%">
         <Text fontSize="5xl" color="colors.text" textAlign="center">
           Statistics
         </Text>
