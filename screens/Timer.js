@@ -111,20 +111,17 @@ const Timer = () => {
     // }
     if (secondsLeft === 0) {
       if (exerSets != 0) {
-        if (rest) {
-          console.log("im resting");
-          setTimerOn(false);
-          setSecondsLeft(myWorkout.exercises[0].rest);
-          setRest(false);
-          setTimerOn(true);
-          // startTimer();
-        }
         setExerSets(exerSets - 1);
         setTimerOn(false); //this cleans up the initial interval preventing time from multiplying per second
-        setSecondsLeft(myWorkout.exercises[0].duration);
-        setTimerOn(true);
-        setTimerOn(false);
+        console.log(timerOn);
         setRest(true);
+        console.log("rest is ", rest);
+        setSecondsLeft(5);
+        console.log("rest time", secondsLeft);
+        setTimerOn(true);
+        setRest(false);
+        setTimerOn(false);
+        setSecondsLeft(myWorkout.exercises[0].duration);
         setTimerOn(true);
       } else if (myWorkout.exercises) {
         setTimerOn(false);
@@ -134,7 +131,7 @@ const Timer = () => {
         setSecondsLeft(myWorkout.exercises[1].duration);
       }
     }
-  }, [secondsLeft]);
+  }, [secondsLeft, rest]);
   // }
   // }, [secondsLeft]);
 
