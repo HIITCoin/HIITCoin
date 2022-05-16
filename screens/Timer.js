@@ -4,7 +4,6 @@ import { KeyboardAvoidingView, Text, VStack, Box, HStack } from "native-base";
 import { FontAwesome } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { addNewWorkout, getSingleWorkout } from "../misc/helperFunctions";
-import useInterval from "../misc/useInterval";
 
 const workout = {
   name: "testworkout",
@@ -14,10 +13,10 @@ const workout = {
       basePoints: 10,
       bodyPart: "legs",
       difficulty: 3,
-      duration: 10,
+      duration: 4,
       reps: 8,
-      sets: 3,
-      rest: 5,
+      sets: 2,
+      rest: 2,
     },
     {
       name: "Chest Press",
@@ -39,13 +38,14 @@ const Timer = () => {
   const navigation = useNavigation();
   //const workout = this.props.
   const [myWorkout, setMyWorkout] = useState(workout);
-  const [secondsLeft, setSecondsLeft] = useState(60);
   const [exerName, setExerName] = useState("Quick Timer");
   const [exerSets, setExerSets] = useState(workout.exercises.sets);
   const [exerReps, setExerReps] = useState(workout.exercises.reps);
   const [timerOn, setTimerOn] = useState(false);
-  const [intervalId, setIntervalId] = useState(null);
-  // const [rest, setRest] = useState(false);
+  const [minutes, setMinutes] = useState(0);
+  const [seconds, setSeconds] = useState(60);
+  const [displayMessage, setDisplayMessage] = useState(false);
+  const [exerIndex, setExerIndex] = useState(0);
 
   useEffect(() => {
     console.log("initial Loading");
@@ -84,7 +84,7 @@ const Timer = () => {
       setExerName(myWorkout.exercises[0].name);
       setExerSets(myWorkout.exercises[0].sets);
       setExerReps(myWorkout.exercises[0].reps);
-      setSecondsLeft(myWorkout.exercises[0].duration);
+      setSeconds(myWorkout.exercises[0].duration);
       console.log(
         myWorkout.exercises ? "wkout state is loaded" : "hit save again"
       );
@@ -92,46 +92,49 @@ const Timer = () => {
     startWkout();
   }, []);
 
-  // useEffect(() => {
-  //   if (timerOn) {
-  //     startTimer();
-  //   } else if (!timerOn) {
-  //     stopTimer();
-  //   }
-  // }, [timerOn]);
-
-  const [minutes, setMinutes] = useState(0);
-  const [seconds, setSeconds] = useState(5);
-  const [displayMessage, setDisplayMessage] = useState(false);
-
   useEffect(() => {
-    let interval = setInterval(() => {
-      clearInterval(interval);
+    let interval;
+    if (timerOn) {
+      interval = setInterval(() => {
+        clearInterval(interval);
 
-      if (seconds === 0) {
-        if (minutes !== 0) {
-          setSeconds(59);
-          setMinutes(minutes - 1);
-        } else {
-          let minutes = displayMessage
-            ? myWorkout.exercises[0].duration - 1
-            : myWorkout.exercises[0].rest - 1;
-          let seconds = 59;
+        if (seconds === 0) {
+          // if (minutes !== 0) {
+          //   setSeconds(59);
+          //   setMinutes(minutes - 1);
+          // } else {
+          let seconds = displayMessage
+            ? myWorkout.exercises[exerIndex].duration
+            : myWorkout.exercises[exerIndex].rest;
 
           setSeconds(seconds);
-          setMinutes(minutes);
+          setMinutes(0);
+          // if (!displayMessage) {
+          if (exerSets === 0) {
+            setTimerOn(false);
+            console.log("exerSets is 0");
+            console.log("timer status", timerOn);
+            setExerIndex(exerIndex + 1);
+            console.log("exerIndex", exerIndex);
+            setExerName(myWorkout.exercises[exerIndex].name);
+            setExerSets(myWorkout.exercises[exerIndex].sets);
+            setExerReps(myWorkout.exercises[exerIndex].reps);
+          } else if (exerSets > 0) {
+            setExerSets((sets) => sets - 1);
+          }
+          // }
           setDisplayMessage(!displayMessage);
+          // }
+        } else {
+          setSeconds(seconds - 1);
         }
-      } else {
-        setSeconds(seconds - 1);
-      }
-    }, 1000);
-  }, [seconds]);
+      }, 1000);
+    } else if (!timerOn) {
+      clearInterval(interval);
+      interval = null;
+    }
+  }, [seconds, timerOn, exerIndex, exerName, exerSets, exerReps]);
 
-  const timerMinutes = minutes < 10 ? `0${minutes}` : minutes;
-  const timerSeconds = seconds < 10 ? `0${seconds}` : seconds;
-
-  // useEffect(() => {
   // if (myWorkout.exercises.length) {
   // for (let i = 0; i < myWorkout.exercises.length; i++) {
   // console.log(i, "im logging");
@@ -141,56 +144,15 @@ const Timer = () => {
   //   setExerReps(myWorkout.exercises[i].reps);
   //   // setSecondsLeft();
   // }
-  //   if (secondsLeft === 0) {
-  //     if (exerSets != 0) {
-  //       setExerSets(exerSets - 1);
-  //       setTimerOn(false);
-  //       console.log("timer is on", timerOn);
-  //       setRest(true);
-  //       console.log("rest is", rest);
-  //       setSecondsLeft(5);
-  //       console.log("rest time", secondsLeft);
-  //       setTimerOn(true);
-  //       setRest(false);
-  //       setTimerOn(false);
-  //       setSecondsLeft(myWorkout.exercises[0].duration);
-  //       setTimerOn(true);
-  //     } else if (myWorkout.exercises) {
-  //       setTimerOn(false);
-  //       setExerName(myWorkout.exercises[1].name);
-  //       setExerSets(myWorkout.exercises[1].sets);
-  //       setExerReps(myWorkout.exercises[1].reps);
-  //       setSecondsLeft(myWorkout.exercises[1].duration);
-  //     }
-  //   }
-  // }, [secondsLeft, rest]);
-  // }
-  // }, [secondsLeft]);
-
-  // const startTimer = () => {
-  //   setIntervalId(
-  //     setInterval(() => {
-  //       setSecondsLeft((secs) => {
-  //         if (secs > 0) return secs - 1;
-  //         else return 0;
-  //       });
-  //     }, 1000)
-  //   );
-  // };
-
-  // const stopTimer = () => {
-  //   clearInterval(intervalId);
-  //   setIntervalId(null);
-  // };
 
   // convert seconds left => , hours, minutes, seconds
   const clockify = () => {
-    let hours = Math.floor(secondsLeft / 60 / 60);
-    let mins = Math.floor((secondsLeft / 60) % 60);
-    let seconds = Math.floor(secondsLeft % 60);
+    let hours = Math.floor(seconds / 60 / 60);
+    let mins = Math.floor((seconds / 60) % 60);
+    let secs = Math.floor(seconds % 60);
     let displayHours = hours < 10 ? `0${hours}` : hours;
     let displayMinutes = mins < 10 ? `0${mins}` : mins;
-    let displaySeconds = seconds < 10 ? `0${seconds}` : seconds;
+    let displaySeconds = secs < 10 ? `0${secs}` : secs;
     return { displayHours, displayMinutes, displaySeconds };
   };
 
@@ -228,8 +190,7 @@ const Timer = () => {
         </Box>
         <Box w="100%" h="40" bg="colors.bg" justifyContent="center">
           <Text fontSize="9xl" color="colors.other" textAlign="center">
-            {/* {clockify().displayMinutes}:{clockify().displaySeconds} */}
-            {timerMinutes}:{timerSeconds}
+            {clockify().displayMinutes}:{clockify().displaySeconds}
           </Text>
         </Box>
         <HStack justifyContent="space-between">
