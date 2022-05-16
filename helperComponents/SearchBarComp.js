@@ -32,6 +32,18 @@ import {
 import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/core";
 
+const Item = ({ name, setCurrentWord }) => {
+  function handleClick(evt) {
+    setCurrentWord(name);
+  }
+  return (
+    <View>
+      <Button name={name} onPress={handleClick}>
+        {name}
+      </Button>
+    </View>
+  );
+};
 export default function SearchBarComp({ route }) {
   const navigation = useNavigation();
   const propsFromCreateExercise = route.params;
@@ -61,6 +73,22 @@ export default function SearchBarComp({ route }) {
     navigation.navigate("CreateEditExercise", propsFromSearch);
   }
   console.log(propsFromCreateExercise);
+  const renderItem = ({ item }) => {
+    // when no input, show all
+    if (currentWord === "") {
+      return <Item name={item.name} setCurrentWord={setCurrentWord} />;
+    }
+    // filter of the name
+
+    if (
+      currentWord &&
+      item.name
+        .toUpperCase()
+        .includes(currentWord.toUpperCase().trim().replace(/\s/g, ""))
+    ) {
+      return <Item name={item.name} setCurrentWord={setCurrentWord}></Item>;
+    }
+  };
   return (
     <TouchableWithoutFeedback
       bg="colors.bg"
@@ -119,6 +147,11 @@ export default function SearchBarComp({ route }) {
                 as={<MaterialIcons name="close" />}
               />
             }
+          />
+          <FlatList
+            data={propsFromCreateExercise.exerciseList}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.name}
           />
         </VStack>
       </VStack>

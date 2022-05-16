@@ -58,8 +58,6 @@ export default function CreateEditExercise({ route }) {
 
   useEffect(() => {
     if (route.params.exerciseName) {
-      // Post updated, do something with `route.params.post`
-      // For example, send the post to the server
       setExerciseName(route.params.exerciseName);
     }
   }, [route.params.exerciseName]);
