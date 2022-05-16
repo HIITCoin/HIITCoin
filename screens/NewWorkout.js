@@ -35,29 +35,44 @@ import {
   exerciseInWorkout2,
   sampleWorkoutInList,
 } from "../misc/sampleData";
-import { secondToMinutesAndSeconds } from "../misc/helperFunctions";
+import {
+  secondToMinutesAndSeconds,
+  minSecToSeconds,
+  addNewWorkout,
+} from "../misc/helperFunctions";
 const NewWorkout = ({ route }) => {
   let [rounds, setRounds] = React.useState("");
   let [name, setName] = React.useState("");
   let [roundRest, setRoundRest] = React.useState({ minutes: "", seconds: "" });
   let [exercises, setExercises] = React.useState([]);
 
+  useEffect(() => {
+    if (route.params) {
+      console.log("from edit", route.params);
+      setRounds(String(route.params.state.rounds));
+      setName(route.params.state.name);
+      setRoundRest(route.params.state.roundRest);
+      setExercises(route.params.state.exercises);
+    }
+  }, [route.params]);
   const navigation = useNavigation();
 
   useEffect(() => {
     //change to route.params.state
-    let state = sampleWorkoutInList;
+    //let state = sampleWorkoutInList;
+    // if (route.params) {
+    //   state = route.params.state; //change to route.params.state
+    // }
+    // if (!isNaN(state.roundRest)) {
+    //   state.roundRest = secondToMinutesAndSeconds(state.roundRest);
+    // }
     if (route.params) {
-      state = route.params.state; //change to route.params.state
+      console.log("from edit", route.params);
+      setRounds(String(route.params.state.rounds));
+      setName(route.params.state.name);
+      setRoundRest(route.params.state.roundRest);
+      setExercises(route.params.state.exercises);
     }
-    if (!isNaN(state.roundRest)) {
-      state.roundRest = secondToMinutesAndSeconds(state.roundRest);
-    }
-
-    setRounds(String(state.rounds));
-    setName(state.name);
-    setRoundRest(state.roundRest);
-    setExercises(state.exercises);
   }, []);
 
   let optionsArr = [];
@@ -74,6 +89,23 @@ const NewWorkout = ({ route }) => {
       exercises,
     };
     navigation.navigate("CreateEditExercise", { state: state, index: index });
+  };
+  const handleSubmitWorkout = async () => {
+    console.log(exercises);
+    exercises.map((exercise) => {
+      exercise.duration = Number(minSecToSeconds(exercise.duration));
+      exercise.rest = Number(minSecToSeconds(exercise.rest));
+      exercise.sets = Number(exercise.sets);
+      exercise.reps = Number(exercise.reps);
+    });
+    let newWorkout = {
+      exercises,
+      name,
+      roundRest: Number(minSecToSeconds(roundRest)),
+      rounds: Number(rounds),
+    };
+    console.log(newWorkout);
+    //await addNewWorkout(newWorkout);
   };
 
   return (
@@ -196,7 +228,7 @@ const NewWorkout = ({ route }) => {
                 key={index}
                 onPress={() => handleNewExercise(index)}
                 w="80%"
-                h="20"
+                h="150"
                 data-val={index}
                 bg="colors.bg"
                 rounded="md"
@@ -206,12 +238,23 @@ const NewWorkout = ({ route }) => {
                 alignContent="center"
                 marginTop="4"
               >
-                <Text fontSize="18" color="colors.text" lineHeight="20">
-                  <Text fontWeight="bold">{exercise.name}</Text> S:
-                  {exercise.sets} R:
-                  {exercise.reps} {"\n"} D:
-                  {exercise.duration} Rest:
-                  {exercise.rest}
+                <Text fontSize="18" color="colors.text" lineHeight="25">
+                  <Text fontWeight="bold">{exercise.exerciseName}</Text> {"\n"}{" "}
+                  <Text fontWeight="bold">S:</Text>
+                  {exercise.sets} <Text fontWeight="bold"> {"      "}R:</Text>
+                  {exercise.reps} {"\n"} <Text fontWeight="bold">D:</Text>{" "}
+                  <Text fontWeight="bold"> {"   "}Min:</Text>
+                  {exercise.duration.minutes}
+                  <Text mx="1" fontWeight="bold">
+                    {"   "}Sec:
+                  </Text>
+                  {exercise.duration.seconds}
+                  {"\n"}
+                  <Text fontWeight="bold">Rest:</Text>{" "}
+                  <Text fontWeight="bold">{"    "}Min:</Text>{" "}
+                  {exercise.rest.minutes}
+                  <Text fontWeight="bold">{"   "}Sec:</Text>{" "}
+                  {exercise.rest.seconds}
                 </Text>
               </Button>
             ))}
@@ -227,7 +270,12 @@ const NewWorkout = ({ route }) => {
             </Button>
           </Box>
           <Box marginHorizontal={50} display={"flex"} flexDirection="row">
-            <Button width="60%" flex={1} margin={5}>
+            <Button
+              width="60%"
+              flex={1}
+              margin={5}
+              onPress={handleSubmitWorkout}
+            >
               Create Workout
             </Button>
           </Box>

@@ -57,10 +57,11 @@ export default function CreateEditExercise({ route }) {
   const navigation = useNavigation();
 
   useEffect(() => {
-    if (route.params.exerciseName) {
-      setExerciseName(route.params.exerciseName);
+    if (route.params.propsFromSearch) {
+      setExerciseName(route.params.propsFromSearch.exerciseName);
+      console.log(route);
     }
-  }, [route.params.exerciseName]);
+  }, [route.params.propsFromSearch]);
 
   let optionsArr = [];
   for (let i = 1; i <= 100; ++i) {
@@ -72,20 +73,19 @@ export default function CreateEditExercise({ route }) {
       setExerciseList(exerciseListFromDb);
     };
     let workout = route.params.state;
-    console.log(workout);
+    console.log("WORK O'TIT", workout);
     if (route.params.index >= 0) {
       //find exercise with flag on it
       let exercise = workout.exercises[route.params.index];
-      console.log(exercise);
+      console.log("no", exercise);
       const exDuration = secondToMinutesAndSeconds(exercise.duration);
       const exRest = secondToMinutesAndSeconds(exercise.rest);
-      setExerciseName(exercise.name);
+      setExerciseName(exercise.exerciseName);
       setReps(String(exercise.reps));
       setSets(String(exercise.sets));
       setRest(exRest);
       setDuration(exDuration);
     }
-    console.log("this cant be real");
     function reset() {
       setExerciseName("");
       setDuration({ minutes: "", seconds: "" });
@@ -96,7 +96,6 @@ export default function CreateEditExercise({ route }) {
     getExer();
     return reset;
   }, []);
-
   function handleSearchPress() {
     const propsToSend = {
       exerciseName,
@@ -106,9 +105,36 @@ export default function CreateEditExercise({ route }) {
       duration,
       rest,
     };
-    navigation.navigate("SearchBarComp", propsToSend);
+    navigation.navigate("SearchBarComp", {
+      propsToSend: propsToSend,
+      workout: route.params.state,
+    });
   }
-  function handleSubmitExercise() {}
+  function handleSubmitExercise() {
+    console.log("attempt", route.params);
+    const exerciseToAdd = {
+      exerciseName,
+      sets,
+      reps,
+      duration,
+      rest,
+    };
+    console.log(exerciseToAdd);
+    let workout = route.params.state;
+
+    if (route.params.index) {
+      const newExerciseList = workout.exercises.map((exercise, index) => {
+        if (index === route.params.index) return exerciseToAdd;
+        return exercise;
+      });
+      workout.exercises = newExerciseList;
+    } else {
+      workout.exercises = [...workout.exercises, exerciseToAdd];
+      console.log(workout);
+    }
+    console.log("eeeviil", workout);
+    navigation.navigate("New Workout", { state: workout });
+  }
   console.log({
     exerciseName,
     reps,
