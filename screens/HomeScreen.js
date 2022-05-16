@@ -1,5 +1,5 @@
-import { Pressable, StyleSheet } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import { Pressable, StyleSheet } from "react-native";
+import React, { useState, useEffect } from "react";
 import {
   KeyboardAvoidingView,
   Text,
@@ -16,6 +16,7 @@ import { getAuth, signOut } from "firebase/auth";
 import {
   addNewWorkout,
   createOrSubmitHistory,
+  editUser,
   getExercises,
   getSingleExercise,
   getSingleWorkout,
@@ -26,7 +27,7 @@ import {
 const HomeScreen = () => {
   const navigation = useNavigation();
   const auth = getAuth();
-  const exCollection = collection(db, 'Exercises');
+  const exCollection = collection(db, "Exercises");
 
   useEffect(() => {
     const getExer = async () => {
@@ -45,7 +46,8 @@ const HomeScreen = () => {
         auth.currentUser.uid,
         auth.currentUser.email,
         user.firstName,
-        user.lastName
+        user.lastName,
+        new Date(user.startDate.seconds * 1000) //correct date notation
       );
     };
     getExer();
@@ -64,13 +66,13 @@ const HomeScreen = () => {
   const handleSignOut = async () => {
     try {
       await signOut(auth);
-      console.log('Get out');
-      navigation.navigate('Login');
+      console.log("Get out");
+      navigation.navigate("Login");
     } catch (error) {
       alert(error.message);
     }
   };
-  
+
   return (
     <KeyboardAvoidingView bg="colors.bg" height="100%">
       <Box marginTop="20%" marginBottom="10%">
@@ -89,7 +91,7 @@ const HomeScreen = () => {
           </Pressable>
         </HStack>
         {/* Get userName from props/state/auth and implement here */}
-        <Text fontSize="6xl" color="colors.text">
+        <Text fontSize="5xl" color="colors.text" textAlign="center">
           Hello, {firstName}
         </Text>
       </Box>
@@ -152,7 +154,7 @@ const HomeScreen = () => {
           shadow={3}
           justifyContent="center"
         >
-          <Pressable onPress={() => console.log("Quick Timer pressed")}>
+          <Pressable onPress={() => navigation.navigate("Timer")}>
             <Text fontSize="xl" color="colors.text" marginLeft="10px">
               Quick Timer
             </Text>

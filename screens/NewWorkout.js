@@ -104,7 +104,7 @@ const NewWorkout = ({ route }) => {
           // behavior={behavior}
         >
           <Box marginTop="20%" alignSelf="center">
-            <Text fontSize="3xl" color="colors.text">
+            <Text fontSize="5xl" color="colors.text">
               Create Workout
             </Text>
           </Box>

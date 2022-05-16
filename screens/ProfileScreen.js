@@ -4,6 +4,8 @@ import { KeyboardAvoidingView, Text, VStack, Box, HStack } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { getUser } from "../misc/helperFunctions";
+import { auth, db } from "../firebase";
+import { onSnapshot, doc } from "firebase/firestore";
 
 const ProfileScreen = () => {
   const navigation = useNavigation();
@@ -16,6 +18,7 @@ const ProfileScreen = () => {
     };
     getUserInfo();
   }, []);
+
   return (
     <KeyboardAvoidingView bg="colors.bg" height="100%">
       <Box marginTop="20%" marginBottom="10%">
@@ -27,7 +30,7 @@ const ProfileScreen = () => {
             <MaterialIcons name="person" color="#9067C6" size={50} />
           </Pressable>
         </HStack>
-        <Text fontSize="6xl" color="colors.text">
+        <Text fontSize="5xl" color="colors.text" textAlign="center">
           {firstName}'s Profile
         </Text>
       </Box>

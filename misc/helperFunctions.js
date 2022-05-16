@@ -21,7 +21,7 @@ export const makeUser = async (user) => {
     weight: user.weight,
     age: user.age,
     points: 0,
-    startDate: Timestamp.fromDate(new Date()),
+    startDate: serverTimestamp(),
     workouts: [],
   });
   console.log(user);
@@ -39,14 +39,14 @@ export const getUser = async () => {
 
 export const editUser = async (newData, oldData) => {
   const user = await getUser();
-  console.log(user);
+  console.log("before", user);
   await setDoc(
     doc(db, "Users", auth.currentUser.uid),
-    { ...user, newData },
+    { ...user, ...newData },
     { merge: true }
   );
   const afterUser = await getUser();
-  console.log(afterUser);
+  console.log("after", afterUser);
 };
 
 //get a list of all user workouts✅
