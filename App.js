@@ -19,6 +19,7 @@ import ProfileScreen from "./screens/ProfileScreen";
 import SettingsScreen from "./screens/SettingsScreen";
 import EditProfileScreen from "./screens/EditProfileScreen";
 import CreateEditExercise from "./screens/CreateEditExercise";
+import SearchBarComp from "./helperComponents/SearchBarComp";
 import { colorTheme } from "./misc/colorTheme";
 
 const Stack = createNativeStackNavigator();
@@ -85,6 +86,11 @@ export default function App() {
             options={{ headerShown: false }}
             name="CreateEditExercise"
             component={CreateEditExercise}
+          />
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="SearchBarComp"
+            component={SearchBarComp}
           />
         </Stack.Navigator>
       </NavigationContainer>

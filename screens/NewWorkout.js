@@ -37,7 +37,7 @@ import {
 } from "../misc/sampleData";
 import { secondToMinutesAndSeconds } from "../misc/helperFunctions";
 const NewWorkout = ({ route }) => {
-  let [rounds, setRounds] = React.useState(0);
+  let [rounds, setRounds] = React.useState("");
   let [name, setName] = React.useState("");
   let [roundRest, setRoundRest] = React.useState({ minutes: "", seconds: "" });
   let [exercises, setExercises] = React.useState([]);
@@ -135,17 +135,17 @@ const NewWorkout = ({ route }) => {
                   Rounds
                 </FormControl.Label>
                 <Select
-                  value={rounds}
+                  value={String(rounds)}
                   minWidth="200"
                   _selectedItem={{
                     bg: "teal.600",
                     endIcon: <CheckIcon size="5" />,
                   }}
                   mt={1}
-                  onValueChange={(num) => setRounds(num)}
+                  onValueChange={(num) => setRounds(num) + ""}
                 >
                   {optionsArr.map((num) => (
-                    <Select.Item key={num} label={num} value={num} />
+                    <Select.Item key={num} label={num} value={num + ""} />
                   ))}
                 </Select>
               </Box>
@@ -162,7 +162,7 @@ const NewWorkout = ({ route }) => {
                   variant="rounded"
                   margin="2"
                   color="colors.other"
-                  value={Number(roundRest.minutes)}
+                  value={Number(roundRest.minutes) + ""}
                   keyboardType="numeric"
                   onChangeText={(mins) => {
                     setRoundRest({
@@ -180,7 +180,7 @@ const NewWorkout = ({ route }) => {
                   variant="rounded"
                   margin="2"
                   color="colors.other"
-                  value={Number(roundRest.seconds)}
+                  value={Number(roundRest.seconds) + ""}
                   keyboardType="numeric"
                   onChangeText={(secs) => {
                     setRoundRest({
