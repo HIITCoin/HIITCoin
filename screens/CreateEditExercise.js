@@ -73,23 +73,17 @@ export default function CreateEditExercise({ route }) {
     };
     let workout = route.params.state;
     console.log(workout);
-    console.log(route.params, "route");
-    if (route.params.index) {
+    if (route.params.index >= 0) {
       //find exercise with flag on it
       let exercise = workout.exercises[route.params.index];
+      console.log(exercise);
       const exDuration = secondToMinutesAndSeconds(exercise.duration);
+      const exRest = secondToMinutesAndSeconds(exercise.rest);
       setExerciseName(exercise.name);
-      setReps(exercise.reps);
-      setSets(exercise.sets);
-      setRest(exercise.rest);
+      setReps(String(exercise.reps));
+      setSets(String(exercise.sets));
+      setRest(exRest);
       setDuration(exDuration);
-      console.log({
-        exerciseName,
-        reps,
-        duration,
-        rest,
-        sets,
-      });
     }
     console.log("this cant be real");
     function reset() {
@@ -100,7 +94,6 @@ export default function CreateEditExercise({ route }) {
       setReps("");
     }
     getExer();
-
     return reset;
   }, []);
 
@@ -115,6 +108,14 @@ export default function CreateEditExercise({ route }) {
     };
     navigation.navigate("SearchBarComp", propsToSend);
   }
+  function handleSubmitExercise() {}
+  console.log({
+    exerciseName,
+    reps,
+    duration,
+    rest,
+    sets,
+  });
   return (
     <TouchableWithoutFeedback
       bg="colors.bg"
@@ -172,7 +173,6 @@ export default function CreateEditExercise({ route }) {
                 endIcon: <CheckIcon size="5" />,
               }}
               placeholder={String(sets)}
-              selectedValue={String(sets)}
               value={String(sets)}
               mt={1}
               onValueChange={(num) => {
@@ -204,7 +204,6 @@ export default function CreateEditExercise({ route }) {
                 endIcon: <CheckIcon size="5" />,
               }}
               placeholder={String(reps)}
-              selectedValue={String(reps)}
               value={String(reps)}
               mt={1}
               onValueChange={(num) => {
@@ -299,6 +298,16 @@ export default function CreateEditExercise({ route }) {
             />
           </FormControl>
         </HStack>
+        <Box marginHorizontal={50} display={"flex"} flexDirection="row">
+          <Button
+            width="60%"
+            flex={1}
+            margin={5}
+            onPress={() => handleSubmitExercise()}
+          >
+            Submit Exercise
+          </Button>
+        </Box>
       </KeyboardAwareScrollView>
     </TouchableWithoutFeedback>
   );
