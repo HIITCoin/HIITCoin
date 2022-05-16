@@ -54,8 +54,6 @@ const NewWorkout = ({ route }) => {
       state.roundRest = secondToMinutesAndSeconds(state.roundRest);
     }
 
-    console.log(state.roundRest);
-
     setRounds(String(state.rounds));
     setName(state.name);
     setRoundRest(state.roundRest);
@@ -65,10 +63,10 @@ const NewWorkout = ({ route }) => {
   let optionsArr = [];
 
   for (let i = 1; i <= 100; ++i) {
-    optionsArr.push(String(i));
+    optionsArr.push(i);
   }
 
-  const handleNewExercise = (evt, index) => {
+  const handleNewExercise = (index) => {
     const state = {
       rounds,
       name,
@@ -77,8 +75,6 @@ const NewWorkout = ({ route }) => {
     };
     navigation.navigate("CreateEditExercise", { state: state, index: index });
   };
-
-  console.log(rounds, "rounds");
 
   return (
     <KeyboardAwareScrollView
@@ -136,7 +132,8 @@ const NewWorkout = ({ route }) => {
                   Rounds
                 </FormControl.Label>
                 <Select
-                  value={String(rounds)}
+                  placeholder={rounds}
+                  value={rounds || ""}
                   minWidth="200"
                   _selectedItem={{
                     bg: "teal.600",
@@ -146,7 +143,7 @@ const NewWorkout = ({ route }) => {
                   onValueChange={(num) => setRounds(String(num))}
                 >
                   {optionsArr.map((num) => (
-                    <Select.Item key={num} label={num} value={String(num)} />
+                    <Select.Item key={num} label={num} value={num} />
                   ))}
                 </Select>
               </Box>
@@ -197,9 +194,10 @@ const NewWorkout = ({ route }) => {
             {exercises.map((exercise, index) => (
               <Button
                 key={index}
-                onPress={(index) => handleNewExercise(index)}
+                onPress={() => handleNewExercise(index)}
                 w="80%"
                 h="20"
+                data-val={index}
                 bg="colors.bg"
                 rounded="md"
                 borderWidth="2px"
