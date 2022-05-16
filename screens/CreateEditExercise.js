@@ -77,7 +77,6 @@ export default function CreateEditExercise({ route }) {
     if (route.params.index >= 0) {
       //find exercise with flag on it
       let exercise = workout.exercises[route.params.index];
-      console.log("no", exercise);
       const exDuration = secondToMinutesAndSeconds(exercise.duration);
       const exRest = secondToMinutesAndSeconds(exercise.rest);
       setExerciseName(exercise.exerciseName);

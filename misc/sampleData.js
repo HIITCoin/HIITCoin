@@ -93,4 +93,3 @@ const createOrSubmitHistory = async (workout) => {
   //await -insert database operation - with workout History
   return workoutHistory;
 };
-console.log(createOrSubmitHistory(sampleWorkoutInList));

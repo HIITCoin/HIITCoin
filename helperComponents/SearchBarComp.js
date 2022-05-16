@@ -74,7 +74,7 @@ export default function SearchBarComp({ route }) {
       state: route.params.workout,
     });
   }
-  console.log(propsFromCreateExercise);
+  //console.log(propsFromCreateExercise);
   const renderItem = ({ item }) => {
     // when no input, show all
     if (currentWord === "") {

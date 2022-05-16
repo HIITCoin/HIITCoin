@@ -104,7 +104,6 @@ const NewWorkout = ({ route }) => {
       roundRest: Number(minSecToSeconds(roundRest)),
       rounds: Number(rounds),
     };
-    console.log(newWorkout);
     //await addNewWorkout(newWorkout);
   };
 
