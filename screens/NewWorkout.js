@@ -45,17 +45,18 @@ const NewWorkout = ({ route }) => {
   const navigation = useNavigation();
 
   useEffect(() => {
-    let stateTest = sampleWorkoutInList; //change to route.params.state
-    let state = route.params.state; //change to route.params.state
-    console.log(state);
-
+    //change to route.params.state
+    let state = sampleWorkoutInList;
+    if (route.params) {
+      state = route.params.state; //change to route.params.state
+    }
     if (!isNaN(state.roundRest)) {
       state.roundRest = secondToMinutesAndSeconds(state.roundRest);
     }
 
     console.log(state.roundRest);
 
-    setRounds(state.rounds);
+    setRounds(String(state.rounds));
     setName(state.name);
     setRoundRest(state.roundRest);
     setExercises(state.exercises);
@@ -64,10 +65,10 @@ const NewWorkout = ({ route }) => {
   let optionsArr = [];
 
   for (let i = 1; i <= 100; ++i) {
-    optionsArr.push(i);
+    optionsArr.push(String(i));
   }
 
-  const handleNewExercise = (index) => {
+  const handleNewExercise = (evt, index) => {
     const state = {
       rounds,
       name,
@@ -77,7 +78,7 @@ const NewWorkout = ({ route }) => {
     navigation.navigate("CreateEditExercise", { state: state, index: index });
   };
 
-  console.log(roundRest);
+  console.log(rounds, "rounds");
 
   return (
     <KeyboardAwareScrollView
@@ -218,7 +219,12 @@ const NewWorkout = ({ route }) => {
             ))}
           </Box>
           <Box marginHorizontal={50} display={"flex"} flexDirection="row">
-            <Button width="60%" flex={1} margin={5} onPress={handleNewExercise}>
+            <Button
+              width="60%"
+              flex={1}
+              margin={5}
+              onPress={() => handleNewExercise()}
+            >
               Add Exercise
             </Button>
           </Box>

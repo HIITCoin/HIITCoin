@@ -72,10 +72,12 @@ export default function CreateEditExercise({ route }) {
       setExerciseList(exerciseListFromDb);
     };
     let workout = route.params.state;
+    console.log(workout);
+    console.log(route.params, "route");
     if (route.params.index) {
       //find exercise with flag on it
-      const exDuration = secondToMinutesAndSeconds(exercise.duration);
       let exercise = workout.exercises[route.params.index];
+      const exDuration = secondToMinutesAndSeconds(exercise.duration);
       setExerciseName(exercise.name);
       setReps(exercise.reps);
       setSets(exercise.sets);
