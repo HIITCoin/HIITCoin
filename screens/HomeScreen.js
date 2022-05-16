@@ -10,7 +10,15 @@ import {
 } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { getDocs, collection, doc, query, setDoc } from "firebase/firestore";
+import {
+  getDocs,
+  collection,
+  doc,
+  query,
+  setDoc,
+  where,
+  getDoc,
+} from "firebase/firestore";
 import { db } from "../firebase";
 import { getAuth, signOut } from "firebase/auth";
 import {
@@ -38,6 +46,7 @@ const HomeScreen = () => {
       // console.log('addNewWorkout', await addNewWorkout({name: 'test3', exercises: [{name: 'Leg Press'}, {name: 'Dumbell Lunges'}], rounds: 1, restRounds: 60}))
       // console.log('getExercises', await getExercises());
       // console.log('getSingleExercise', await getSingleExercise("Chest Press"))
+
       const user = await getUser();
       const data = await getDocs(exCollection).then((snapshot) => {
         snapshot.docs.forEach((doc) => arr.push({ ...doc.data(), id: doc.id }));

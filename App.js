@@ -18,6 +18,8 @@ import SignupScreen from "./screens/SignupScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import SettingsScreen from "./screens/SettingsScreen";
 import EditProfileScreen from "./screens/EditProfileScreen";
+import CreateEditExercise from "./screens/CreateEditExercise";
+import SearchBarComp from "./helperComponents/SearchBarComp";
 import Timer from "./screens/Timer";
 import { colorTheme } from "./misc/colorTheme";
 
@@ -81,6 +83,16 @@ export default function App() {
             name="Edit Profile"
             component={EditProfileScreen}
           />
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="CreateEditExercise"
+            component={CreateEditExercise}
+          />
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="SearchBarComp"
+            component={SearchBarComp} 
+           />
           <Stack.Screen
             options={{ headerShown: false }}
             name="Timer"

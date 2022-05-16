@@ -192,6 +192,15 @@ export const createOrSubmitHistory = async (workout) => {
   );
   return workoutHistory;
 };
+export const secondToMinutesAndSeconds = (secs) => {
+  console.log(secs);
+
+  let seconds = secs % 60;
+
+  let minutes = Math.floor(secs / 60);
+
+  return { minutes: minutes.toString(), seconds: seconds.toString() };
+};
 //what does a workout into workout history look like
 //user creates workout
 //user selects workout from workoutlist

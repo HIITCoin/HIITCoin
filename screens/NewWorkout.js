@@ -35,9 +35,9 @@ import {
   exerciseInWorkout2,
   sampleWorkoutInList,
 } from "../misc/sampleData";
-
+import { secondToMinutesAndSeconds } from "../misc/helperFunctions";
 const NewWorkout = ({ route }) => {
-  let [rounds, setRounds] = React.useState(0);
+  let [rounds, setRounds] = React.useState("");
   let [name, setName] = React.useState("");
   let [roundRest, setRoundRest] = React.useState({ minutes: "", seconds: "" });
   let [exercises, setExercises] = React.useState([]);
@@ -45,8 +45,8 @@ const NewWorkout = ({ route }) => {
   const navigation = useNavigation();
 
   useEffect(() => {
+    let stateTest = sampleWorkoutInList; //change to route.params.state
     let state = route.params.state; //change to route.params.state
-
     console.log(state);
 
     if (!isNaN(state.roundRest)) {
@@ -60,16 +60,6 @@ const NewWorkout = ({ route }) => {
     setRoundRest(state.roundRest);
     setExercises(state.exercises);
   }, []);
-
-  const secondToMinutesAndSeconds = (secs) => {
-    console.log(secs);
-
-    let seconds = secs % 60;
-
-    let minutes = Math.floor(secs / 60);
-
-    return { minutes: minutes.toString(), seconds: seconds.toString() };
-  };
 
   let optionsArr = [];
 
@@ -145,17 +135,17 @@ const NewWorkout = ({ route }) => {
                   Rounds
                 </FormControl.Label>
                 <Select
-                  selectedValue={rounds}
+                  value={String(rounds)}
                   minWidth="200"
                   _selectedItem={{
                     bg: "teal.600",
                     endIcon: <CheckIcon size="5" />,
                   }}
                   mt={1}
-                  onValueChange={(num) => setRounds(num)}
+                  onValueChange={(num) => setRounds(String(num))}
                 >
                   {optionsArr.map((num) => (
-                    <Select.Item key={num} label={num} value={num} />
+                    <Select.Item key={num} label={num} value={String(num)} />
                   ))}
                 </Select>
               </Box>
@@ -172,7 +162,7 @@ const NewWorkout = ({ route }) => {
                   variant="rounded"
                   margin="2"
                   color="colors.other"
-                  value={Number(roundRest.minutes)}
+                  value={roundRest.minutes}
                   keyboardType="numeric"
                   onChangeText={(mins) => {
                     setRoundRest({
@@ -190,7 +180,7 @@ const NewWorkout = ({ route }) => {
                   variant="rounded"
                   margin="2"
                   color="colors.other"
-                  value={Number(roundRest.seconds)}
+                  value={roundRest.seconds}
                   keyboardType="numeric"
                   onChangeText={(secs) => {
                     setRoundRest({
