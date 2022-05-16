@@ -42,7 +42,7 @@ export const editUser = async (newData, oldData) => {
   console.log("before", user);
   await setDoc(
     doc(db, "Users", auth.currentUser.uid),
-    { ...user, newData },
+    { ...user, ...newData },
     { merge: true }
   );
   const afterUser = await getUser();

@@ -30,7 +30,7 @@ const ProfileScreen = () => {
             <MaterialIcons name="person" color="#9067C6" size={50} />
           </Pressable>
         </HStack>
-        <Text fontSize="6xl" color="colors.text">
+        <Text fontSize="5xl" color="colors.text" textAlign="center">
           {firstName}'s Profile
         </Text>
       </Box>

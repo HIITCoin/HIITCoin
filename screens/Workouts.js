@@ -52,7 +52,7 @@ const Workouts = () => {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <ScrollView bg="colors.bg" height="100%" behavior="padding">
         <Box marginTop="5%" alignSelf="center">
-          <Text fontSize="6xl" color="colors.text">
+          <Text fontSize="5xl" color="colors.text" textAlign="center">
             My Workouts
           </Text>
         </Box>

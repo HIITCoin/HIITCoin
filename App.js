@@ -20,6 +20,7 @@ import SettingsScreen from "./screens/SettingsScreen";
 import EditProfileScreen from "./screens/EditProfileScreen";
 import CreateEditExercise from "./screens/CreateEditExercise";
 import SearchBarComp from "./helperComponents/SearchBarComp";
+import Timer from "./screens/Timer";
 import { colorTheme } from "./misc/colorTheme";
 
 const Stack = createNativeStackNavigator();
@@ -90,7 +91,12 @@ export default function App() {
           <Stack.Screen
             options={{ headerShown: false }}
             name="SearchBarComp"
-            component={SearchBarComp}
+            component={SearchBarComp} 
+           />
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="Timer"
+            component={Timer}
           />
         </Stack.Navigator>
       </NavigationContainer>

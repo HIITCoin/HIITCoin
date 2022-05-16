@@ -45,8 +45,8 @@ const NewWorkout = ({ route }) => {
   const navigation = useNavigation();
 
   useEffect(() => {
-    let state = sampleWorkoutInList; //change to route.params.state
-
+    let stateTest = sampleWorkoutInList; //change to route.params.state
+    let state = route.params.state; //change to route.params.state
     console.log(state);
 
     if (!isNaN(state.roundRest)) {
@@ -67,14 +67,14 @@ const NewWorkout = ({ route }) => {
     optionsArr.push(i);
   }
 
-  const handleNewExercise = () => {
+  const handleNewExercise = (index) => {
     const state = {
       rounds,
       name,
       roundRest,
       exercises,
     };
-    navigation.navigate("CreateEditExercise", { state: state });
+    navigation.navigate("CreateEditExercise", { state: state, index: index });
   };
 
   console.log(roundRest);
@@ -94,7 +94,7 @@ const NewWorkout = ({ route }) => {
           // behavior={behavior}
         >
           <Box marginTop="20%" alignSelf="center">
-            <Text fontSize="3xl" color="colors.text">
+            <Text fontSize="5xl" color="colors.text">
               Create Workout
             </Text>
           </Box>
@@ -142,10 +142,10 @@ const NewWorkout = ({ route }) => {
                     endIcon: <CheckIcon size="5" />,
                   }}
                   mt={1}
-                  onValueChange={(num) => setRounds(num) + ""}
+                  onValueChange={(num) => setRounds(String(num))}
                 >
                   {optionsArr.map((num) => (
-                    <Select.Item key={num} label={num} value={num + ""} />
+                    <Select.Item key={num} label={num} value={String(num)} />
                   ))}
                 </Select>
               </Box>
@@ -162,7 +162,7 @@ const NewWorkout = ({ route }) => {
                   variant="rounded"
                   margin="2"
                   color="colors.other"
-                  value={Number(roundRest.minutes) + ""}
+                  value={roundRest.minutes}
                   keyboardType="numeric"
                   onChangeText={(mins) => {
                     setRoundRest({
@@ -180,7 +180,7 @@ const NewWorkout = ({ route }) => {
                   variant="rounded"
                   margin="2"
                   color="colors.other"
-                  value={Number(roundRest.seconds) + ""}
+                  value={roundRest.seconds}
                   keyboardType="numeric"
                   onChangeText={(secs) => {
                     setRoundRest({
@@ -193,10 +193,10 @@ const NewWorkout = ({ route }) => {
             </HStack>
           </Box>
           <Box alignItems="center">
-            {exercises.map((exercise) => (
+            {exercises.map((exercise, index) => (
               <Button
-                key={exercise.name}
-                onPress={handleNewExercise}
+                key={index}
+                onPress={(index) => handleNewExercise(index)}
                 w="80%"
                 h="20"
                 bg="colors.bg"

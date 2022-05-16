@@ -100,7 +100,7 @@ const HomeScreen = () => {
           </Pressable>
         </HStack>
         {/* Get userName from props/state/auth and implement here */}
-        <Text fontSize="6xl" color="colors.text">
+        <Text fontSize="5xl" color="colors.text" textAlign="center">
           Hello, {firstName}
         </Text>
       </Box>
@@ -163,7 +163,7 @@ const HomeScreen = () => {
           shadow={3}
           justifyContent="center"
         >
-          <Pressable onPress={() => console.log("Quick Timer pressed")}>
+          <Pressable onPress={() => navigation.navigate("Timer")}>
             <Text fontSize="xl" color="colors.text" marginLeft="10px">
               Quick Timer
             </Text>
