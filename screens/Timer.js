@@ -4,6 +4,7 @@ import { KeyboardAvoidingView, Text, VStack, Box, HStack } from "native-base";
 import { FontAwesome } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { addNewWorkout, getSingleWorkout } from "../misc/helperFunctions";
+import useInterval from "../misc/useInterval";
 
 const workout = {
   name: "testworkout",
@@ -43,8 +44,8 @@ const Timer = () => {
   const [exerSets, setExerSets] = useState(workout.exercises.sets);
   const [exerReps, setExerReps] = useState(workout.exercises.reps);
   const [timerOn, setTimerOn] = useState(false);
-  const [intervalId, setIntervalId] = useState("null");
-  const [rest, setRest] = useState(false);
+  const [intervalId, setIntervalId] = useState(null);
+  // const [rest, setRest] = useState(false);
 
   useEffect(() => {
     console.log("initial Loading");
@@ -91,67 +92,98 @@ const Timer = () => {
     startWkout();
   }, []);
 
-  useEffect(() => {
-    if (timerOn) {
-      startTimer();
-    } else if (!timerOn) {
-      stopTimer();
-    }
-  }, [timerOn]);
+  // useEffect(() => {
+  //   if (timerOn) {
+  //     startTimer();
+  //   } else if (!timerOn) {
+  //     stopTimer();
+  //   }
+  // }, [timerOn]);
+
+  const [minutes, setMinutes] = useState(0);
+  const [seconds, setSeconds] = useState(5);
+  const [displayMessage, setDisplayMessage] = useState(false);
 
   useEffect(() => {
-    // if (myWorkout.exercises.length) {
-    // for (let i = 0; i < myWorkout.exercises.length; i++) {
-    // console.log(i, "im logging");
-    // if (i != 0) {
-    //   setExerName(myWorkout.exercises[i].name);
-    //   setExerSets(myWorkout.exercises[i].sets);
-    //   setExerReps(myWorkout.exercises[i].reps);
-    //   // setSecondsLeft();
-    // }
-    if (secondsLeft === 0) {
-      if (exerSets != 0) {
-        setExerSets(exerSets - 1);
-        setTimerOn(false); //this cleans up the initial interval preventing time from multiplying per second
-        console.log(timerOn);
-        setRest(true);
-        console.log("rest is ", rest);
-        setSecondsLeft(5);
-        console.log("rest time", secondsLeft);
-        setTimerOn(true);
-        setRest(false);
-        setTimerOn(false);
-        setSecondsLeft(myWorkout.exercises[0].duration);
-        setTimerOn(true);
-      } else if (myWorkout.exercises) {
-        setTimerOn(false);
-        setExerName(myWorkout.exercises[1].name);
-        setExerSets(myWorkout.exercises[1].sets);
-        setExerReps(myWorkout.exercises[1].reps);
-        setSecondsLeft(myWorkout.exercises[1].duration);
+    let interval = setInterval(() => {
+      clearInterval(interval);
+
+      if (seconds === 0) {
+        if (minutes !== 0) {
+          setSeconds(59);
+          setMinutes(minutes - 1);
+        } else {
+          let minutes = displayMessage
+            ? myWorkout.exercises[0].duration - 1
+            : myWorkout.exercises[0].rest - 1;
+          let seconds = 59;
+
+          setSeconds(seconds);
+          setMinutes(minutes);
+          setDisplayMessage(!displayMessage);
+        }
+      } else {
+        setSeconds(seconds - 1);
       }
-    }
-  }, [secondsLeft, rest]);
+    }, 1000);
+  }, [seconds]);
+
+  const timerMinutes = minutes < 10 ? `0${minutes}` : minutes;
+  const timerSeconds = seconds < 10 ? `0${seconds}` : seconds;
+
+  // useEffect(() => {
+  // if (myWorkout.exercises.length) {
+  // for (let i = 0; i < myWorkout.exercises.length; i++) {
+  // console.log(i, "im logging");
+  // if (i != 0) {
+  //   setExerName(myWorkout.exercises[i].name);
+  //   setExerSets(myWorkout.exercises[i].sets);
+  //   setExerReps(myWorkout.exercises[i].reps);
+  //   // setSecondsLeft();
+  // }
+  //   if (secondsLeft === 0) {
+  //     if (exerSets != 0) {
+  //       setExerSets(exerSets - 1);
+  //       setTimerOn(false);
+  //       console.log("timer is on", timerOn);
+  //       setRest(true);
+  //       console.log("rest is", rest);
+  //       setSecondsLeft(5);
+  //       console.log("rest time", secondsLeft);
+  //       setTimerOn(true);
+  //       setRest(false);
+  //       setTimerOn(false);
+  //       setSecondsLeft(myWorkout.exercises[0].duration);
+  //       setTimerOn(true);
+  //     } else if (myWorkout.exercises) {
+  //       setTimerOn(false);
+  //       setExerName(myWorkout.exercises[1].name);
+  //       setExerSets(myWorkout.exercises[1].sets);
+  //       setExerReps(myWorkout.exercises[1].reps);
+  //       setSecondsLeft(myWorkout.exercises[1].duration);
+  //     }
+  //   }
+  // }, [secondsLeft, rest]);
   // }
   // }, [secondsLeft]);
 
-  const startTimer = () => {
-    setIntervalId(
-      setInterval(() => {
-        setSecondsLeft((secs) => {
-          if (secs > 0) return secs - 1;
-          else return 0;
-        });
-      }, 1000)
-    );
-  };
+  // const startTimer = () => {
+  //   setIntervalId(
+  //     setInterval(() => {
+  //       setSecondsLeft((secs) => {
+  //         if (secs > 0) return secs - 1;
+  //         else return 0;
+  //       });
+  //     }, 1000)
+  //   );
+  // };
 
-  const stopTimer = () => {
-    clearInterval(intervalId);
-    setIntervalId(null);
-  };
+  // const stopTimer = () => {
+  //   clearInterval(intervalId);
+  //   setIntervalId(null);
+  // };
 
-  //convert seconds left => , hours, minutes, seconds
+  // convert seconds left => , hours, minutes, seconds
   const clockify = () => {
     let hours = Math.floor(secondsLeft / 60 / 60);
     let mins = Math.floor((secondsLeft / 60) % 60);
@@ -181,7 +213,7 @@ const Timer = () => {
       <VStack space={5} alignItems="center" bg="colors.bg">
         <Box w="100%" h="20" bg="colors.bg" justifyContent="center">
           <Text fontSize="4xl" color="colors.other" textAlign="center">
-            {exerName}
+            {displayMessage ? "Rest! Next set starts in:" : exerName}
           </Text>
         </Box>
         <Box w="100%" h="10" bg="colors.bg" justifyContent="center">
@@ -196,7 +228,8 @@ const Timer = () => {
         </Box>
         <Box w="100%" h="40" bg="colors.bg" justifyContent="center">
           <Text fontSize="9xl" color="colors.other" textAlign="center">
-            {clockify().displayMinutes}:{clockify().displaySeconds}
+            {/* {clockify().displayMinutes}:{clockify().displaySeconds} */}
+            {timerMinutes}:{timerSeconds}
           </Text>
         </Box>
         <HStack justifyContent="space-between">
