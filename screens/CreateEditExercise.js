@@ -64,6 +64,7 @@ export default function CreateEditExercise({ route }) {
     optionsArr.push(i);
   }
   useEffect(() => {
+    console.log("STATE", route.params.state);
     const getExer = async () => {
       const exerciseListFromDb = await getExercises();
       setExerciseList(exerciseListFromDb);
@@ -115,7 +116,6 @@ export default function CreateEditExercise({ route }) {
     });
   }
   function handleSubmitExercise() {
-    console.log("FIRST INDEX", route.params);
     const exerciseToAdd = {
       exerciseName,
       sets,
@@ -125,7 +125,6 @@ export default function CreateEditExercise({ route }) {
     };
     console.log(exerciseToAdd);
     let workout = route.params.state;
-    console.log("INDEX", route.params);
 
     if (route.params.index >= 0) {
       console.log("IF");

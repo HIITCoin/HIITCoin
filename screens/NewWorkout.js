@@ -46,6 +46,28 @@ const NewWorkout = ({ route }) => {
   let [roundRest, setRoundRest] = React.useState({ minutes: "", seconds: "" });
   let [exercises, setExercises] = React.useState([]);
 
+  const validate = (data) => {
+    // data will be user object made from all data in state
+    // required
+    if (data.exercises.length === 0) {
+      alert("Please add an exercise!, we talked about this already");
+      return false;
+    }
+    if (data.name.length === 0) {
+      alert("Please fill out the name field, we talked about this already");
+      return false;
+    }
+    if (data.roundRest == 0) {
+      alert("Please add a rest time, we talked about this already");
+      return false;
+    }
+    if (!data.rounds) {
+      alert("Please add rounds, we talked about this already");
+      return false;
+    }
+    return true;
+  };
+
   useEffect(() => {
     if (route.params) {
       console.log("from not edit", route.params);
@@ -90,7 +112,8 @@ const NewWorkout = ({ route }) => {
     };
     navigation.navigate("CreateEditExercise", { state: state, index: index });
   };
-  const handleSubmitWorkout = async () => {
+
+  const handleSubmitWorkout = () => {
     console.log(exercises);
     exercises.map((exercise) => {
       exercise.duration = Number(minSecToSeconds(exercise.duration));
@@ -104,6 +127,8 @@ const NewWorkout = ({ route }) => {
       roundRest: Number(minSecToSeconds(roundRest)),
       rounds: Number(rounds),
     };
+    validate(newWorkout);
+    console.log(newWorkout);
     //await addNewWorkout(newWorkout);
   };
 
@@ -127,7 +152,7 @@ const NewWorkout = ({ route }) => {
             </Text>
           </Box>
           <Box alignSelf="center">
-            <FormControl marginTop="0%">
+            <FormControl isRequired marginTop="0%">
               <FormControl.Label
                 marginBottom="0%"
                 _text={{
@@ -152,39 +177,43 @@ const NewWorkout = ({ route }) => {
             </FormControl>
             <Center alignContent="center">
               <Box w="3/4" maxWidth="300px" width="100%">
-                <FormControl.Label
-                  marginBottom="0%"
-                  _text={{
-                    bold: true,
-                    ml: 2,
-                    color: "colors.text",
-                  }}
-                >
-                  Rounds
-                </FormControl.Label>
-                <Select
-                  placeholder={rounds}
-                  value={rounds || ""}
-                  minWidth="200"
-                  color={"white"}
-                  _selectedItem={{
-                    bg: "teal.600",
-                    endIcon: <CheckIcon size="5" />,
-                  }}
-                  mt={1}
-                  onValueChange={(num) => setRounds(String(num))}
-                >
-                  {optionsArr.map((num) => (
-                    <Select.Item key={num} label={num + ""} value={num} />
-                  ))}
-                </Select>
+                <FormControl isRequired>
+                  <FormControl.Label
+                    marginBottom="0%"
+                    _text={{
+                      bold: true,
+                      ml: 2,
+                      color: "colors.text",
+                    }}
+                  >
+                    Rounds
+                  </FormControl.Label>
+                  <Select
+                    placeholder={rounds}
+                    value={rounds || ""}
+                    minWidth="200"
+                    color={"white"}
+                    _selectedItem={{
+                      bg: "teal.600",
+                      endIcon: <CheckIcon size="5" />,
+                    }}
+                    mt={1}
+                    onValueChange={(num) => setRounds(String(num))}
+                  >
+                    {optionsArr.map((num) => (
+                      <Select.Item key={num} label={num + ""} value={num} />
+                    ))}
+                  </Select>
+                </FormControl>
               </Box>
             </Center>
-            <Text bold="true" color="colors.text" ml="25%" marginTop={4}>
-              Rest Between Rounds
-            </Text>
-            <HStack width="40%" space={2} marginTop="3">
-              <FormControl>
+            <FormControl isRequired>
+              <FormControl.Label>
+                <Text bold="true" color="colors.text" ml="25%" marginTop={4}>
+                  Rest Between Rounds
+                </Text>
+              </FormControl.Label>
+              <HStack width="40%" space={2} marginTop="3">
                 <Input
                   mx="1"
                   placeholder="Minutes"
@@ -201,8 +230,6 @@ const NewWorkout = ({ route }) => {
                     });
                   }}
                 />
-              </FormControl>
-              <FormControl>
                 <Input
                   mx="1"
                   placeholder="Seconds"
@@ -219,8 +246,8 @@ const NewWorkout = ({ route }) => {
                     });
                   }}
                 />
-              </FormControl>
-            </HStack>
+              </HStack>
+            </FormControl>
           </Box>
           <Box alignItems="center">
             {exercises.map((exercise, index) => (
