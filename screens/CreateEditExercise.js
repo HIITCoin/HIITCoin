@@ -10,8 +10,6 @@ import {
   FlatList,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import SearchBar from "./SearchBar";
-import List from "./List";
 import {
   KeyboardAvoidingView,
   Input,
@@ -44,8 +42,6 @@ import {
   secondToMinutesAndSeconds,
 } from "../misc/helperFunctions";
 import { useNavigation } from "@react-navigation/core";
-import SearchBarComp from "../helperComponents/SearchBarComp";
-import FacadeSearchBarComp from "../helperComponents/FacadeSearchBar";
 
 export default function CreateEditExercise({ route }) {
   const [exerciseList, setExerciseList] = useState([]);
@@ -64,7 +60,7 @@ export default function CreateEditExercise({ route }) {
   }, [route.params.propsFromSearch]);
 
   let optionsArr = [];
-  for (let i = 1; i <= 100; ++i) {
+  for (let i = 1; i <= 100; i++) {
     optionsArr.push(i);
   }
   useEffect(() => {
@@ -197,15 +193,16 @@ export default function CreateEditExercise({ route }) {
                 bg: "teal.600",
                 endIcon: <CheckIcon size="5" />,
               }}
-              placeholder={String(sets)}
-              value={String(sets)}
+              color={"white"}
+              placeholder={sets}
+              selectedValue={String(sets)}
               mt={1}
               onValueChange={(num) => {
                 setSets(String(num));
               }}
             >
               {optionsArr.map((num) => (
-                <Select.Item key={num} label={num} value={String(num)} />
+                <Select.Item key={num} label={num + ""} value={String(num)} />
               ))}
             </Select>
           </Box>
@@ -228,6 +225,7 @@ export default function CreateEditExercise({ route }) {
                 bg: "teal.600",
                 endIcon: <CheckIcon size="5" />,
               }}
+              color="white"
               placeholder={String(reps)}
               value={String(reps)}
               mt={1}
@@ -236,7 +234,7 @@ export default function CreateEditExercise({ route }) {
               }}
             >
               {optionsArr.map((num) => (
-                <Select.Item key={num} label={num} value={String(num)} />
+                <Select.Item key={num} label={num + ""} value={String(num)} />
               ))}
             </Select>
           </Box>

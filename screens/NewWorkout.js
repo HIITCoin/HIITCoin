@@ -166,6 +166,7 @@ const NewWorkout = ({ route }) => {
                   placeholder={rounds}
                   value={rounds || ""}
                   minWidth="200"
+                  color={"white"}
                   _selectedItem={{
                     bg: "teal.600",
                     endIcon: <CheckIcon size="5" />,
@@ -174,7 +175,7 @@ const NewWorkout = ({ route }) => {
                   onValueChange={(num) => setRounds(String(num))}
                 >
                   {optionsArr.map((num) => (
-                    <Select.Item key={num} label={num} value={num} />
+                    <Select.Item key={num} label={num + ""} value={num} />
                   ))}
                 </Select>
               </Box>
