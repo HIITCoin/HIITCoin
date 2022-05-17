@@ -70,6 +70,7 @@ export default function SearchBarComp({ route }) {
       duration: propsFromCreateExercise.duration,
     };
     navigation.navigate("CreateEditExercise", {
+      index: route.params.index,
       propsFromSearch: propsFromSearch,
       state: route.params.workout,
     });

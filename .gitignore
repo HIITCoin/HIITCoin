@@ -9,6 +9,7 @@ npm-debug.*
 *.mobileprovision
 *.orig.*
 web-build/
+HiiTCoin
 
 # macOS
 .DS_Store

@@ -48,7 +48,7 @@ const NewWorkout = ({ route }) => {
 
   useEffect(() => {
     if (route.params) {
-      console.log("from edit", route.params);
+      console.log("from not edit", route.params);
       setRounds(String(route.params.state.rounds));
       setName(route.params.state.name);
       setRoundRest(route.params.state.roundRest);
