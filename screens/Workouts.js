@@ -32,7 +32,6 @@ const Workouts = () => {
       doc(db, "Users", auth.currentUser.uid),
       (user) => {
         setWorkouts(user.data().workouts);
-        console.log(workouts);
       }
     );
     return unsubscribe;

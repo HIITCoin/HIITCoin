@@ -10,8 +10,6 @@ import {
   FlatList,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import SearchBar from "./SearchBar";
-import List from "./List";
 import {
   KeyboardAvoidingView,
   Input,
@@ -44,8 +42,6 @@ import {
   secondToMinutesAndSeconds,
 } from "../misc/helperFunctions";
 import { useNavigation } from "@react-navigation/core";
-import SearchBarComp from "../helperComponents/SearchBarComp";
-import FacadeSearchBarComp from "../helperComponents/FacadeSearchBar";
 
 export default function CreateEditExercise({ route }) {
   const [exerciseList, setExerciseList] = useState([]);
@@ -57,13 +53,13 @@ export default function CreateEditExercise({ route }) {
   const navigation = useNavigation();
 
   useEffect(() => {
-    if (route.params.exerciseName) {
-      setExerciseName(route.params.exerciseName);
+    if (route.params.propsFromSearch) {
+      setExerciseName(route.params.propsFromSearch.exerciseName);
     }
-  }, [route.params.exerciseName]);
+  }, [route.params.propsFromSearch]);
 
   let optionsArr = [];
-  for (let i = 1; i <= 100; ++i) {
+  for (let i = 1; i <= 100; i++) {
     optionsArr.push(i);
   }
   useEffect(() => {
@@ -72,24 +68,21 @@ export default function CreateEditExercise({ route }) {
       setExerciseList(exerciseListFromDb);
     };
     let workout = route.params.state;
-    if (route.params.index) {
+    if (route.params.index >= 0) {
       //find exercise with flag on it
-      const exDuration = secondToMinutesAndSeconds(exercise.duration);
       let exercise = workout.exercises[route.params.index];
-      setExerciseName(exercise.name);
-      setReps(exercise.reps);
-      setSets(exercise.sets);
+      if (!isNaN(exercise.duration)) {
+        const exDuration = secondToMinutesAndSeconds(exercise.duration);
+        const exRest = secondToMinutesAndSeconds(exercise.rest);
+        setRest(exRest);
+        setDuration(exDuration);
+      }
+      setExerciseName(exercise.exerciseName);
+      setReps(String(exercise.reps));
+      setSets(String(exercise.sets));
       setRest(exercise.rest);
-      setDuration(exDuration);
-      console.log({
-        exerciseName,
-        reps,
-        duration,
-        rest,
-        sets,
-      });
+      setDuration(exercise.duration);
     }
-    console.log("this cant be real");
     function reset() {
       setExerciseName("");
       setDuration({ minutes: "", seconds: "" });
@@ -98,10 +91,8 @@ export default function CreateEditExercise({ route }) {
       setReps("");
     }
     getExer();
-
     return reset;
   }, []);
-
   function handleSearchPress() {
     const propsToSend = {
       exerciseName,
@@ -111,8 +102,34 @@ export default function CreateEditExercise({ route }) {
       duration,
       rest,
     };
-    navigation.navigate("SearchBarComp", propsToSend);
+    navigation.navigate("SearchBarComp", {
+      index: route.params.index,
+      propsToSend: propsToSend,
+      workout: route.params.state,
+    });
   }
+  function handleSubmitExercise() {
+    const exerciseToAdd = {
+      exerciseName,
+      sets,
+      reps,
+      duration,
+      rest,
+    };
+    let workout = route.params.state;
+
+    if (route.params.index >= 0) {
+      const newExerciseList = workout.exercises.map((exercise, index) => {
+        if (index === route.params.index) return exerciseToAdd;
+        return exercise;
+      });
+      workout.exercises = newExerciseList;
+    } else {
+      workout.exercises = [...workout.exercises, exerciseToAdd];
+    }
+    navigation.navigate("New Workout", { state: workout });
+  }
+
   return (
     <TouchableWithoutFeedback
       bg="colors.bg"
@@ -169,16 +186,16 @@ export default function CreateEditExercise({ route }) {
                 bg: "teal.600",
                 endIcon: <CheckIcon size="5" />,
               }}
-              placeholder={String(sets)}
+              color={"white"}
+              placeholder={sets}
               selectedValue={String(sets)}
-              value={String(sets)}
               mt={1}
               onValueChange={(num) => {
                 setSets(String(num));
               }}
             >
               {optionsArr.map((num) => (
-                <Select.Item key={num} label={num} value={String(num)} />
+                <Select.Item key={num} label={num + ""} value={String(num)} />
               ))}
             </Select>
           </Box>
@@ -201,8 +218,8 @@ export default function CreateEditExercise({ route }) {
                 bg: "teal.600",
                 endIcon: <CheckIcon size="5" />,
               }}
+              color="white"
               placeholder={String(reps)}
-              selectedValue={String(reps)}
               value={String(reps)}
               mt={1}
               onValueChange={(num) => {
@@ -210,7 +227,7 @@ export default function CreateEditExercise({ route }) {
               }}
             >
               {optionsArr.map((num) => (
-                <Select.Item key={num} label={num} value={String(num)} />
+                <Select.Item key={num} label={num + ""} value={String(num)} />
               ))}
             </Select>
           </Box>
@@ -297,6 +314,16 @@ export default function CreateEditExercise({ route }) {
             />
           </FormControl>
         </HStack>
+        <Box marginHorizontal={50} display={"flex"} flexDirection="row">
+          <Button
+            width="60%"
+            flex={1}
+            margin={5}
+            onPress={() => handleSubmitExercise()}
+          >
+            Submit Exercise
+          </Button>
+        </Box>
       </KeyboardAwareScrollView>
     </TouchableWithoutFeedback>
   );

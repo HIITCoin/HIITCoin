@@ -40,13 +40,13 @@ export const exerciseInWorkout2 = {
 //sample workout in a user's -workout list-
 export const sampleWorkoutInList = {
   exercises: [exerciseInWorkout, exerciseInWorkout2],
-  name: 'sample workout name',
+  name: "sample workout name",
   rounds: 2,
   roundRest: 100,
 };
 //sample workout in user -workout-history-
 const sampleWorkoutInHistory = {
-  name: 'sample workout name',
+  name: "sample workout name",
   total: 0,
   bodyPoints: {},
   exercises: [exerciseInWorkout],
@@ -54,31 +54,32 @@ const sampleWorkoutInHistory = {
   roundRest: 100,
   date: new Date(),
 };
- function calculatePoints(workout) {
-    let total = 0;
-    let bodyPoints = {
-      abs: 0,
-      chest: 0,
-      legs: 0,
-      back: 0,
-      arms: 0,
-      "butt/hips": 0,
-      fullbody: 0,
-      lowerLegs: 0,
-      neck: 0,
-      shoulders: 0,
-      thighs: 0,
-    };
-    const { exercises } = workout;
-    exercises.forEach(exercise => {
-        let exTotal = exercise.sets * exercise.basePoints * workout.rounds
-        total += exTotal
-        bodyPoints[`${exercise.bodyPart}`] += exTotal
-    });
+function calculatePoints(workout) {
+  let total = 0;
+  let bodyPoints = {
+    abs: 0,
+    chest: 0,
+    legs: 0,
+    back: 0,
+    arms: 0,
+    "butt/hips": 0,
+    fullbody: 0,
+    lowerLegs: 0,
+    neck: 0,
+    shoulders: 0,
+    thighs: 0,
+  };
+  const { exercises } = workout;
+  exercises.forEach((exercise) => {
+    let exTotal = exercise.sets * exercise.basePoints * workout.rounds;
+    total += exTotal;
+    bodyPoints[`${exercise.bodyPart}`] += exTotal;
+  });
   return [total, bodyPoints];
 }
 
- const createOrSubmitHistory = async (workout) => {
+//fix the prmise object here ??
+const createOrSubmitHistory = async (workout) => {
   const [total, bodyPoints] = calculatePoints(workout);
   const { rounds, roundRest, exercises } = workout;
   const workoutHistory = {
@@ -92,4 +93,3 @@ const sampleWorkoutInHistory = {
   //await -insert database operation - with workout History
   return workoutHistory;
 };
-console.log(createOrSubmitHistory(sampleWorkoutInList))

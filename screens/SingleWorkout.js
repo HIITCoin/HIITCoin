@@ -33,6 +33,10 @@ const SingleWorkout = ({ route }) => {
     navigation.navigate("Workouts");
   };
 
+  const handleEditWorkout = () => {
+    navigation.navigate("New Workout", { state: workout });
+  };
+
   return (
     <ScrollView>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -68,6 +72,7 @@ const SingleWorkout = ({ route }) => {
             p="5"
             rounded="8"
             width="80%"
+            onPress={handleEditWorkout}
           >
             <Text alignSelf="center" color="white" fontSize="4xl">
               Edit Workout
@@ -126,7 +131,7 @@ const SingleWorkout = ({ route }) => {
                 fontWeight="medium"
                 fontSize="4xl"
               >
-                {exercise.name}:{"\n"}Sets: {exercise.sets}
+                {exercise.exerciseName}:{"\n"}Sets: {exercise.sets}
                 {"\n"}Reps: {exercise.reps}
                 {"\n"}Duration: {exercise.duration}
                 {"\n"}Rest: {exercise.rest}

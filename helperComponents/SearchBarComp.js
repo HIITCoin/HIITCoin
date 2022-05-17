@@ -46,7 +46,7 @@ const Item = ({ name, setCurrentWord }) => {
 };
 export default function SearchBarComp({ route }) {
   const navigation = useNavigation();
-  const propsFromCreateExercise = route.params;
+  const propsFromCreateExercise = route.params.propsToSend;
   const [currentList, setCurrentList] = useState([]);
   const [currentWord, setCurrentWord] = useState("");
 
@@ -64,15 +64,18 @@ export default function SearchBarComp({ route }) {
   function handleSubmit() {
     console.log(currentWord, "search-result");
     const propsFromSearch = {
-      fromSearch: true,
       exerciseName: currentWord,
       sets: propsFromCreateExercise.sets,
       reps: propsFromCreateExercise.reps,
       duration: propsFromCreateExercise.duration,
     };
-    navigation.navigate("CreateEditExercise", propsFromSearch);
+    navigation.navigate("CreateEditExercise", {
+      index: route.params.index,
+      propsFromSearch: propsFromSearch,
+      state: route.params.workout,
+    });
   }
-  console.log(propsFromCreateExercise);
+  //console.log(propsFromCreateExercise);
   const renderItem = ({ item }) => {
     // when no input, show all
     if (currentWord === "") {
