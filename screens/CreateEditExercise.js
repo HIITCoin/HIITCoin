@@ -73,13 +73,21 @@ export default function CreateEditExercise({ route }) {
     if (route.params.index >= 0) {
       //find exercise with flag on it
       let exercise = workout.exercises[route.params.index];
-      const exDuration = secondToMinutesAndSeconds(exercise.duration);
-      const exRest = secondToMinutesAndSeconds(exercise.rest);
+      console.log("duration", exercise.duration);
+      console.log("rest", exercise.rest);
+      if (!isNaN(exercise.duration)) {
+        const exDuration = secondToMinutesAndSeconds(exercise.duration);
+        const exRest = secondToMinutesAndSeconds(exercise.rest);
+        setRest(exRest);
+        setDuration(exDuration);
+      }
+      // console.log("duration", exDuration);
+      // console.log("rest", exRest);
       setExerciseName(exercise.exerciseName);
       setReps(String(exercise.reps));
       setSets(String(exercise.sets));
-      setRest(exRest);
-      setDuration(exDuration);
+      setRest(exercise.rest);
+      setDuration(exercise.duration);
     }
     function reset() {
       setExerciseName("");
@@ -101,12 +109,13 @@ export default function CreateEditExercise({ route }) {
       rest,
     };
     navigation.navigate("SearchBarComp", {
+      index: route.params.index,
       propsToSend: propsToSend,
       workout: route.params.state,
     });
   }
   function handleSubmitExercise() {
-    console.log("attempt", route.params);
+    console.log("FIRST INDEX", route.params);
     const exerciseToAdd = {
       exerciseName,
       sets,
@@ -116,18 +125,19 @@ export default function CreateEditExercise({ route }) {
     };
     console.log(exerciseToAdd);
     let workout = route.params.state;
+    console.log("INDEX", route.params);
 
-    if (route.params.index) {
+    if (route.params.index >= 0) {
+      console.log("IF");
       const newExerciseList = workout.exercises.map((exercise, index) => {
         if (index === route.params.index) return exerciseToAdd;
         return exercise;
       });
       workout.exercises = newExerciseList;
     } else {
+      console.log("ELSE");
       workout.exercises = [...workout.exercises, exerciseToAdd];
-      console.log(workout);
     }
-    console.log("eeeviil", workout);
     navigation.navigate("New Workout", { state: workout });
   }
   console.log({
