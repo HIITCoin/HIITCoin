@@ -55,7 +55,6 @@ export default function CreateEditExercise({ route }) {
   useEffect(() => {
     if (route.params.propsFromSearch) {
       setExerciseName(route.params.propsFromSearch.exerciseName);
-      console.log(route);
     }
   }, [route.params.propsFromSearch]);
 
@@ -64,26 +63,20 @@ export default function CreateEditExercise({ route }) {
     optionsArr.push(i);
   }
   useEffect(() => {
-    console.log("STATE", route.params.state);
     const getExer = async () => {
       const exerciseListFromDb = await getExercises();
       setExerciseList(exerciseListFromDb);
     };
     let workout = route.params.state;
-    console.log("WORK O'TIT", workout);
     if (route.params.index >= 0) {
       //find exercise with flag on it
       let exercise = workout.exercises[route.params.index];
-      console.log("duration", exercise.duration);
-      console.log("rest", exercise.rest);
       if (!isNaN(exercise.duration)) {
         const exDuration = secondToMinutesAndSeconds(exercise.duration);
         const exRest = secondToMinutesAndSeconds(exercise.rest);
         setRest(exRest);
         setDuration(exDuration);
       }
-      // console.log("duration", exDuration);
-      // console.log("rest", exRest);
       setExerciseName(exercise.exerciseName);
       setReps(String(exercise.reps));
       setSets(String(exercise.sets));
@@ -123,29 +116,20 @@ export default function CreateEditExercise({ route }) {
       duration,
       rest,
     };
-    console.log(exerciseToAdd);
     let workout = route.params.state;
 
     if (route.params.index >= 0) {
-      console.log("IF");
       const newExerciseList = workout.exercises.map((exercise, index) => {
         if (index === route.params.index) return exerciseToAdd;
         return exercise;
       });
       workout.exercises = newExerciseList;
     } else {
-      console.log("ELSE");
       workout.exercises = [...workout.exercises, exerciseToAdd];
     }
     navigation.navigate("New Workout", { state: workout });
   }
-  console.log({
-    exerciseName,
-    reps,
-    duration,
-    rest,
-    sets,
-  });
+
   return (
     <TouchableWithoutFeedback
       bg="colors.bg"

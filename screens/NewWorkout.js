@@ -69,8 +69,16 @@ const NewWorkout = ({ route }) => {
   };
 
   useEffect(() => {
+    if (!isNaN(route.params.state.roundRest)) {
+      route.params.state.roundRest = secondToMinutesAndSeconds(
+        route.params.state.roundRest
+      );
+      route.params.state.exercises.map((exercise) => {
+        exercise.duration = secondToMinutesAndSeconds(exercise.duration);
+        exercise.rest = secondToMinutesAndSeconds(exercise.rest);
+      });
+    }
     if (route.params) {
-      console.log("from not edit", route.params);
       setRounds(String(route.params.state.rounds));
       setName(route.params.state.name);
       setRoundRest(route.params.state.roundRest);
@@ -89,7 +97,6 @@ const NewWorkout = ({ route }) => {
     //   state.roundRest = secondToMinutesAndSeconds(state.roundRest);
     // }
     if (route.params) {
-      console.log("from edit", route.params);
       setRounds(String(route.params.state.rounds));
       setName(route.params.state.name);
       setRoundRest(route.params.state.roundRest);
@@ -113,23 +120,24 @@ const NewWorkout = ({ route }) => {
     navigation.navigate("CreateEditExercise", { state: state, index: index });
   };
 
-  const handleSubmitWorkout = () => {
-    console.log(exercises);
+  const handleSubmitWorkout = async () => {
     exercises.map((exercise) => {
       exercise.duration = Number(minSecToSeconds(exercise.duration));
       exercise.rest = Number(minSecToSeconds(exercise.rest));
       exercise.sets = Number(exercise.sets);
       exercise.reps = Number(exercise.reps);
     });
+
     let newWorkout = {
       exercises,
       name,
       roundRest: Number(minSecToSeconds(roundRest)),
       rounds: Number(rounds),
     };
+
     validate(newWorkout);
-    console.log(newWorkout);
-    //await addNewWorkout(newWorkout);
+    await addNewWorkout(newWorkout);
+    navigation.navigate("Workouts");
   };
 
   return (
