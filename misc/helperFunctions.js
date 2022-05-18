@@ -1,4 +1,5 @@
 //utility functions contained here e.g. queries
+import React, { useEffect, useState, useRef } from "react";
 import { db, auth } from "../firebase";
 import {
   setDoc,
@@ -204,6 +205,26 @@ export const minSecToSeconds = (minObj) => {
 };
 let obj = { minutes: 1, seconds: 40 };
 console.log(minSecToSeconds(obj));
+
+export function useInterval(callback, delay) {
+  const savedCallback = useRef();
+
+  // Remember the latest callback.
+  useEffect(() => {
+    savedCallback.current = callback;
+  }, [callback]);
+
+  // Set up the interval.
+  useEffect(() => {
+    function tick() {
+      savedCallback.current();
+    }
+    if (delay !== null) {
+      let id = setInterval(tick, delay);
+      return () => clearInterval(id);
+    }
+  }, [delay]);
+}
 //what does a workout into workout history look like
 //user creates workout
 //user selects workout from workoutlist
