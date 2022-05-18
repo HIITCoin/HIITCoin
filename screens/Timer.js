@@ -1,5 +1,5 @@
 import { Pressable } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { KeyboardAvoidingView, Text, VStack, Box, HStack } from "native-base";
 import { FontAwesome } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
@@ -42,7 +42,7 @@ const workout = {
       basePoints: 10,
       bodyPart: "chest",
       difficulty: 2,
-      duration: 10,
+      duration: 8,
       reps: 4,
       sets: 3,
       rest: 5,
@@ -52,23 +52,28 @@ const workout = {
   roundRest: 10,
 };
 //        (props)
-const Timer = () => {
+const Timer = ({ route }) => {
   // obtain workout prop from the workout component
   const navigation = useNavigation();
-  //const workout = this.props.
+  //const workout = route.params.state
+
   const [myWorkout, setMyWorkout] = useState(workout);
   const [exerName, setExerName] = useState("Quick Timer");
   const [exerSets, setExerSets] = useState(workout.exercises.sets);
   const [exerReps, setExerReps] = useState(workout.exercises.reps);
+  const [rounds, setRounds] = useState(workout.rounds);
   const [timerOn, setTimerOn] = useState(false);
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(60);
   const [restToggle, setRestToggle] = useState(false); // start with exercise then switch to rest
+  const [roundRest, setRoundRest] = useState(false);
   const [exerIndex, setExerIndex] = useState(0);
   const [timer, setTimer] = useState(); // timer interval?
+  const savedCallback = useRef();
 
   useEffect(() => {
     console.log("initial Loading");
+
     // const startWkout = async () => {
     //   setExerName(myWorkout.exercises[0].name);
     //   setExerSets(myWorkout.exercises[0].sets);
@@ -83,43 +88,71 @@ const Timer = () => {
   }, []);
 
   useInterval(
-    () => {
-      if (exerIndex >= workout.exercises.length) {
-        setExerName("FINISHED WORKOUT!");
-        setTimerOn(false);
-        return; // dont let it start up again?
+    async () => {
+      for (let i = seconds; i === 0; i--) {
+        let currentExercise;
+        if (roundRest) {
+          setRoundRest(false);
+          if (i > 0) {
+            setSeconds(i - 1);
+            continue; // stop here
+          }
+          // we set to seconds to rest but dont let them elapse
+          currentExercise = myWorkout.exercises[0];
+          await setExerIndex(0);
+        }
       }
 
       if (seconds > 0) {
-        console.log("Hello?", seconds);
         setSeconds(seconds - 1);
-        return;
+        return; // stop here
       }
 
       let currentExercise = myWorkout.exercises[exerIndex];
       if (restToggle) {
+        // if we're resting, then set seconds to duration and switch restToggle afterwards
         setSeconds(currentExercise.duration);
+        setRestToggle(!restToggle);
       } else {
+        // if we're exercising, then set seconds to rest AND (decrease sets OR change exercise and switch off timer)
         setSeconds(currentExercise.rest);
         if (exerSets > 1) {
-          setExerSets((sets) => sets - 1); // we can set to 1, that is our LAST set.  When we are AT 1, the next "set" moves to the next workout
+          setExerSets((sets) => sets - 1); // we can set to 1, that is our LAST set. When we are AT 1, the next "set" moves to the next workout
+          setRestToggle(!restToggle);
         } else {
           setExerIndex(exerIndex + 1);
-
-          setTimerOn(false); // stop timer
+          setTimerOn(false); // stop timer (THIS TRIGGERS THIS HOOK TO RUN AGAIN)
         }
       }
-
-      setRestToggle(!restToggle);
     },
-    timerOn ? 1000 : null
+    timerOn ? 300 : null
   );
 
   useEffect(() => {
     if (exerIndex < myWorkout.exercises.length) setNextWorkout();
+    else {
+      // if no more exercises left AND there are more rounds...
+      if (rounds > 1) {
+        // ...then let the user roundRest and then loop them again thru exercises
+        setRounds((rounds) => rounds - 1);
+        setSeconds(myWorkout.roundRest);
+        setRoundRest(true);
+        setExerName("Next round begins in:");
+        setTimerOn(true); // this will trigger the useInterval to run again
+      } else {
+        setSeconds(0);
+        setExerName("Done! Good job!");
+        setExerReps(0);
+        setExerSets(0);
+        console.log("SUBMIT WORKOUT");
+        //get workout object workout
+        console.log(workout);
+      }
+    }
   }, [exerIndex]);
 
   function setNextWorkout() {
+    if (restToggle) setRestToggle(false);
     setExerName(myWorkout.exercises[exerIndex].name);
     setExerSets(myWorkout.exercises[exerIndex].sets);
     setExerReps(myWorkout.exercises[exerIndex].reps);
