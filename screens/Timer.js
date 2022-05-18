@@ -5,6 +5,25 @@ import { FontAwesome } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { addNewWorkout, getSingleWorkout } from "../misc/helperFunctions";
 
+/* CUSTOM HOOK */
+const useInterval = (callback, delay) => {
+  const savedCallback = React.useRef();
+
+  React.useEffect(() => {
+    savedCallback.current = callback;
+  }, [callback]);
+
+  React.useEffect(() => {
+    const tick = () => {
+      savedCallback.current();
+    };
+    if (delay !== null) {
+      let id = setInterval(tick, delay);
+      return () => clearInterval(id);
+    }
+  }, [delay]);
+};
+
 const workout = {
   name: "testworkout",
   exercises: [
@@ -44,97 +63,68 @@ const Timer = () => {
   const [timerOn, setTimerOn] = useState(false);
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(60);
-  const [displayMessage, setDisplayMessage] = useState(false);
+  const [restToggle, setRestToggle] = useState(false); // start with exercise then switch to rest
   const [exerIndex, setExerIndex] = useState(0);
+  const [timer, setTimer] = useState(); // timer interval?
 
   useEffect(() => {
     console.log("initial Loading");
-    const startWkout = async () => {
-      // console.log(
-      //   "addNewWorkout",
-      //   await addNewWorkout({
-      //     name: "testworkout",
-      //     exercises: [
-      //       {
-      //         name: "Leg Press",
-      //         basePoints: 10,
-      //         bodyPart: "legs",
-      //         diffuculty: 3,
-      //         duration: 70,
-      //         reps: 8,
-      //         sets: 4,
-      //         rest: 55,
-      //       },
-      //       {
-      //         name: "Chest Press",
-      //         basePoints: 10,
-      //         bodyPart: "chest",
-      //         diffuculty: 2,
-      //         duration: 65,
-      //         reps: 4,
-      //         sets: 6,
-      //         rest: 75,
-      //       },
-      //     ],
-      //     rounds: 3,
-      //     roundRest: 90,
-      //   })
-      // );
-      // setMyWorkout(await getSingleWorkout("testworkout"));
-      setExerName(myWorkout.exercises[0].name);
-      setExerSets(myWorkout.exercises[0].sets);
-      setExerReps(myWorkout.exercises[0].reps);
-      setSeconds(myWorkout.exercises[0].duration);
-      console.log(
-        myWorkout.exercises ? "wkout state is loaded" : "hit save again"
-      );
-    };
-    startWkout();
+    // const startWkout = async () => {
+    //   setExerName(myWorkout.exercises[0].name);
+    //   setExerSets(myWorkout.exercises[0].sets);
+    //   setExerReps(myWorkout.exercises[0].reps);
+    //   setSeconds(myWorkout.exercises[0].duration);
+    //   console.log(
+    //     myWorkout.exercises ? "wkout state is loaded" : "hit save again"
+    //   );
+    // };
+    // startWkout();
+    setNextWorkout();
   }, []);
 
-  useEffect(() => {
-    let interval;
-    if (timerOn) {
-      interval = setInterval(() => {
-        clearInterval(interval);
+  useInterval(
+    () => {
+      if (exerIndex >= workout.exercises.length) {
+        setExerName("FINISHED WORKOUT!");
+        setTimerOn(false);
+        return; // dont let it start up again?
+      }
 
-        if (seconds === 0) {
-          // if (minutes !== 0) {
-          //   setSeconds(59);
-          //   setMinutes(minutes - 1);
-          // } else {
-          let seconds = displayMessage
-            ? myWorkout.exercises[exerIndex].duration
-            : myWorkout.exercises[exerIndex].rest;
+      if (seconds > 0) {
+        console.log("Hello?", seconds);
+        setSeconds(seconds - 1);
+        return;
+      }
 
-          setSeconds(seconds);
-          setMinutes(0);
-          // if (!displayMessage) {
-          if (exerSets === 0) {
-            setTimerOn(false);
-            console.log("exerSets is 0");
-            console.log("timer status", timerOn);
-            setExerIndex(exerIndex + 1);
-            console.log("exerIndex", exerIndex);
-            setExerName(myWorkout.exercises[exerIndex].name);
-            setExerSets(myWorkout.exercises[exerIndex].sets);
-            setExerReps(myWorkout.exercises[exerIndex].reps);
-          } else if (exerSets > 0) {
-            setExerSets((sets) => sets - 1);
-          }
-          // }
-          setDisplayMessage(!displayMessage);
-          // }
+      let currentExercise = myWorkout.exercises[exerIndex];
+      if (restToggle) {
+        setSeconds(currentExercise.duration);
+      } else {
+        setSeconds(currentExercise.rest);
+        if (exerSets > 1) {
+          setExerSets((sets) => sets - 1); // we can set to 1, that is our LAST set.  When we are AT 1, the next "set" moves to the next workout
         } else {
-          setSeconds(seconds - 1);
-        }
-      }, 1000);
-    } else if (!timerOn) {
-      clearInterval(interval);
-      interval = null;
-    }
-  }, [seconds, timerOn, exerIndex, exerName, exerSets, exerReps]);
+          setExerIndex(exerIndex + 1);
 
+          setTimerOn(false); // stop timer
+        }
+      }
+
+      setRestToggle(!restToggle);
+    },
+    timerOn ? 1000 : null
+  );
+
+  useEffect(() => {
+    if (exerIndex < myWorkout.exercises.length) setNextWorkout();
+  }, [exerIndex]);
+
+  function setNextWorkout() {
+    setExerName(myWorkout.exercises[exerIndex].name);
+    setExerSets(myWorkout.exercises[exerIndex].sets);
+    setExerReps(myWorkout.exercises[exerIndex].reps);
+    setSeconds(myWorkout.exercises[exerIndex].duration);
+  }
   // if (myWorkout.exercises.length) {
   // for (let i = 0; i < myWorkout.exercises.length; i++) {
   // console.log(i, "im logging");
@@ -175,7 +165,7 @@ const Timer = () => {
       <VStack space={5} alignItems="center" bg="colors.bg">
         <Box w="100%" h="20" bg="colors.bg" justifyContent="center">
           <Text fontSize="4xl" color="colors.other" textAlign="center">
-            {displayMessage ? "Rest! Next set starts in:" : exerName}
+            {restToggle ? "Rest! Next set starts in:" : exerName}
           </Text>
         </Box>
         <Box w="100%" h="10" bg="colors.bg" justifyContent="center">
