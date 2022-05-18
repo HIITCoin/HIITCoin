@@ -37,6 +37,10 @@ const SingleWorkout = ({ route }) => {
     navigation.navigate("New Workout", { state: workout });
   };
 
+  const handleBeginWorkout = () => {
+    navigation.navigate("Timer", { workout: workout });
+  };
+
   return (
     <ScrollView>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -54,6 +58,7 @@ const SingleWorkout = ({ route }) => {
             p="5"
             rounded="8"
             width="80%"
+            onPress={handleBeginWorkout}
           >
             <Text
               alignSelf="center"
