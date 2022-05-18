@@ -54,7 +54,7 @@ export default function CreateEditExercise({ route }) {
 
   useEffect(() => {
     if (route.params.propsFromSearch) {
-      setExerciseName(route.params.propsFromSearch.exerciseName);
+      setExerciseName(route.params.propsFromSearch.name);
     }
   }, [route.params.propsFromSearch]);
 
@@ -77,7 +77,7 @@ export default function CreateEditExercise({ route }) {
         setRest(exRest);
         setDuration(exDuration);
       }
-      setExerciseName(exercise.exerciseName);
+      setExerciseName(exercise.name);
       setReps(String(exercise.reps));
       setSets(String(exercise.sets));
       setRest(exercise.rest);
@@ -95,7 +95,7 @@ export default function CreateEditExercise({ route }) {
   }, []);
   function handleSearchPress() {
     const propsToSend = {
-      exerciseName,
+      name: exerciseName,
       exerciseList,
       reps,
       sets,
@@ -110,7 +110,7 @@ export default function CreateEditExercise({ route }) {
   }
   function handleSubmitExercise() {
     const exerciseToAdd = {
-      exerciseName,
+      name: exerciseName,
       sets,
       reps,
       duration,

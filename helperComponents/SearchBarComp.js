@@ -52,7 +52,7 @@ export default function SearchBarComp({ route }) {
 
   useEffect(() => {
     setCurrentList(propsFromCreateExercise.exerciseList);
-    setCurrentWord(propsFromCreateExercise.exerciseName);
+    setCurrentWord(propsFromCreateExercise.name);
     function reset() {
       setCurrentWord("");
       setCurrentList([]);
@@ -64,7 +64,7 @@ export default function SearchBarComp({ route }) {
   function handleSubmit() {
     console.log(currentWord, "search-result");
     const propsFromSearch = {
-      exerciseName: currentWord,
+      name: currentWord,
       sets: propsFromCreateExercise.sets,
       reps: propsFromCreateExercise.reps,
       duration: propsFromCreateExercise.duration,

@@ -136,7 +136,7 @@ const SingleWorkout = ({ route }) => {
                 fontWeight="medium"
                 fontSize="4xl"
               >
-                {exercise.exerciseName}:{"\n"}Sets: {exercise.sets}
+                {exercise.name}:{"\n"}Sets: {exercise.sets}
                 {"\n"}Reps: {exercise.reps}
                 {"\n"}Duration: {exercise.duration}
                 {"\n"}Rest: {exercise.rest}

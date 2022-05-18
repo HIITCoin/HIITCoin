@@ -278,7 +278,7 @@ const NewWorkout = ({ route }) => {
                 marginTop="4"
               >
                 <Text fontSize="18" color="colors.text" lineHeight="25">
-                  <Text fontWeight="bold">{exercise.exerciseName}</Text> {"\n"}{" "}
+                  <Text fontWeight="bold">{exercise.name}</Text> {"\n"}{" "}
                   <Text fontWeight="bold">S:</Text>
                   {exercise.sets} <Text fontWeight="bold"> {"      "}R:</Text>
                   {exercise.reps} {"\n"} <Text fontWeight="bold">D:</Text>{" "}

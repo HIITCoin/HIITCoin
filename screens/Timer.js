@@ -24,38 +24,43 @@ const useInterval = (callback, delay) => {
   }, [delay]);
 };
 
-const workout = {
-  name: "testworkout",
-  exercises: [
-    {
-      name: "Leg Press",
-      basePoints: 10,
-      bodyPart: "legs",
-      difficulty: 3,
-      duration: 4,
-      reps: 8,
-      sets: 2,
-      rest: 2,
-    },
-    {
-      name: "Chest Press",
-      basePoints: 10,
-      bodyPart: "chest",
-      difficulty: 2,
-      duration: 8,
-      reps: 4,
-      sets: 3,
-      rest: 5,
-    },
-  ],
-  rounds: 3,
-  roundRest: 10,
-};
+// const workout = {
+//   name: "testworkout",
+//   exercises: [
+//     {
+//       name: "Leg Press",
+//       basePoints: 10,
+//       bodyPart: "legs",
+//       difficulty: 3,
+//       duration: 4,
+//       reps: 8,
+//       sets: 2,
+//       rest: 2,
+//     },
+//     {
+//       name: "Chest Press",
+//       basePoints: 10,
+//       bodyPart: "chest",
+//       difficulty: 2,
+//       duration: 8,
+//       reps: 4,
+//       sets: 3,
+//       rest: 5,
+//     },
+//   ],
+//   rounds: 3,
+//   roundRest: 10,
+// };
 //        (props)
 const Timer = ({ route }) => {
   // obtain workout prop from the workout component
   const navigation = useNavigation();
-  //const workout = route.params.state
+  console.log(route);
+  if (!route.params) {
+    navigation.navigate("Home");
+  }
+
+  const workout = route.params.workout;
 
   const [myWorkout, setMyWorkout] = useState(workout);
   const [exerName, setExerName] = useState("Quick Timer");
