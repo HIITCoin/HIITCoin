@@ -3,7 +3,12 @@ import React, { useEffect, useState, useRef } from "react";
 import { KeyboardAvoidingView, Text, VStack, Box, HStack } from "native-base";
 import { FontAwesome } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { addNewWorkout, getSingleWorkout } from "../misc/helperFunctions";
+import {
+  addNewWorkout,
+  calculatePoints,
+  getSingleWorkout,
+  createOrSubmitHistory,
+} from "../misc/helperFunctions";
 
 /* CUSTOM HOOK */
 const useInterval = (callback, delay) => {
@@ -152,6 +157,10 @@ const Timer = ({ route }) => {
         console.log("SUBMIT WORKOUT");
         //get workout object workout
         console.log(workout);
+        const submit = async () => {
+          await createOrSubmitHistory(workout);
+        };
+        submit();
       }
     }
   }, [exerIndex]);
