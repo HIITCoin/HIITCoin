@@ -1,5 +1,5 @@
 import { Pressable } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { KeyboardAvoidingView, Text, VStack, Box, HStack } from "native-base";
 import { FontAwesome } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
@@ -52,14 +52,16 @@ const workout = {
   roundRest: 10,
 };
 //        (props)
-const Timer = () => {
+const Timer = ({ route }) => {
   // obtain workout prop from the workout component
   const navigation = useNavigation();
-  //const workout = this.props.
+  //const workout = route.params.state
+
   const [myWorkout, setMyWorkout] = useState(workout);
   const [exerName, setExerName] = useState("Quick Timer");
   const [exerSets, setExerSets] = useState(workout.exercises.sets);
   const [exerReps, setExerReps] = useState(workout.exercises.reps);
+  const [rounds, setRounds] = useState(workout.rounds);
   const [timerOn, setTimerOn] = useState(false);
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(60);
@@ -67,9 +69,11 @@ const Timer = () => {
   const [roundRest, setRoundRest] = useState(false);
   const [exerIndex, setExerIndex] = useState(0);
   const [timer, setTimer] = useState(); // timer interval?
+  const savedCallback = useRef();
 
   useEffect(() => {
     console.log("initial Loading");
+
     // const startWkout = async () => {
     //   setExerName(myWorkout.exercises[0].name);
     //   setExerSets(myWorkout.exercises[0].sets);
@@ -90,24 +94,20 @@ const Timer = () => {
         if (roundRest) {
           setRoundRest(false);
           if (i > 0) {
-            console.log("Round rest", i);
             setSeconds(i - 1);
             continue; // stop here
           }
           // we set to seconds to rest but dont let them elapse
           currentExercise = myWorkout.exercises[0];
-          console.log(currentExercise);
           await setExerIndex(0);
         }
       }
 
       if (seconds > 0) {
-        console.log("Hello?", seconds);
         setSeconds(seconds - 1);
         return; // stop here
       }
 
-      console.log("exerIndex", exerIndex);
       let currentExercise = myWorkout.exercises[exerIndex];
       if (restToggle) {
         // if we're resting, then set seconds to duration and switch restToggle afterwards
@@ -132,9 +132,9 @@ const Timer = () => {
     if (exerIndex < myWorkout.exercises.length) setNextWorkout();
     else {
       // if no more exercises left AND there are more rounds...
-      if (myWorkout.rounds > 1) {
+      if (rounds > 1) {
         // ...then let the user roundRest and then loop them again thru exercises
-        myWorkout.rounds = myWorkout.rounds - 1;
+        setRounds((rounds) => rounds - 1);
         setSeconds(myWorkout.roundRest);
         setRoundRest(true);
         setExerName("Next round begins in:");
@@ -145,6 +145,8 @@ const Timer = () => {
         setExerReps(0);
         setExerSets(0);
         console.log("SUBMIT WORKOUT");
+        //get workout object workout
+        console.log(workout);
       }
     }
   }, [exerIndex]);
