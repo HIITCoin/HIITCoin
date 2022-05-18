@@ -39,6 +39,7 @@ import {
   secondToMinutesAndSeconds,
   minSecToSeconds,
   addNewWorkout,
+  editWorkout,
 } from "../misc/helperFunctions";
 const NewWorkout = ({ route }) => {
   let [rounds, setRounds] = React.useState("");
@@ -69,14 +70,16 @@ const NewWorkout = ({ route }) => {
   };
 
   useEffect(() => {
-    if (!isNaN(route.params.state.roundRest)) {
-      route.params.state.roundRest = secondToMinutesAndSeconds(
-        route.params.state.roundRest
-      );
-      route.params.state.exercises.map((exercise) => {
-        exercise.duration = secondToMinutesAndSeconds(exercise.duration);
-        exercise.rest = secondToMinutesAndSeconds(exercise.rest);
-      });
+    if (route.params) {
+      if (!isNaN(route.params.state.roundRest)) {
+        route.params.state.roundRest = secondToMinutesAndSeconds(
+          route.params.state.roundRest
+        );
+        route.params.state.exercises.map((exercise) => {
+          exercise.duration = secondToMinutesAndSeconds(exercise.duration);
+          exercise.rest = secondToMinutesAndSeconds(exercise.rest);
+        });
+      }
     }
     if (route.params) {
       setRounds(String(route.params.state.rounds));
@@ -136,6 +139,7 @@ const NewWorkout = ({ route }) => {
     };
 
     validate(newWorkout);
+    console.log(newWorkout);
     await addNewWorkout(newWorkout);
     navigation.navigate("Workouts");
   };

@@ -66,9 +66,12 @@ export const getSingleWorkout = async (workoutName) => {
 export const addNewWorkout = async (newWorkout) => {
   const userRef = doc(db, "Users", auth.currentUser.uid);
   const userWorkouts = await getUserWorkouts();
+  let oldWorkoutName;
   const repeat = userWorkouts.some((workout) => {
-    if (workout.name === newWorkout.name) return true;
-    else return false;
+    if (workout.name === newWorkout.name) {
+      oldWorkoutName = workout.name;
+      return true;
+    } else return false;
   });
   if (!repeat) {
     setDoc(
@@ -78,7 +81,7 @@ export const addNewWorkout = async (newWorkout) => {
     );
     return true;
   } else {
-    console.log("Error");
+    await editWorkout(oldWorkoutName, newWorkout);
     return false;
   }
 };
@@ -94,11 +97,11 @@ export const deleteWorkout = async (workoutName) => {
 };
 
 //edit a workout (SAME AS ADD NEW WORKSHOP?)
-export const editWorkout = async (oldWorkout, workout) => {
+export const editWorkout = async (oldWorkoutName, workout) => {
   const userRef = doc(db, "Users", auth.currentUser.uid);
   const oldData = await getUserWorkouts();
   const newData = oldData.map((workoutObj) => {
-    if (workoutObj.name === oldWorkout.name) return workout;
+    if (workoutObj.name === oldWorkoutName) return workout;
     else return workoutObj;
   });
   setDoc(userRef, { workouts: [...newData] }, { merge: true });

@@ -116,7 +116,7 @@ const SingleWorkout = ({ route }) => {
           </Box>
           {workout.exercises.map((exercise, index) => (
             <Box
-              key={exercise.name + index}
+              key={index}
               alignSelf="center"
               marginTop="5%"
               shadow="3"
