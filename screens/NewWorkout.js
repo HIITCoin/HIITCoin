@@ -1,10 +1,4 @@
-import {
-  StyleSheet,
-  View,
-  TouchableOpacity,
-  Keyboard,
-  useWindowDimensions,
-} from "react-native";
+import { View, Keyboard } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import React, { useEffect, useState } from "react";
 import {
@@ -17,29 +11,18 @@ import {
   flex,
   Text,
   keyboardDismissHandlerManager,
-  Pressable,
-  Badge,
-  Spacer,
-  Flex,
   HStack,
   FormControl,
   Select,
   CheckIcon,
 } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
-import { auth } from "../firebase";
 import { useNavigation } from "@react-navigation/core";
 import { TouchableWithoutFeedback } from "react-native";
-import {
-  exerciseInWorkout,
-  exerciseInWorkout2,
-  sampleWorkoutInList,
-} from "../misc/sampleData";
 import {
   secondToMinutesAndSeconds,
   minSecToSeconds,
   addNewWorkout,
-  editWorkout,
 } from "../misc/helperFunctions";
 const NewWorkout = ({ route }) => {
   let [rounds, setRounds] = React.useState("");
@@ -48,8 +31,6 @@ const NewWorkout = ({ route }) => {
   let [exercises, setExercises] = React.useState([]);
 
   const validate = (data) => {
-    // data will be user object made from all data in state
-    // required
     if (data.exercises.length === 0) {
       alert("Please add an exercise!, we talked about this already");
       return false;
@@ -91,14 +72,6 @@ const NewWorkout = ({ route }) => {
   const navigation = useNavigation();
 
   useEffect(() => {
-    //change to route.params.state
-    //let state = sampleWorkoutInList;
-    // if (route.params) {
-    //   state = route.params.state; //change to route.params.state
-    // }
-    // if (!isNaN(state.roundRest)) {
-    //   state.roundRest = secondToMinutesAndSeconds(state.roundRest);
-    // }
     if (route.params) {
       setRounds(String(route.params.state.rounds));
       setName(route.params.state.name);
@@ -139,7 +112,6 @@ const NewWorkout = ({ route }) => {
     };
 
     validate(newWorkout);
-    console.log(newWorkout);
     await addNewWorkout(newWorkout);
     navigation.navigate("Workouts");
   };

@@ -1,14 +1,4 @@
-import {
-  StyleSheet,
-  View,
-  TouchableOpacity,
-  Platform,
-  Keyboard,
-  TouchableWithoutFeedback,
-  SafeAreaView,
-  ActivityIndicator,
-  FlatList,
-} from "react-native";
+import { View, Keyboard, TouchableWithoutFeedback } from "react-native";
 import React, { useEffect, useState } from "react";
 import {
   KeyboardAvoidingView,
@@ -17,27 +7,20 @@ import {
   Icon,
   Button,
   Center,
-  flex,
   Text,
   keyboardDismissHandlerManager,
   FormControl,
-  ScrollView,
   VStack,
   Heading,
   Select,
   CheckIcon,
   HStack,
   Divider,
+  flex,
 } from "native-base";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { MaterialIcons } from "@expo/vector-icons";
 import {
-  auth,
-  createUserWithEmailAndPassword,
-  onAuthStateChanged,
-} from "../firebase";
-import {
-  getUser,
   getExercises,
   secondToMinutesAndSeconds,
   getSingleExercise,
@@ -46,12 +29,7 @@ import { useNavigation } from "@react-navigation/core";
 
 export default function CreateEditExercise({ route }) {
   const [exerciseList, setExerciseList] = useState([]);
-  //new stuff
   const [exerciseName, setExerciseName] = useState("");
-  const [difficulty, setDifficulty] = useState(0);
-  const [basePoints, setBasePoints] = useState(0);
-  const [bodyPart, setBodyPart] = useState("");
-  //end of new stuff
   const [sets, setSets] = useState("");
   const [reps, setReps] = useState("");
   const [duration, setDuration] = useState({ minutes: "", seconds: "" });
@@ -61,17 +39,11 @@ export default function CreateEditExercise({ route }) {
   useEffect(() => {
     if (route.params.propsFromSearch) {
       setExerciseName(route.params.propsFromSearch.name);
-      //new stuff
-      // console.log(route.params.propsFromSearch.difficulty);
-      // setDifficulty(route.params.propsFromSearch.difficulty);
-      // setBasePoints(route.params.propsFromSearch.basePoints);
-      // setBodyPart(route.params.propsFromSearch.bodyPart);
-      //end of new stuff
     }
   }, [route.params.propsFromSearch]);
 
   let optionsArr = [];
-  for (let i = 1; i <= 100; i++) {
+  for (let i = 1; i <= 30; i++) {
     optionsArr.push(i);
   }
   useEffect(() => {
@@ -81,7 +53,6 @@ export default function CreateEditExercise({ route }) {
     };
     let workout = route.params.state;
     if (route.params.index >= 0) {
-      //find exercise with flag on it
       let exercise = workout.exercises[route.params.index];
       if (!isNaN(exercise.duration)) {
         const exDuration = secondToMinutesAndSeconds(exercise.duration);
@@ -132,8 +103,6 @@ export default function CreateEditExercise({ route }) {
       duration,
       rest,
     };
-
-    console.log(exerciseToAdd);
     let workout = route.params.state;
 
     if (route.params.index >= 0) {

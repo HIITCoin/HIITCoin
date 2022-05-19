@@ -104,7 +104,6 @@ const ProfileScreen = () => {
           </Pressable>
         </Box>
         <Box
-          //To align left, change <Box> to Center
           w="100%"
           h="10"
           bg="colors.bg"
