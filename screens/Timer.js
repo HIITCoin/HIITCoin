@@ -1,5 +1,5 @@
 import { Pressable, useWindowDimensions } from "react-native";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import {
   KeyboardAvoidingView,
   Text,
@@ -9,16 +9,10 @@ import {
   Center,
   Modal,
   Button,
-  FormControl,
 } from "native-base";
 import { FontAwesome } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import {
-  addNewWorkout,
-  calculatePoints,
-  getSingleWorkout,
-  createOrSubmitHistory,
-} from "../misc/helperFunctions";
+import { createOrSubmitHistory } from "../misc/helperFunctions";
 
 /* CUSTOM HOOK */
 const useInterval = (callback, delay) => {
@@ -66,11 +60,9 @@ const useInterval = (callback, delay) => {
 //   rounds: 3,
 //   roundRest: 10,
 // };
-//        (props)
+
 const Timer = ({ route }) => {
-  // obtain workout prop from the workout component
   const navigation = useNavigation();
-  console.log(route);
   if (!route.params) {
     navigation.navigate("Home");
   }
@@ -83,28 +75,15 @@ const Timer = ({ route }) => {
   const [exerReps, setExerReps] = useState(workout.exercises.reps);
   const [rounds, setRounds] = useState(workout.rounds);
   const [timerOn, setTimerOn] = useState(false);
-  const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(60);
   const [restToggle, setRestToggle] = useState(false); // start with exercise then switch to rest
   const [roundRest, setRoundRest] = useState(false);
   const [exerIndex, setExerIndex] = useState(0);
-  const [timer, setTimer] = useState(); // timer interval?
   const [showModal, setShowModal] = useState(false);
   const { height, width } = useWindowDimensions();
 
   useEffect(() => {
     console.log("initial Loading");
-
-    // const startWkout = async () => {
-    //   setExerName(myWorkout.exercises[0].name);
-    //   setExerSets(myWorkout.exercises[0].sets);
-    //   setExerReps(myWorkout.exercises[0].reps);
-    //   setSeconds(myWorkout.exercises[0].duration);
-    //   console.log(
-    //     myWorkout.exercises ? "wkout state is loaded" : "hit save again"
-    //   );
-    // };
-    // startWkout();
     setNextWorkout();
   }, []);
 
@@ -165,19 +144,10 @@ const Timer = ({ route }) => {
         setExerName("Done! Good job!");
         setExerReps(0);
         setExerSets(0);
-        console.log("SUBMIT WORKOUT");
         //get workout object workout
-        console.log(workout);
         //prodce popup that asks if user wants to submit workout
-        //if so submit it
-        //no matter what redirect to home
+        //if so submit it no matter what redirect to home
         setShowModal(true);
-
-        const submit = async () => {
-          await createOrSubmitHistory(workout);
-        };
-        submit();
-        //navigation.navigate('Home')
       }
     }
   }, [exerIndex]);
@@ -189,15 +159,6 @@ const Timer = ({ route }) => {
     setExerReps(myWorkout.exercises[exerIndex].reps);
     setSeconds(myWorkout.exercises[exerIndex].duration);
   }
-  // if (myWorkout.exercises.length) {
-  // for (let i = 0; i < myWorkout.exercises.length; i++) {
-  // console.log(i, "im logging");
-  // if (i != 0) {
-  //   setExerName(myWorkout.exercises[i].name);
-  //   setExerSets(myWorkout.exercises[i].sets);
-  //   setExerReps(myWorkout.exercises[i].reps);
-  //   // setSecondsLeft();
-  // }
 
   // convert seconds left => , hours, minutes, seconds
   const clockify = () => {
@@ -210,14 +171,6 @@ const Timer = ({ route }) => {
     return { displayHours, displayMinutes, displaySeconds };
   };
 
-  //either call this on press of play the first time || give a begin workout button
-  // const beginWorkout = () => {
-  //   while (exerSets != 0) {
-  //     startTimer();
-  //     // startRest(); define this
-  //     setExerSets(exerSets - 1);
-  //   }
-  // };
   if (showModal)
     return (
       <Example
@@ -226,8 +179,9 @@ const Timer = ({ route }) => {
         setShowModal={setShowModal}
       />
     );
+
   return (
-    <KeyboardAvoidingView bg="colors.bg" height={height} width={width}>
+    <KeyboardAvoidingView bg="colors.bg" height="100%">
       <Box
         marginTop="10%"
         marginBottom="1%"
