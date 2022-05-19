@@ -56,6 +56,7 @@ const Timer = ({ route }) => {
   // obtain workout prop from the workout component
   const navigation = useNavigation();
   console.log(route);
+
   if (!route.params) {
     navigation.navigate("Home");
   }
