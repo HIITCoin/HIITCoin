@@ -31,7 +31,15 @@ const Workouts = () => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <ScrollView bg="colors.bg" height="100%" behavior="padding">
-        <Box marginTop="5%" alignSelf="center">
+        <HStack justifyContent="space-between" marginTop="15%">
+          <Pressable onPress={() => navigation.navigate("Home")}>
+            <MaterialIcons name="home" size={50} color="#9067C6" />
+          </Pressable>
+          <Pressable onPress={() => navigation.navigate("Profile")}>
+            <MaterialIcons name="person" color="#9067C6" size={50} />
+          </Pressable>
+        </HStack>
+        <Box alignSelf="center">
           <Text fontSize="5xl" color="colors.text" textAlign="center">
             My Workouts
           </Text>

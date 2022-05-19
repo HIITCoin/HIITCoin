@@ -47,6 +47,8 @@ const NewWorkout = ({ route }) => {
   let [roundRest, setRoundRest] = React.useState({ minutes: "", seconds: "" });
   let [exercises, setExercises] = React.useState([]);
 
+  console.log("ROUTE PARAMS", route.params);
+
   const validate = (data) => {
     // data will be user object made from all data in state
     // required
@@ -91,14 +93,6 @@ const NewWorkout = ({ route }) => {
   const navigation = useNavigation();
 
   useEffect(() => {
-    //change to route.params.state
-    //let state = sampleWorkoutInList;
-    // if (route.params) {
-    //   state = route.params.state; //change to route.params.state
-    // }
-    // if (!isNaN(state.roundRest)) {
-    //   state.roundRest = secondToMinutesAndSeconds(state.roundRest);
-    // }
     if (route.params) {
       setRounds(String(route.params.state.rounds));
       setName(route.params.state.name);
@@ -148,178 +142,353 @@ const NewWorkout = ({ route }) => {
     <KeyboardAwareScrollView
       style={{ height: "150%", backgroundColor: "#1B1B3A" }}
     >
-      <TouchableWithoutFeedback
-        bg="colors.bg"
-        height="150%"
-        onPress={Keyboard.dismiss}
-      >
-        <KeyboardAvoidingView
+      {route.params === undefined ? (
+        <TouchableWithoutFeedback
           bg="colors.bg"
           height="150%"
-          // behavior={behavior}
+          onPress={Keyboard.dismiss}
         >
-          <Box marginTop="20%" alignSelf="center">
-            <Text fontSize="5xl" color="colors.text">
-              Create Workout
-            </Text>
-          </Box>
-          <Box alignSelf="center">
-            <FormControl isRequired marginTop="0%">
-              <FormControl.Label
-                marginBottom="0%"
-                _text={{
-                  bold: true,
-                  ml: 5,
-                  color: "colors.text",
-                }}
-              >
-                Name
-              </FormControl.Label>
-              <Input
-                mx="3"
-                placeholder="Name"
-                w="75%"
-                maxWidth="300px"
-                variant="rounded"
-                margin="2"
-                color="colors.other"
-                value={name}
-                onChangeText={(name) => setName(name)}
-              />
-            </FormControl>
-            <Center alignContent="center">
-              <Box w="3/4" maxWidth="300px" width="100%">
-                <FormControl isRequired>
-                  <FormControl.Label
-                    marginBottom="0%"
-                    _text={{
-                      bold: true,
-                      ml: 2,
-                      color: "colors.text",
-                    }}
-                  >
-                    Rounds
-                  </FormControl.Label>
-                  <Select
-                    placeholder={rounds}
-                    value={rounds || ""}
-                    minWidth="200"
-                    color={"white"}
-                    _selectedItem={{
-                      bg: "teal.600",
-                      endIcon: <CheckIcon size="5" />,
-                    }}
-                    mt={1}
-                    onValueChange={(num) => setRounds(String(num))}
-                  >
-                    {optionsArr.map((num) => (
-                      <Select.Item key={num} label={num + ""} value={num} />
-                    ))}
-                  </Select>
-                </FormControl>
-              </Box>
-            </Center>
-            <FormControl isRequired>
-              <FormControl.Label>
-                <Text bold="true" color="colors.text" ml="25%" marginTop={4}>
-                  Rest Between Rounds
-                </Text>
-              </FormControl.Label>
-              <HStack width="40%" space={2} marginTop="3">
+          <KeyboardAvoidingView
+            bg="colors.bg"
+            height="150%"
+            // behavior={behavior}
+          >
+            <Box marginTop="20%" alignSelf="center">
+              <Text fontSize="5xl" color="colors.text">
+                Create Workout
+              </Text>
+            </Box>
+            <Box alignSelf="center">
+              <FormControl isRequired marginTop="0%">
+                <FormControl.Label
+                  marginBottom="0%"
+                  _text={{
+                    bold: true,
+                    ml: 5,
+                    color: "colors.text",
+                  }}
+                >
+                  Name
+                </FormControl.Label>
                 <Input
-                  mx="1"
-                  placeholder="Minutes"
-                  w="100%"
+                  mx="3"
+                  placeholder="Name"
+                  w="75%"
+                  maxWidth="300px"
                   variant="rounded"
                   margin="2"
                   color="colors.other"
-                  value={roundRest.minutes}
-                  keyboardType="numeric"
-                  onChangeText={(mins) => {
-                    setRoundRest({
-                      minutes: String(mins),
-                      seconds: roundRest.seconds,
-                    });
-                  }}
+                  value={name}
+                  onChangeText={(name) => setName(name)}
                 />
-                <Input
-                  mx="1"
-                  placeholder="Seconds"
-                  w="100%"
-                  variant="rounded"
-                  margin="2"
-                  color="colors.other"
-                  value={roundRest.seconds}
-                  keyboardType="numeric"
-                  onChangeText={(secs) => {
-                    setRoundRest({
-                      minutes: roundRest.minutes,
-                      seconds: String(secs),
-                    });
-                  }}
-                />
-              </HStack>
-            </FormControl>
-          </Box>
-          <Box alignItems="center">
-            {exercises.map((exercise, index) => (
-              <Button
-                key={index}
-                onPress={() => handleNewExercise(index)}
-                w="80%"
-                h="150"
-                data-val={index}
-                bg="colors.bg"
-                rounded="md"
-                borderWidth="2px"
-                borderColor="colors.text"
-                shadow={3}
-                alignContent="center"
-                marginTop="4"
-              >
-                <Text fontSize="18" color="colors.text" lineHeight="25">
-                  <Text fontWeight="bold">{exercise.name}</Text> {"\n"}{" "}
-                  <Text fontWeight="bold">S:</Text>
-                  {exercise.sets} <Text fontWeight="bold"> {"      "}R:</Text>
-                  {exercise.reps} {"\n"} <Text fontWeight="bold">D:</Text>{" "}
-                  <Text fontWeight="bold"> {"   "}Min:</Text>
-                  {exercise.duration.minutes}
-                  <Text mx="1" fontWeight="bold">
-                    {"   "}Sec:
+              </FormControl>
+              <Center alignContent="center">
+                <Box w="3/4" maxWidth="300px" width="100%">
+                  <FormControl isRequired>
+                    <FormControl.Label
+                      marginBottom="0%"
+                      _text={{
+                        bold: true,
+                        ml: 2,
+                        color: "colors.text",
+                      }}
+                    >
+                      Rounds
+                    </FormControl.Label>
+                    <Select
+                      placeholder={rounds}
+                      value={rounds || ""}
+                      minWidth="200"
+                      color={"white"}
+                      _selectedItem={{
+                        bg: "teal.600",
+                        endIcon: <CheckIcon size="5" />,
+                      }}
+                      mt={1}
+                      onValueChange={(num) => setRounds(String(num))}
+                    >
+                      {optionsArr.map((num) => (
+                        <Select.Item key={num} label={num + ""} value={num} />
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Box>
+              </Center>
+              <FormControl isRequired>
+                <FormControl.Label>
+                  <Text bold="true" color="colors.text" ml="25%" marginTop={4}>
+                    Rest Between Rounds
                   </Text>
-                  {exercise.duration.seconds}
-                  {"\n"}
-                  <Text fontWeight="bold">Rest:</Text>{" "}
-                  <Text fontWeight="bold">{"    "}Min:</Text>{" "}
-                  {exercise.rest.minutes}
-                  <Text fontWeight="bold">{"   "}Sec:</Text>{" "}
-                  {exercise.rest.seconds}
-                </Text>
+                </FormControl.Label>
+                <HStack width="40%" space={2} marginTop="3">
+                  <Input
+                    mx="1"
+                    placeholder="Minutes"
+                    w="100%"
+                    variant="rounded"
+                    margin="2"
+                    color="colors.other"
+                    value={roundRest.minutes}
+                    keyboardType="numeric"
+                    onChangeText={(mins) => {
+                      setRoundRest({
+                        minutes: String(mins),
+                        seconds: roundRest.seconds,
+                      });
+                    }}
+                  />
+                  <Input
+                    mx="1"
+                    placeholder="Seconds"
+                    w="100%"
+                    variant="rounded"
+                    margin="2"
+                    color="colors.other"
+                    value={roundRest.seconds}
+                    keyboardType="numeric"
+                    onChangeText={(secs) => {
+                      setRoundRest({
+                        minutes: roundRest.minutes,
+                        seconds: String(secs),
+                      });
+                    }}
+                  />
+                </HStack>
+              </FormControl>
+            </Box>
+            <Box alignItems="center">
+              {exercises.map((exercise, index) => (
+                <Button
+                  key={index}
+                  onPress={() => handleNewExercise(index)}
+                  w="80%"
+                  h="150"
+                  data-val={index}
+                  bg="colors.bg"
+                  rounded="md"
+                  borderWidth="2px"
+                  borderColor="colors.text"
+                  shadow={3}
+                  alignContent="center"
+                  marginTop="4"
+                >
+                  <Text fontSize="18" color="colors.text" lineHeight="25">
+                    <Text fontWeight="bold">{exercise.name}</Text> {"\n"}{" "}
+                    <Text fontWeight="bold">S:</Text>
+                    {exercise.sets} <Text fontWeight="bold"> {"      "}R:</Text>
+                    {exercise.reps} {"\n"} <Text fontWeight="bold">D:</Text>{" "}
+                    <Text fontWeight="bold"> {"   "}Min:</Text>
+                    {exercise.duration.minutes}
+                    <Text mx="1" fontWeight="bold">
+                      {"   "}Sec:
+                    </Text>
+                    {exercise.duration.seconds}
+                    {"\n"}
+                    <Text fontWeight="bold">Rest:</Text>{" "}
+                    <Text fontWeight="bold">{"    "}Min:</Text>{" "}
+                    {exercise.rest.minutes}
+                    <Text fontWeight="bold">{"   "}Sec:</Text>{" "}
+                    {exercise.rest.seconds}
+                  </Text>
+                </Button>
+              ))}
+            </Box>
+            <Box marginHorizontal={50} display={"flex"} flexDirection="row">
+              <Button
+                width="60%"
+                flex={1}
+                margin={5}
+                onPress={() => handleNewExercise()}
+              >
+                Add Exercise
               </Button>
-            ))}
-          </Box>
-          <Box marginHorizontal={50} display={"flex"} flexDirection="row">
-            <Button
-              width="60%"
-              flex={1}
-              margin={5}
-              onPress={() => handleNewExercise()}
-            >
-              Add Exercise
-            </Button>
-          </Box>
-          <Box marginHorizontal={50} display={"flex"} flexDirection="row">
-            <Button
-              width="60%"
-              flex={1}
-              margin={5}
-              onPress={handleSubmitWorkout}
-            >
-              Create Workout
-            </Button>
-          </Box>
-        </KeyboardAvoidingView>
-      </TouchableWithoutFeedback>
+            </Box>
+            <Box marginHorizontal={50} display={"flex"} flexDirection="row">
+              <Button
+                width="60%"
+                flex={1}
+                margin={5}
+                onPress={handleSubmitWorkout}
+              >
+                Create Workout
+              </Button>
+            </Box>
+          </KeyboardAvoidingView>
+        </TouchableWithoutFeedback>
+      ) : (
+        <TouchableWithoutFeedback
+          bg="colors.bg"
+          height="150%"
+          onPress={Keyboard.dismiss}
+        >
+          <KeyboardAvoidingView
+            bg="colors.bg"
+            height="150%"
+            // behavior={behavior}
+          >
+            <Box marginTop="20%" alignSelf="center">
+              <Text fontSize="5xl" color="colors.text">
+                Edit Workout
+              </Text>
+            </Box>
+            <Box alignSelf="center">
+              <FormControl isRequired marginTop="0%">
+                <FormControl.Label
+                  marginBottom="0%"
+                  _text={{
+                    bold: true,
+                    ml: 5,
+                    color: "colors.text",
+                  }}
+                >
+                  Name
+                </FormControl.Label>
+                <Input
+                  mx="3"
+                  placeholder="Name"
+                  w="75%"
+                  maxWidth="300px"
+                  variant="rounded"
+                  margin="2"
+                  color="colors.other"
+                  value={name}
+                  onChangeText={(name) => setName(name)}
+                />
+              </FormControl>
+              <Center alignContent="center">
+                <Box w="3/4" maxWidth="300px" width="100%">
+                  <FormControl isRequired>
+                    <FormControl.Label
+                      marginBottom="0%"
+                      _text={{
+                        bold: true,
+                        ml: 2,
+                        color: "colors.text",
+                      }}
+                    >
+                      Rounds
+                    </FormControl.Label>
+                    <Select
+                      placeholder={rounds}
+                      value={rounds || ""}
+                      minWidth="200"
+                      color={"white"}
+                      _selectedItem={{
+                        bg: "teal.600",
+                        endIcon: <CheckIcon size="5" />,
+                      }}
+                      mt={1}
+                      onValueChange={(num) => setRounds(String(num))}
+                    >
+                      {optionsArr.map((num) => (
+                        <Select.Item key={num} label={num + ""} value={num} />
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Box>
+              </Center>
+              <FormControl isRequired>
+                <FormControl.Label>
+                  <Text bold="true" color="colors.text" ml="25%" marginTop={4}>
+                    Rest Between Rounds
+                  </Text>
+                </FormControl.Label>
+                <HStack width="40%" space={2} marginTop="3">
+                  <Input
+                    mx="1"
+                    placeholder="Minutes"
+                    w="100%"
+                    variant="rounded"
+                    margin="2"
+                    color="colors.other"
+                    value={roundRest.minutes}
+                    keyboardType="numeric"
+                    onChangeText={(mins) => {
+                      setRoundRest({
+                        minutes: String(mins),
+                        seconds: roundRest.seconds,
+                      });
+                    }}
+                  />
+                  <Input
+                    mx="1"
+                    placeholder="Seconds"
+                    w="100%"
+                    variant="rounded"
+                    margin="2"
+                    color="colors.other"
+                    value={roundRest.seconds}
+                    keyboardType="numeric"
+                    onChangeText={(secs) => {
+                      setRoundRest({
+                        minutes: roundRest.minutes,
+                        seconds: String(secs),
+                      });
+                    }}
+                  />
+                </HStack>
+              </FormControl>
+            </Box>
+            <Box alignItems="center">
+              {exercises.map((exercise, index) => (
+                <Button
+                  key={index}
+                  onPress={() => handleNewExercise(index)}
+                  w="80%"
+                  h="150"
+                  data-val={index}
+                  bg="colors.bg"
+                  rounded="md"
+                  borderWidth="2px"
+                  borderColor="colors.text"
+                  shadow={3}
+                  alignContent="center"
+                  marginTop="4"
+                >
+                  <Text fontSize="18" color="colors.text" lineHeight="25">
+                    <Text fontWeight="bold">{exercise.name}</Text> {"\n"}{" "}
+                    <Text fontWeight="bold">S:</Text>
+                    {exercise.sets} <Text fontWeight="bold"> {"      "}R:</Text>
+                    {exercise.reps} {"\n"} <Text fontWeight="bold">D:</Text>{" "}
+                    <Text fontWeight="bold"> {"   "}Min:</Text>
+                    {exercise.duration.minutes}
+                    <Text mx="1" fontWeight="bold">
+                      {"   "}Sec:
+                    </Text>
+                    {exercise.duration.seconds}
+                    {"\n"}
+                    <Text fontWeight="bold">Rest:</Text>{" "}
+                    <Text fontWeight="bold">{"    "}Min:</Text>{" "}
+                    {exercise.rest.minutes}
+                    <Text fontWeight="bold">{"   "}Sec:</Text>{" "}
+                    {exercise.rest.seconds}
+                  </Text>
+                </Button>
+              ))}
+            </Box>
+            <Box marginHorizontal={50} display={"flex"} flexDirection="row">
+              <Button
+                width="60%"
+                flex={1}
+                margin={5}
+                onPress={() => handleNewExercise()}
+              >
+                Add Exercise
+              </Button>
+            </Box>
+            <Box marginHorizontal={50} display={"flex"} flexDirection="row">
+              <Button
+                width="60%"
+                flex={1}
+                margin={5}
+                onPress={handleSubmitWorkout}
+              >
+                Edit Workout
+              </Button>
+            </Box>
+          </KeyboardAvoidingView>
+        </TouchableWithoutFeedback>
+      )}
     </KeyboardAwareScrollView>
   );
 };
