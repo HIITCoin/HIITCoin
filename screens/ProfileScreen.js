@@ -4,8 +4,6 @@ import { KeyboardAvoidingView, Text, VStack, Box, HStack } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { getUser } from "../misc/helperFunctions";
-import { auth, db } from "../firebase";
-import { onSnapshot, doc } from "firebase/firestore";
 
 const ProfileScreen = () => {
   const navigation = useNavigation();
@@ -36,7 +34,6 @@ const ProfileScreen = () => {
       </Box>
       <VStack space={4} alignItems="center" bg="colors.bg">
         <Box
-          //To align center, change <Box> to Center
           w="100%"
           h="10"
           bg="colors.bg"
@@ -53,7 +50,6 @@ const ProfileScreen = () => {
           </Pressable>
         </Box>
         <Box
-          //To align left, change <Box> to Center
           w="100%"
           h="10"
           bg="colors.bg"
@@ -70,7 +66,6 @@ const ProfileScreen = () => {
           </Pressable>
         </Box>
         <Box
-          //To align left, change <Box> to Center
           w="100%"
           h="10"
           bg="colors.bg"
@@ -87,7 +82,6 @@ const ProfileScreen = () => {
           </Pressable>
         </Box>
         <Box
-          //To align left, change <Box> to Center
           w="100%"
           h="10"
           bg="colors.bg"

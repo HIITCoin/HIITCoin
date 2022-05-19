@@ -40,7 +40,7 @@ export default function App() {
             component={LoginScreen}
           />
           <Stack.Screen
-            options={{ headerShown: false }}
+            options={{ headerShown: false, gestureEnabled: false }}
             name="Home"
             component={HomeScreen}
           />

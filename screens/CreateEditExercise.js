@@ -40,12 +40,18 @@ import {
   getUser,
   getExercises,
   secondToMinutesAndSeconds,
+  getSingleExercise,
 } from "../misc/helperFunctions";
 import { useNavigation } from "@react-navigation/core";
 
 export default function CreateEditExercise({ route }) {
   const [exerciseList, setExerciseList] = useState([]);
+  //new stuff
   const [exerciseName, setExerciseName] = useState("");
+  const [difficulty, setDifficulty] = useState(0);
+  const [basePoints, setBasePoints] = useState(0);
+  const [bodyPart, setBodyPart] = useState("");
+  //end of new stuff
   const [sets, setSets] = useState("");
   const [reps, setReps] = useState("");
   const [duration, setDuration] = useState({ minutes: "", seconds: "" });
@@ -55,6 +61,12 @@ export default function CreateEditExercise({ route }) {
   useEffect(() => {
     if (route.params.propsFromSearch) {
       setExerciseName(route.params.propsFromSearch.name);
+      //new stuff
+      // console.log(route.params.propsFromSearch.difficulty);
+      // setDifficulty(route.params.propsFromSearch.difficulty);
+      // setBasePoints(route.params.propsFromSearch.basePoints);
+      // setBodyPart(route.params.propsFromSearch.bodyPart);
+      //end of new stuff
     }
   }, [route.params.propsFromSearch]);
 
@@ -108,14 +120,20 @@ export default function CreateEditExercise({ route }) {
       workout: route.params.state,
     });
   }
-  function handleSubmitExercise() {
+  async function handleSubmitExercise() {
+    const exerciseFromDb = await getSingleExercise(exerciseName);
     const exerciseToAdd = {
       name: exerciseName,
+      difficulty: exerciseFromDb.difficulty,
+      bodyPart: exerciseFromDb.bodyPart,
+      basePoints: exerciseFromDb.basePoints,
       sets,
       reps,
       duration,
       rest,
     };
+
+    console.log(exerciseToAdd);
     let workout = route.params.state;
 
     if (route.params.index >= 0) {

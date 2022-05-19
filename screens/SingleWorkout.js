@@ -1,23 +1,6 @@
-import { StyleSheet, View, TouchableOpacity, Keyboard } from "react-native";
-import React, { useEffect, useState } from "react";
-import {
-  KeyboardAvoidingView,
-  Input,
-  Box,
-  Icon,
-  Button,
-  Center,
-  flex,
-  Text,
-  keyboardDismissHandlerManager,
-  Pressable,
-  Badge,
-  Spacer,
-  Flex,
-  HStack,
-} from "native-base";
-import { MaterialIcons } from "@expo/vector-icons";
-import { auth } from "../firebase";
+import { Keyboard } from "react-native";
+import React from "react";
+import { KeyboardAvoidingView, Box, Button, Text, HStack } from "native-base";
 import { useNavigation } from "@react-navigation/core";
 import { TouchableWithoutFeedback } from "react-native";
 import { ScrollView } from "react-native";
@@ -25,7 +8,6 @@ import { deleteWorkout } from "../misc/helperFunctions";
 
 const SingleWorkout = ({ route }) => {
   let workout = route.params.workout;
-
   const navigation = useNavigation();
 
   const handleDeleteWorkout = (name) => {
@@ -55,7 +37,7 @@ const SingleWorkout = ({ route }) => {
               </Pressable>
             </HStack>
             <Box alignSelf="center">
-              <Text fontSize="5xl" color="colors.text">
+              <Text fontSize="5xl" color="colors.text" numberOfLines={1}>>     
                 Past Workout: {workout.name}
               </Text>
             </Box>
@@ -179,6 +161,7 @@ const SingleWorkout = ({ route }) => {
               width="80%"
             >
               <Text
+                marginTop="5"
                 alignSelf="center"
                 color="white"
                 fontWeight="medium"

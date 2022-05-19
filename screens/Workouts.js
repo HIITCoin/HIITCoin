@@ -1,30 +1,13 @@
-import { StyleSheet, View, TouchableOpacity, Keyboard } from "react-native";
+import { Keyboard } from "react-native";
 import React, { useEffect, useState } from "react";
-import {
-  KeyboardAvoidingView,
-  Input,
-  Box,
-  Icon,
-  Button,
-  Center,
-  flex,
-  Text,
-  keyboardDismissHandlerManager,
-  Pressable,
-  Badge,
-  Spacer,
-  Flex,
-  HStack,
-  ScrollView,
-} from "native-base";
-import { MaterialIcons } from "@expo/vector-icons";
+import { Box, Button, Text, ScrollView } from "native-base";
 import { auth, db } from "../firebase";
 import { useNavigation } from "@react-navigation/core";
 import { TouchableWithoutFeedback } from "react-native";
-import { getUserWorkouts } from "../misc/helperFunctions";
 import { doc, onSnapshot } from "firebase/firestore";
 
 const Workouts = () => {
+  const navigation = useNavigation();
   const [workouts, setWorkouts] = useState([]);
 
   useEffect(() => {
@@ -36,8 +19,6 @@ const Workouts = () => {
     );
     return unsubscribe;
   }, []);
-
-  const navigation = useNavigation();
 
   const handleNewWorkout = () => {
     navigation.navigate("New Workout");
@@ -79,7 +60,7 @@ const Workouts = () => {
             fontWeight="medium"
             fontSize="4xl"
           >
-            + New Workout
+            Add Workout
           </Text>
         </Button>
         <Box>
@@ -91,8 +72,7 @@ const Workouts = () => {
               }}
               alignSelf="center"
               marginTop="5%"
-              shadow="3"
-              bg="colors.red"
+              bg="colors.box"
               p="5"
               rounded="8"
               width="80%"
@@ -102,6 +82,8 @@ const Workouts = () => {
                 color="white"
                 fontWeight="medium"
                 fontSize="4xl"
+                numberOfLines={1}
+                textTransform="uppercase"
               >
                 {workout.name}
               </Text>
