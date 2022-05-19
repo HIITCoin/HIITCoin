@@ -25,11 +25,9 @@ const WorkoutHistory = () => {
     getWorkouts();
   }, []);
 
-  console.log(workouts[1]);
-
   return (
-    <ScrollView>
-      <KeyboardAvoidingView bg="colors.bg" height="100%" behavior="padding">
+    <ScrollView bg="colors.bg">
+      <KeyboardAvoidingView bg="colors.bg" height="500%" behavior="padding">
         <HStack justifyContent="space-between" marginTop="15%">
           <Pressable onPress={() => navigation.navigate("Home")}>
             <MaterialIcons name="home" size={50} color="#9067C6" />
@@ -54,7 +52,10 @@ const WorkoutHistory = () => {
             rounded="xl"
             width="80%"
             onPress={() =>
-              navigation.navigate("Single Workout", { workout: workout })
+              navigation.navigate("Single Workout", {
+                workout: workout,
+                fromHistory: true,
+              })
             }
           >
             <Text
