@@ -29,6 +29,7 @@ import {
   HStack,
   Divider,
 } from "native-base";
+import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/core";
 
 const Item = ({ name, setCurrentWord }) => {
@@ -48,7 +49,6 @@ export default function SearchBarComp({ route }) {
   const propsFromCreateExercise = route.params.propsToSend;
   const [currentList, setCurrentList] = useState([]);
   const [currentWord, setCurrentWord] = useState("");
-  const [currentItem, setCurrentItem] = useState({});
 
   useEffect(() => {
     setCurrentList(propsFromCreateExercise.exerciseList);
@@ -63,7 +63,6 @@ export default function SearchBarComp({ route }) {
 
   function handleSubmit() {
     console.log(currentWord, "search-result");
-    console.log(currentItem);
     const propsFromSearch = {
       name: currentWord,
       sets: propsFromCreateExercise.sets,
@@ -80,16 +79,7 @@ export default function SearchBarComp({ route }) {
   const renderItem = ({ item }) => {
     // when no input, show all
     if (currentWord === "") {
-      return (
-        <Item
-          name={item.name}
-          difficulty={item.difficulty}
-          basePoints={item.basePoints}
-          bodyPart={item.bodyPart}
-          setCurrentItem={setCurrentItem}
-          setCurrentWord={setCurrentWord}
-        />
-      );
+      return <Item name={item.name} setCurrentWord={setCurrentWord} />;
     }
     // filter of the name
 
@@ -99,14 +89,7 @@ export default function SearchBarComp({ route }) {
         .toUpperCase()
         .includes(currentWord.toUpperCase().trim().replace(/\s/g, ""))
     ) {
-      return (
-        <Item
-          name={item.name}
-          onPress={(item) => setCurrentItem(item)}
-          setCurrentItem={setCurrentItem}
-          setCurrentWord={setCurrentWord}
-        ></Item>
-      );
+      return <Item name={item.name} setCurrentWord={setCurrentWord}></Item>;
     }
   };
   return (

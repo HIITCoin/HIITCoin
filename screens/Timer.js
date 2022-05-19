@@ -1,6 +1,16 @@
-import { Pressable } from "react-native";
+import { Pressable, useWindowDimensions } from "react-native";
 import React, { useEffect, useState, useRef } from "react";
-import { KeyboardAvoidingView, Text, VStack, Box, HStack } from "native-base";
+import {
+  KeyboardAvoidingView,
+  Text,
+  VStack,
+  Box,
+  HStack,
+  Center,
+  Modal,
+  Button,
+  FormControl,
+} from "native-base";
 import { FontAwesome } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import {
@@ -79,7 +89,8 @@ const Timer = ({ route }) => {
   const [roundRest, setRoundRest] = useState(false);
   const [exerIndex, setExerIndex] = useState(0);
   const [timer, setTimer] = useState(); // timer interval?
-  const savedCallback = useRef();
+  const [showModal, setShowModal] = useState(false);
+  const { height, width } = useWindowDimensions();
 
   useEffect(() => {
     console.log("initial Loading");
@@ -147,7 +158,7 @@ const Timer = ({ route }) => {
         setRounds((rounds) => rounds - 1);
         setSeconds(myWorkout.roundRest);
         setRoundRest(true);
-        setExerName("Next round begins in:");
+        setExerName("Next round in:");
         setTimerOn(true); // this will trigger the useInterval to run again
       } else {
         setSeconds(0);
@@ -157,10 +168,16 @@ const Timer = ({ route }) => {
         console.log("SUBMIT WORKOUT");
         //get workout object workout
         console.log(workout);
+        //prodce popup that asks if user wants to submit workout
+        //if so submit it
+        //no matter what redirect to home
+        setShowModal(true);
+
         const submit = async () => {
           await createOrSubmitHistory(workout);
         };
         submit();
+        //navigation.navigate('Home')
       }
     }
   }, [exerIndex]);
@@ -201,44 +218,82 @@ const Timer = ({ route }) => {
   //     setExerSets(exerSets - 1);
   //   }
   // };
-
+  if (showModal)
+    return (
+      <Example
+        workout={workout}
+        showModal={showModal}
+        setShowModal={setShowModal}
+      />
+    );
   return (
-    <KeyboardAvoidingView bg="colors.bg" height="100%">
-      <Box marginTop="20%" marginBottom="5%">
-        <Text fontSize="5xl" color="colors.text" textAlign="center">
+    <KeyboardAvoidingView bg="colors.bg" height={height} width={width}>
+      <Box
+        marginTop="10%"
+        marginBottom="1%"
+        bg="colors.bg"
+        height={height / 10}
+      >
+        <Text fontSize={height / 12} color="colors.text" textAlign="center">
           Timer
         </Text>
       </Box>
-      <VStack space={5} alignItems="center" bg="colors.bg">
-        <Box w="100%" h="20" bg="colors.bg" justifyContent="center">
-          <Text fontSize="4xl" color="colors.other" textAlign="center">
-            {restToggle ? "Rest! Next set starts in:" : exerName}
+      <VStack space={1} alignItems="center" bg="colors.bg">
+        <Box
+          w="100%"
+          h={height / 7}
+          bg="colors.bg"
+          my="1%"
+          py="1%"
+          justifyContent="center"
+        >
+          <Text
+            fontSize={restToggle ? "4xl" : "5xl"}
+            color="colors.other"
+            textAlign="center"
+          >
+            {restToggle ? "Rest! Next set in:" : exerName}
           </Text>
         </Box>
-        <Box w="100%" h="10" bg="colors.bg" justifyContent="center">
-          <Text fontSize="3xl" color="colors.other" textAlign="center">
+        <Box w="100%" h={height / 10} bg="colors.bg" justifyContent="center">
+          <Text fontSize="5xl" color="colors.other" textAlign="center">
             Sets left: {exerSets}
           </Text>
         </Box>
-        <Box w="100%" h="10" bg="colors.bg" justifyContent="center">
-          <Text fontSize="3xl" color="colors.other" textAlign="center">
+        <Box w="100%" h={height / 10} bg="colors.bg" justifyContent="center">
+          <Text fontSize="5xl" color="colors.other" textAlign="center">
             Reps: {exerReps}
           </Text>
         </Box>
-        <Box w="100%" h="40" bg="colors.bg" justifyContent="center">
-          <Text fontSize="9xl" color="colors.other" textAlign="center">
+        <Box
+          width={width}
+          h={height / 4}
+          bg="colors.bg"
+          justifyContent="center"
+        >
+          <Text
+            fontSize={height / 6}
+            width="100%"
+            color="colors.other"
+            textAlign="center"
+          >
             {clockify().displayMinutes}:{clockify().displaySeconds}
           </Text>
         </Box>
-        <HStack justifyContent="space-between">
-          <Pressable onPress={() => setTimerOn(true)}>
-            <FontAwesome name="play" size={130} color="green" />
-          </Pressable>
-          <Pressable onPress={() => setTimerOn(false)}>
-            <FontAwesome name="pause" size={130} color="yellow" />
-          </Pressable>
+        <HStack justifyContent="space-between" space={9}>
+          <Box>
+            {!timerOn ? (
+              <Pressable onPress={() => setTimerOn(true)}>
+                <FontAwesome name="play" size={100} color="green" />
+              </Pressable>
+            ) : (
+              <Pressable onPress={() => setTimerOn(false)}>
+                <FontAwesome name="pause" size={100} color="yellow" />
+              </Pressable>
+            )}
+          </Box>
           <Pressable onPress={() => navigation.navigate("Home")}>
-            <FontAwesome name="stop" size={130} color="red" />
+            <FontAwesome name="stop" size={100} color="red" />
           </Pressable>
         </HStack>
       </VStack>
@@ -247,3 +302,57 @@ const Timer = ({ route }) => {
 };
 
 export default Timer;
+
+const Example = (props) => {
+  const [loading, setLoading] = useState(false);
+  const navigation = useNavigation();
+  const handleSubmit = async () => {
+    setLoading(true);
+    await createOrSubmitHistory(props.workout);
+    props.setShowModal(false);
+    navigation.navigate("Home");
+  };
+  return (
+    <Center bg="colors.bg">
+      <Modal
+        bg="colors.bg"
+        isOpen={props.showModal}
+        onClose={() => props.setShowModal(false)}
+      >
+        <Modal.Content bgColor={"amber.300"} maxWidth="66%">
+          <Modal.Header color="colors.text">
+            Do you want to submit this workout?
+          </Modal.Header>
+          <Modal.Footer>
+            <Button.Group space={2}>
+              <Button
+                variant="ghost"
+                colorScheme="blueGray"
+                onPress={() => {
+                  props.setShowModal(false);
+                  navigation.navigate("Home");
+                }}
+              >
+                No
+              </Button>
+              {loading ? (
+                <Button bgColor={"colors.text"} isLoading>
+                  Yes
+                </Button>
+              ) : (
+                <Button
+                  bgColor={"colors.text"}
+                  onPress={() => {
+                    handleSubmit();
+                  }}
+                >
+                  Yes
+                </Button>
+              )}
+            </Button.Group>
+          </Modal.Footer>
+        </Modal.Content>
+      </Modal>
+    </Center>
+  );
+};
