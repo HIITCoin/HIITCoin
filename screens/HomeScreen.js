@@ -86,6 +86,22 @@ const HomeScreen = () => {
           shadow={3}
           justifyContent="center"
         >
+          <Pressable onPress={() => navigation.navigate("WorkoutHistory")}>
+            <Text fontSize="xl" color="colors.text" marginLeft="10px">
+              Workout History
+            </Text>
+          </Pressable>
+        </Box>
+        <Box
+          w="100%"
+          h="10"
+          bg="colors.bg"
+          rounded="md"
+          borderWidth="2px"
+          borderColor="colors.text"
+          shadow={3}
+          justifyContent="center"
+        >
           <Pressable onPress={() => navigation.navigate("Workouts")}>
             <Text fontSize="xl" color="colors.text" marginLeft="10px">
               Workout!

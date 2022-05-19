@@ -1,11 +1,4 @@
-import {
-  StyleSheet,
-  View,
-  TouchableOpacity,
-  Platform,
-  Keyboard,
-  TouchableWithoutFeedback,
-} from "react-native";
+import { Platform, Keyboard, TouchableWithoutFeedback } from "react-native";
 import React, { useEffect, useState } from "react";
 import {
   KeyboardAvoidingView,
@@ -13,12 +6,8 @@ import {
   Box,
   Icon,
   Button,
-  Center,
-  flex,
   Text,
-  keyboardDismissHandlerManager,
   FormControl,
-  ScrollView,
 } from "native-base";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -31,7 +20,6 @@ import { makeUser } from "../misc/helperFunctions";
 import { useNavigation } from "@react-navigation/core";
 
 const SignupScreen = () => {
-  //make sure numbers remain numbers and not strings
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -54,26 +42,24 @@ const SignupScreen = () => {
   }, []);
   useEffect(() => {
     let reset = () => {
-      setEmail('')
-      setAge('')
-      setFirstName('')
-      setHeight('')
-      setWeight('')
-      setLastName('')
-      setPassword('')
-    } 
-    return reset
-  }, [])
+      setEmail("");
+      setAge("");
+      setFirstName("");
+      setHeight("");
+      setWeight("");
+      setLastName("");
+      setPassword("");
+    };
+    return reset;
+  }, []);
   const validate = (data) => {
-    // data will be user object made from all data in state
-    //required
     for (let field in data) {
-      if(!String(data[field]).length){
-        alert('Please fill out all the fields, we talked about this already')
-        return false
+      if (!String(data[field]).length) {
+        alert("Please fill out all the fields");
+        return false;
       }
-    } 
-    return true
+    }
+    return true;
   };
   const handleSignUp = async () => {
     try {
@@ -83,33 +69,37 @@ const SignupScreen = () => {
         height: Number(height),
         weight: Number(weight),
         age: Number(age),
-      }; 
-      console.log(dbUserInstance)
-     if (validate(dbUserInstance)) {
-      const { user } = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      if (user) {
-        console.log("New user", user.email);
-        dbUserInstance.id = user.uid
-        await makeUser(dbUserInstance)
-        navigation.navigate("Home");
+      };
+      if (validate(dbUserInstance)) {
+        const { user } = await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+        if (user) {
+          console.log("New user", user.email);
+          dbUserInstance.id = user.uid;
+          await makeUser(dbUserInstance);
+          navigation.navigate("Home");
+        }
       }
-    }
     } catch (error) {
       alert(error.message);
     }
   };
 
   return (
-    <KeyboardAwareScrollView style={{height:"150%", backgroundColor:'#1B1B3A'}}>
-      <TouchableWithoutFeedback bg="colors.bg" height = "150%" onPress={Keyboard.dismiss}>
+    <KeyboardAwareScrollView
+      style={{ height: "150%", backgroundColor: "#1B1B3A" }}
+    >
+      <TouchableWithoutFeedback
+        bg="colors.bg"
+        height="150%"
+        onPress={Keyboard.dismiss}
+      >
         <KeyboardAvoidingView
           bg="colors.bg"
           height="150%"
-         // behavior={behavior}
           keyboardVerticalOffset={offsetKeyBoard} //when keyboard slides up it won't cover the input field and users will see what they type
         >
           <Box marginTop="20%" alignSelf="center">
@@ -124,7 +114,7 @@ const SignupScreen = () => {
                 _text={{
                   bold: true,
                   ml: 5,
-                  color: 'colors.text'
+                  color: "colors.text",
                 }}
               >
                 Email
@@ -155,7 +145,7 @@ const SignupScreen = () => {
                 _text={{
                   bold: true,
                   ml: 5,
-                  color: 'colors.text'
+                  color: "colors.text",
                 }}
               >
                 Password
@@ -181,15 +171,13 @@ const SignupScreen = () => {
                 onChangeText={(text) => setPassword(text)}
               />
             </FormControl>
-
-            {/*firstName*/}
             <FormControl isRequired>
               <FormControl.Label
                 marginBottom="0%"
                 _text={{
                   bold: true,
                   ml: 5,
-                  color: 'colors.text'
+                  color: "colors.text",
                 }}
               >
                 First Name
@@ -202,14 +190,6 @@ const SignupScreen = () => {
                 variant="rounded"
                 margin="2"
                 color="colors.other"
-                InputLeftElement={
-                  <Icon
-                    as={<MaterialIcons name="vpn-key" />}
-                    size={5}
-                    ml="2"
-                    color="muted.400"
-                  />
-                }
                 value={firstName}
                 onChangeText={(text) => setFirstName(text)}
               />
@@ -220,7 +200,7 @@ const SignupScreen = () => {
                 _text={{
                   bold: true,
                   ml: 5,
-                  color: 'colors.text'
+                  color: "colors.text",
                 }}
               >
                 Last Name
@@ -233,14 +213,6 @@ const SignupScreen = () => {
                 variant="rounded"
                 margin="2"
                 color="colors.other"
-                InputLeftElement={
-                  <Icon
-                    as={<MaterialIcons name="vpn-key" />}
-                    size={5}
-                    ml="2"
-                    color="muted.400"
-                  />
-                }
                 value={lastName}
                 onChangeText={(text) => setLastName(text)}
               />
@@ -251,7 +223,7 @@ const SignupScreen = () => {
                 _text={{
                   bold: true,
                   ml: 5,
-                  color: 'colors.text'
+                  color: "colors.text",
                 }}
               >
                 Height
@@ -265,14 +237,6 @@ const SignupScreen = () => {
                 margin="2"
                 color="colors.other"
                 keyboardType="numeric"
-                InputLeftElement={
-                  <Icon
-                    as={<MaterialIcons name="vpn-key" />}
-                    size={5}
-                    ml="2"
-                    color="muted.400"
-                  />
-                }
                 value={String(height)}
                 onChangeText={(text) => setHeight(String(text))}
               />
@@ -283,28 +247,20 @@ const SignupScreen = () => {
                 _text={{
                   bold: true,
                   ml: 5,
-                  color: 'colors.text'
+                  color: "colors.text",
                 }}
               >
                 Weight
               </FormControl.Label>
               <Input
                 mx="3"
-                placeholder="Weight(lbs)"
+                placeholder="Weight(in pounds)"
                 w="75%"
                 maxWidth="300px"
                 variant="rounded"
                 margin="2"
                 color="colors.other"
                 keyboardType="numeric"
-                InputLeftElement={
-                  <Icon
-                    as={<MaterialIcons name="vpn-key" />}
-                    size={5}
-                    ml="2"
-                    color="muted.400"
-                  />
-                }
                 value={String(weight)}
                 onChangeText={(text) => setWeight(String(text))}
               />
@@ -315,30 +271,22 @@ const SignupScreen = () => {
                 _text={{
                   bold: true,
                   ml: 5,
-                  color: 'colors.text'
+                  color: "colors.text",
                 }}
               >
                 Age
               </FormControl.Label>
-            <Input
-              mx="3"
-              placeholder="Age(years)"
-              w="75%"
-              maxWidth="300px"
-              variant="rounded"
-              margin="2"
-              color="colors.other"
-              InputLeftElement={
-                <Icon
-                  as={<MaterialIcons name="vpn-key" />}
-                  size={5}
-                  ml="2"
-                  color="muted.400"
-                />
-              }
-              value={String(age)}
-              onChangeText={(text) => setAge(String(text))}
-            />
+              <Input
+                mx="3"
+                placeholder="Age(in years)"
+                w="75%"
+                maxWidth="300px"
+                variant="rounded"
+                margin="2"
+                color="colors.other"
+                value={String(age)}
+                onChangeText={(text) => setAge(String(text))}
+              />
             </FormControl>
           </Box>
           <Box marginHorizontal={50} display={"flex"} flexDirection="row">
