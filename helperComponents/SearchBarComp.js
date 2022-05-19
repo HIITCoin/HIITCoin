@@ -33,7 +33,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/core";
 
 const Item = ({ name, setCurrentWord }) => {
-  function handleClick(evt) {
+  function handleClick() {
     setCurrentWord(name);
   }
   return (
