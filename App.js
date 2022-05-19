@@ -39,7 +39,7 @@ export default function App() {
             component={LoginScreen}
           />
           <Stack.Screen
-            options={{ headerShown: false }}
+            options={{ headerShown: false, gestureEnabled: false }}
             name="Home"
             component={HomeScreen}
           />
@@ -91,8 +91,8 @@ export default function App() {
           <Stack.Screen
             options={{ headerShown: false }}
             name="SearchBarComp"
-            component={SearchBarComp} 
-           />
+            component={SearchBarComp}
+          />
           <Stack.Screen
             options={{ headerShown: false }}
             name="Timer"
