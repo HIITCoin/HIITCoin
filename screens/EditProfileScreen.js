@@ -1,7 +1,5 @@
 import {
-  StyleSheet,
   View,
-  TouchableOpacity,
   Platform,
   Keyboard,
   TouchableWithoutFeedback,
@@ -18,15 +16,9 @@ import {
   Text,
   keyboardDismissHandlerManager,
   FormControl,
-  ScrollView,
 } from "native-base";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { MaterialIcons } from "@expo/vector-icons";
-import {
-  auth,
-  createUserWithEmailAndPassword,
-  onAuthStateChanged,
-} from "../firebase";
 import { getUser, editUser } from "../misc/helperFunctions";
 import { useNavigation } from "@react-navigation/core";
 
@@ -49,9 +41,6 @@ const EditProfileScreen = () => {
     };
     getUserInfo();
   }, []);
-
-  const navigation = useNavigation();
-  const behavior = Platform.OS === "ios" ? "position" : "padding";
   const offsetKeyBoard = Platform.OS === "ios" ? 5 : 0;
 
   const validate = (data) => {
@@ -93,8 +82,7 @@ const EditProfileScreen = () => {
         <KeyboardAvoidingView
           bg="colors.bg"
           height="150%"
-          // behavior={behavior}
-          keyboardVerticalOffset={offsetKeyBoard} //when keyboard slides up it won't cover the input field and users will see what they type
+          keyboardVerticalOffset={offsetKeyBoard}
         >
           <Box marginTop="20%" alignSelf="center">
             <Text fontSize="5xl" color="colors.text">
@@ -107,71 +95,6 @@ const EditProfileScreen = () => {
             </Text>
           </Box>
           <Box alignSelf="center">
-            {/* <FormControl isRequired marginTop="0%">
-              <FormControl.Label
-                marginBottom="0%"
-                _text={{
-                  bold: true,
-                  ml: 5,
-                  color: 'colors.text'
-                }}
-              >
-                Email
-              </FormControl.Label>
-              <Input
-                mx="3"
-                placeholder="Email"
-                w="75%"
-                maxWidth="300px"
-                variant="rounded"
-                margin="2"
-                color="colors.other"
-                InputLeftElement={
-                  <Icon
-                    as={<MaterialIcons name="person" />}
-                    size={5}
-                    ml="2"
-                    color="muted.400"
-                  />
-                }
-                // value={email}
-                // onChangeText={(text) => setEmail(text)}
-              />
-            </FormControl>
-            <FormControl isRequired>
-              <FormControl.Label
-                marginBottom="0%"
-                _text={{
-                  bold: true,
-                  ml: 5,
-                  color: 'colors.text'
-                }}
-              >
-                Password
-              </FormControl.Label>
-              <Input
-                mx="3"
-                placeholder="Password"
-                w="75%"
-                maxWidth="300px"
-                secureTextEntry
-                variant="rounded"
-                margin="2"
-                color="colors.other"
-                InputLeftElement={
-                  <Icon
-                    as={<MaterialIcons name="vpn-key" />}
-                    size={5}
-                    ml="2"
-                    color="muted.400"
-                  />
-                }
-                // value={password}
-                // onChangeText={(text) => setPassword(text)}
-              />
-            </FormControl> */}
-
-            {/*firstName*/}
             <FormControl isRequired>
               <FormControl.Label
                 marginBottom="0%"

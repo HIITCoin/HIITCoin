@@ -1,33 +1,14 @@
-import { Pressable, StyleSheet } from "react-native";
+import { Pressable } from "react-native";
 import React, { useEffect, useState } from "react";
 import { KeyboardAvoidingView, Text, VStack, Box, HStack } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { getUser } from "../misc/helperFunctions";
 import { auth, db } from "../firebase";
 import { doc, onSnapshot } from "firebase/firestore";
 
 const PersonalInfoScreen = () => {
   const navigation = useNavigation();
-
-  // const [firstName, setFirstName] = useState("");
-  // const [lastName, setLastName] = useState("");
-  const [height, setHeight] = useState("");
-  const [weight, setWeight] = useState("");
-  const [age, setAge] = useState("");
-  const [startDate, setStartDate] = useState({});
   const [user, setUser] = useState({});
-
-  // useEffect(() => {
-  //   const getUserInfo = async () => {
-  //     const user = await getUser();
-  //     setHeight(user.height);
-  //     setWeight(user.weight);
-  //     setAge(user.age);
-  //     setStartDate(new Date(user.startDate.seconds * 1000));
-  //   };
-  //   getUserInfo();
-  // }, []);
 
   useEffect(() => {
     const unsubscribe = onSnapshot(
@@ -36,7 +17,6 @@ const PersonalInfoScreen = () => {
         let userDb = user.data();
         userDb.startDate = new Date(userDb.startDate.seconds * 1000);
         setUser(userDb);
-        console.log(user);
       }
     );
     return unsubscribe;
@@ -46,27 +26,19 @@ const PersonalInfoScreen = () => {
     <KeyboardAvoidingView bg="colors.bg" height="100%">
       <Box marginTop="20%" marginBottom="10%">
         <HStack justifyContent="space-between">
-          <Pressable
-            //implement navigation.navigate("where")
-            onPress={() => navigation.navigate("Home")}
-          >
+          <Pressable onPress={() => navigation.navigate("Home")}>
             <MaterialIcons name="home" size={50} color="#9067C6" />
           </Pressable>
-          <Pressable
-            //implement navigation.navigate("where")
-            onPress={() => navigation.navigate("Profile")}
-          >
+          <Pressable onPress={() => navigation.navigate("Profile")}>
             <MaterialIcons name="person" color="#9067C6" size={50} />
           </Pressable>
         </HStack>
-        {/* Get userName from props/state/auth and implement here */}
         <Text fontSize="5xl" color="colors.text" textAlign="center">
           Personal Info
         </Text>
       </Box>
       <VStack space={4} alignItems="center" bg="colors.bg">
         <Box
-          //To align center, change <Box> to Center
           w="100%"
           h="10"
           bg="colors.bg"
@@ -76,14 +48,11 @@ const PersonalInfoScreen = () => {
           shadow={3}
           justifyContent="center"
         >
-          <Pressable onPress={() => console.log("Height pressed")}>
-            <Text fontSize="xl" color="colors.text" marginLeft="10px">
-              Height: {user.height || 0}
-            </Text>
-          </Pressable>
+          <Text fontSize="xl" color="colors.text" marginLeft="10px">
+            Height: {user.height || 0}
+          </Text>
         </Box>
         <Box
-          //To align left, change <Box> to Center
           w="100%"
           h="10"
           bg="colors.bg"
@@ -93,14 +62,11 @@ const PersonalInfoScreen = () => {
           shadow={3}
           justifyContent="center"
         >
-          <Pressable onPress={() => console.log("Weight pressed")}>
-            <Text fontSize="xl" color="colors.text" marginLeft="10px">
-              Weight: {user.weight}
-            </Text>
-          </Pressable>
+          <Text fontSize="xl" color="colors.text" marginLeft="10px">
+            Weight: {user.weight}
+          </Text>
         </Box>
         <Box
-          //To align left, change <Box> to Center
           w="100%"
           h="10"
           bg="colors.bg"
@@ -110,14 +76,11 @@ const PersonalInfoScreen = () => {
           shadow={3}
           justifyContent="center"
         >
-          <Pressable onPress={() => console.log("Age pressed")}>
-            <Text fontSize="xl" color="colors.text" marginLeft="10px">
-              Age: {user.age}
-            </Text>
-          </Pressable>
+          <Text fontSize="xl" color="colors.text" marginLeft="10px">
+            Age: {user.age}
+          </Text>
         </Box>
         <Box
-          //To align left, change <Box> to Center
           w="100%"
           h="10"
           bg="colors.bg"
@@ -127,11 +90,14 @@ const PersonalInfoScreen = () => {
           shadow={3}
           justifyContent="center"
         >
-          <Pressable onPress={() => console.log("Account Made pressed")}>
-            <Text fontSize="xl" color="colors.text" marginLeft="10px">
-              Account Made: {JSON.stringify(user.startDate)}
-            </Text>
-          </Pressable>
+          <Text fontSize="xl" color="colors.text" marginLeft="10px">
+            Account Made:{" "}
+            {`${JSON.stringify(
+              user.startDate.getMonth() + 1
+            )} / ${JSON.stringify(user.startDate.getDate())} / ${JSON.stringify(
+              user.startDate.getFullYear()
+            )}`}
+          </Text>
         </Box>
       </VStack>
     </KeyboardAvoidingView>
@@ -139,5 +105,3 @@ const PersonalInfoScreen = () => {
 };
 
 export default PersonalInfoScreen;
-
-const styles = StyleSheet.create({});

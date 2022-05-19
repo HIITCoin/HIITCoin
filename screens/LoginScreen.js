@@ -1,7 +1,5 @@
 import {
-  StyleSheet,
   View,
-  TouchableOpacity,
   Platform,
   Keyboard,
   TouchableWithoutFeedback,
@@ -21,24 +19,23 @@ import {
 import { MaterialIcons } from "@expo/vector-icons";
 import {
   auth,
-  createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   onAuthStateChanged,
 } from "../firebase";
 import { useNavigation } from "@react-navigation/core";
 
 const LoginScreen = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const navigation = useNavigation();
-  const behavior = Platform.OS === 'ios' ? 'position' : 'padding';
-  const offsetKeyBoard = Platform.OS === 'ios' ? 5 : 0;
+  const behavior = Platform.OS === "ios" ? "position" : "padding";
+  const offsetKeyBoard = Platform.OS === "ios" ? 5 : 0;
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        navigation.navigate('Home');
+        navigation.navigate("Home");
       }
     });
     return unsubscribe;
@@ -47,7 +44,7 @@ const LoginScreen = () => {
   const handleSignUp = async () => {
     onAuthStateChanged(auth, (user) => {
       if (!user) {
-        navigation.navigate('Signup');
+        navigation.navigate("Signup");
       }
     });
   };
