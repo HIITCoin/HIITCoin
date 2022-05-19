@@ -1,6 +1,7 @@
-import { Keyboard } from "react-native";
+import { Keyboard, Pressable } from "react-native";
 import React, { useEffect, useState } from "react";
-import { Box, Button, Text, ScrollView } from "native-base";
+import { Box, Button, Text, ScrollView, HStack } from "native-base";
+import { MaterialIcons } from "@expo/vector-icons";
 import { auth, db } from "../firebase";
 import { useNavigation } from "@react-navigation/core";
 import { TouchableWithoutFeedback } from "react-native";

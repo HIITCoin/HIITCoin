@@ -37,7 +37,7 @@ const WorkoutHistory = () => {
           </Pressable>
         </HStack>
         <Box marginTop="2%" alignSelf="center">
-          <Text fontSize="6xl" color="colors.text">
+          <Text fontSize="4xl" color="colors.text">
             Workout History
           </Text>
         </Box>
@@ -47,7 +47,7 @@ const WorkoutHistory = () => {
             alignSelf="center"
             marginTop="5%"
             shadow="3"
-            bg="colors.red"
+            bg="colors.box"
             p="5"
             rounded="xl"
             width="80%"
@@ -64,7 +64,7 @@ const WorkoutHistory = () => {
               fontWeight="medium"
               fontSize="4xl"
             >
-              Workout Name: {workout.name}
+              {workout.name}
             </Text>
           </Button>
         ))}
