@@ -22,7 +22,6 @@ const HomeScreen = () => {
   const handleSignOut = async () => {
     try {
       await signOut(auth);
-      console.log("Get out");
       navigation.navigate("Login");
     } catch (error) {
       alert(error.message);
