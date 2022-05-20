@@ -1,31 +1,9 @@
-import {
-  StyleSheet,
-  View,
-  TouchableOpacity,
-  Platform,
-  Keyboard,
-  TouchableWithoutFeedback,
-  SafeAreaView,
-  ActivityIndicator,
-  FlatList,
-} from "react-native";
+import { View, Keyboard, FlatList } from "react-native";
 import React, { useEffect, useState } from "react";
-import {
-  KeyboardAvoidingView,
-  Input,
-  Box,
-  Icon,
-  Button,
-  Text,
-  keyboardDismissHandlerManager,
-  VStack,
-  Heading,
-  CheckIcon,
-  HStack,
-  Divider,
-} from "native-base";
+import { Input, Box, Icon, Button, VStack, HStack, Divider } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/core";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const Item = ({ name, setCurrentWord }) => {
   function handleClick() {
@@ -94,10 +72,8 @@ export default function SearchBarComp({ route }) {
     }
   };
   return (
-    <TouchableWithoutFeedback
-      bg="colors.bg"
-      height="100%"
-      onPress={Keyboard.dismiss}
+    <KeyboardAwareScrollView
+      style={{ height: "150%", backgroundColor: "#1B1B3A" }}
     >
       <VStack
         space={5}
@@ -162,6 +138,6 @@ export default function SearchBarComp({ route }) {
           />
         </VStack>
       </VStack>
-    </TouchableWithoutFeedback>
+    </KeyboardAwareScrollView>
   );
 }
