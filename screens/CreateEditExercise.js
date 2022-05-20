@@ -96,7 +96,20 @@ export default function CreateEditExercise({ route }) {
       workout: route.params.state,
     });
   }
-  async function handleSubmitExercise() {
+  
+  async function handleSubmitExercise(Delete) {
+    let workout = route.params.state;
+
+    if (Delete) {
+      for (let i = 0; i < workout.exercises.length; ++i) {
+        if (exerciseName == workout.exercises[i].name) {
+          workout.exercises.splice(i, 1);
+          break;
+        }
+      }
+      navigation.navigate("New Workout", { state: workout });
+    }
+    
     const exerciseFromDb = await getSingleExercise(exerciseName);
     const exerciseToAdd = {
       name: exerciseName,
@@ -108,7 +121,6 @@ export default function CreateEditExercise({ route }) {
       duration,
       rest,
     };
-    let workout = route.params.state;
 
     if (route.params.index >= 0) {
       const newExerciseList = workout.exercises.map((exercise, index) => {
@@ -316,6 +328,17 @@ export default function CreateEditExercise({ route }) {
             />
           </FormControl>
         </HStack>
+        <Box marginHorizontal={50} display={"flex"} flexDirection="row">
+          <Button
+            width="60%"
+            backgroundColor={"colors.text"}
+            flex={1}
+            margin={5}
+            onPress={() => handleSubmitExercise(true)}
+          >
+            Delete Exercise
+          </Button>
+        </Box>
         <Box marginHorizontal={50} display={"flex"} flexDirection="row">
           <Button
             width="60%"
