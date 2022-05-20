@@ -10,27 +10,19 @@ const SettingsScreen = () => {
     <KeyboardAvoidingView bg="colors.bg" height="100%">
       <Box marginTop="20%" marginBottom="10%">
         <HStack justifyContent="space-between">
-          <Pressable
-            //implement navigation.navigate("where")
-            onPress={() => navigation.navigate("Home")}
-          >
+          <Pressable onPress={() => navigation.navigate("Home")}>
             <MaterialIcons name="home" size={50} color="#9067C6" />
           </Pressable>
-          <Pressable
-            //implement navigation.navigate("where")
-            onPress={() => navigation.navigate("Profile")}
-          >
+          <Pressable onPress={() => navigation.navigate("Profile")}>
             <MaterialIcons name="person" color="#9067C6" size={50} />
           </Pressable>
         </HStack>
-        {/* Get userName from props/state/auth and implement here */}
         <Text fontSize="5xl" color="colors.text" textAlign="center">
           Settings
         </Text>
       </Box>
       <VStack space={4} alignItems="center" bg="colors.bg">
         <Box
-          //To align left, change <Box> to Center
           w="100%"
           h="10"
           bg="colors.bg"
@@ -47,7 +39,6 @@ const SettingsScreen = () => {
           </Pressable>
         </Box>
         <Box
-          //To align left, change <Box> to Center
           w="100%"
           h="10"
           bg="colors.bg"
@@ -64,7 +55,6 @@ const SettingsScreen = () => {
           </Pressable>
         </Box>
         <Box
-          //To align left, change <Box> to Center
           w="100%"
           h="10"
           bg="colors.bg"
@@ -81,7 +71,6 @@ const SettingsScreen = () => {
           </Pressable>
         </Box>
         <Box
-          //To align left, change <Box> to Center
           w="100%"
           h="10"
           bg="colors.bg"

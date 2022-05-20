@@ -96,6 +96,7 @@ export default function CreateEditExercise({ route }) {
       workout: route.params.state,
     });
   }
+  
   async function handleSubmitExercise(Delete) {
     let workout = route.params.state;
 
@@ -108,7 +109,7 @@ export default function CreateEditExercise({ route }) {
       }
       navigation.navigate("New Workout", { state: workout });
     }
-
+    
     const exerciseFromDb = await getSingleExercise(exerciseName);
     const exerciseToAdd = {
       name: exerciseName,

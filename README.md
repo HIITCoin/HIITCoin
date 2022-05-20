@@ -1,5 +1,5 @@
 # HiiTCoin
-
+[![Netlify Status](https://api.netlify.com/api/v1/badges/37d721a4-e457-4a65-90b8-c02e9aabe467/deploy-status)](https://app.netlify.com/sites/hiitcoin/deploys)
 <p align="center">
     <img src="https://github.com/HIITCoin/HiiTCoin/blob/main/assets/logo.png?raw=true" alt="Logo" width="120" height="120">
 

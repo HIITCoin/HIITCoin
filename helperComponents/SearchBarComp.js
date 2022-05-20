@@ -16,15 +16,10 @@ import {
   Box,
   Icon,
   Button,
-  Center,
-  flex,
   Text,
   keyboardDismissHandlerManager,
-  FormControl,
-  ScrollView,
   VStack,
   Heading,
-  Select,
   CheckIcon,
   HStack,
   Divider,
@@ -33,12 +28,18 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/core";
 
 const Item = ({ name, setCurrentWord }) => {
-  function handleClick(evt) {
+  function handleClick() {
     setCurrentWord(name);
   }
   return (
     <View>
-      <Button name={name} onPress={handleClick}>
+      <Button
+        name={name}
+        variant="outline"
+        borderColor={"colors.text"}
+        _text={{ color: "white" }}
+        onPress={handleClick}
+      >
         {name}
       </Button>
     </View>
@@ -103,7 +104,7 @@ export default function SearchBarComp({ route }) {
         bg="colors.bg"
         w="100%"
         height="100%"
-        maxW="400px"
+        maxW="100%"
         divider={
           <Box px="2">
             <Divider />
@@ -112,10 +113,12 @@ export default function SearchBarComp({ route }) {
       >
         <VStack w="100%" space={5} my="10" alignSelf="center">
           <HStack>
-            <Heading fontSize="lg" color="white" w="50%">
-              Exercise Name
-            </Heading>
-            <Button w="50%" onPress={handleSubmit}>
+            <Button
+              backgroundColor={"colors.text"}
+              w="100%"
+              onPress={handleSubmit}
+              _text={{ fontSize: "2xl" }}
+            >
               Submit
             </Button>
           </HStack>
@@ -145,6 +148,7 @@ export default function SearchBarComp({ route }) {
                 size="6"
                 color="gray.400"
                 onPress={() => {
+                  setCurrentWord("");
                   Keyboard.dismiss;
                 }}
                 as={<MaterialIcons name="close" />}

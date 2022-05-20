@@ -1,10 +1,4 @@
-import {
-  StyleSheet,
-  View,
-  TouchableOpacity,
-  Keyboard,
-  useWindowDimensions,
-} from "react-native";
+import { View, Keyboard } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import React, { useEffect, useState } from "react";
 import {
@@ -17,29 +11,18 @@ import {
   flex,
   Text,
   keyboardDismissHandlerManager,
-  Pressable,
-  Badge,
-  Spacer,
-  Flex,
   HStack,
   FormControl,
   Select,
   CheckIcon,
 } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
-import { auth } from "../firebase";
 import { useNavigation } from "@react-navigation/core";
 import { TouchableWithoutFeedback } from "react-native";
-import {
-  exerciseInWorkout,
-  exerciseInWorkout2,
-  sampleWorkoutInList,
-} from "../misc/sampleData";
 import {
   secondToMinutesAndSeconds,
   minSecToSeconds,
   addNewWorkout,
-  editWorkout,
 } from "../misc/helperFunctions";
 const NewWorkout = ({ route }) => {
   let [rounds, setRounds] = React.useState("");
@@ -50,8 +33,6 @@ const NewWorkout = ({ route }) => {
   console.log("ROUTE PARAMS", route.params);
 
   const validate = (data) => {
-    // data will be user object made from all data in state
-    // required
     if (data.exercises.length === 0) {
       alert("Please add an exercise!, we talked about this already");
       return false;
@@ -103,7 +84,7 @@ const NewWorkout = ({ route }) => {
 
   let optionsArr = [];
 
-  for (let i = 1; i <= 100; ++i) {
+  for (let i = 1; i <= 30; ++i) {
     optionsArr.push(i);
   }
 
@@ -133,7 +114,6 @@ const NewWorkout = ({ route }) => {
     };
 
     validate(newWorkout);
-    console.log(newWorkout);
     await addNewWorkout(newWorkout);
     navigation.navigate("Workouts");
   };

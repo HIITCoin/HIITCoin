@@ -168,7 +168,7 @@ export function calculatePoints(workout) {
   };
   const { exercises } = workout;
   exercises.forEach((exercise) => {
-    let exTotal = exercise.sets * exercise.basePoints * workout.rounds;
+    let exTotal = exercise.sets * 10 * workout.rounds;
     total += exTotal;
     bodyPoints[`${exercise.bodyPart}`] += exTotal;
   });
