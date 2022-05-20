@@ -70,7 +70,7 @@ const HomeScreen = () => {
           shadow={3}
           justifyContent="center"
         >
-          <Pressable onPress={() => console.log("Stats pressed")}>
+          <Pressable onPress={() => navigation.navigate("Stats")}>
             <Text fontSize="xl" color="colors.text" marginLeft="10px">
               Stats
             </Text>

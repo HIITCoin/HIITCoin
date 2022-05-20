@@ -45,16 +45,25 @@ export const sampleWorkoutInList = {
   roundRest: 100,
 };
 //sample workout in user -workout-history-
-const sampleWorkoutInHistory = {
+export const sampleWorkoutInHistory = {
+  name: "sample workout name",
+  total: 100,
+  bodyPoints: {},
+  exercises: [exerciseInWorkout, exerciseInWorkout2],
+  rounds: 2,
+  roundRest: 100,
+  date: new Date(),
+};
+export const sampleWorkoutInHistory2 = {
   name: "sample workout name",
   total: 0,
   bodyPoints: {},
   exercises: [exerciseInWorkout],
   rounds: 2,
   roundRest: 100,
-  date: new Date(),
+  date: new Date("May 5, 2022 23:15:30"),
 };
-function calculatePoints(workout) {
+export function calculatePoints(workout) {
   let total = 0;
   let bodyPoints = {
     abs: 0,

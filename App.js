@@ -21,6 +21,7 @@ import EditProfileScreen from "./screens/EditProfileScreen";
 import CreateEditExercise from "./screens/CreateEditExercise";
 import SearchBarComp from "./helperComponents/SearchBarComp";
 import Timer from "./screens/Timer";
+import Stats from "./screens/Stats";
 import WorkoutHistory from "./screens/WorkoutHistory";
 import { colorTheme } from "./misc/colorTheme";
 
@@ -98,6 +99,11 @@ export default function App() {
             options={{ headerShown: false }}
             name="Timer"
             component={Timer}
+          />
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="Stats"
+            component={Stats}
           />
           <Stack.Screen
             options={{ headerShown: false }}
