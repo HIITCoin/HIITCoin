@@ -28,7 +28,7 @@ const SingleWorkout = ({ route }) => {
     <ScrollView>
       {route.params.fromHistory ? (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <KeyboardAvoidingView bg="colors.bg" height="200%" behavior="padding">
+          <KeyboardAvoidingView bg="colors.bg" height="500%" behavior="padding">
             <HStack justifyContent="space-between" marginTop="15%">
               <Pressable onPress={() => navigation.navigate("Home")}>
                 <MaterialIcons name="home" size={50} color="#9067C6" />
@@ -94,7 +94,7 @@ const SingleWorkout = ({ route }) => {
         </TouchableWithoutFeedback>
       ) : (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <KeyboardAvoidingView bg="colors.bg" height="100%" behavior="padding">
+          <KeyboardAvoidingView bg="colors.bg" height="500%" behavior="padding">
             <HStack justifyContent="space-between" marginTop="15%">
               <Pressable onPress={() => navigation.navigate("Home")}>
                 <MaterialIcons name="home" size={50} color="#9067C6" />
@@ -127,7 +127,7 @@ const SingleWorkout = ({ route }) => {
                 Begin Workout
               </Text>
             </Button>
-            <HStack justifyContent="center" space={10}>
+            <HStack justifyContent="center" space={7}>
               <Button
                 alignSelf="center"
                 marginTop="5%"
@@ -135,7 +135,7 @@ const SingleWorkout = ({ route }) => {
                 bg="colors.text"
                 p="5"
                 rounded="8"
-                width="35%"
+                width="45%"
                 onPress={handleEditWorkout}
               >
                 <Text alignSelf="center" color="white" fontSize="4xl">
@@ -149,7 +149,7 @@ const SingleWorkout = ({ route }) => {
                 bg="colors.text"
                 p="5"
                 rounded="8"
-                width="35%"
+                width="45%"
                 onPress={() => handleDeleteWorkout(workout.name)}
               >
                 <Text

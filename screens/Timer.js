@@ -203,6 +203,7 @@ const Timer = ({ route }) => {
         >
           <Text
             fontSize={restToggle ? "4xl" : "5xl"}
+            numberOfLines={1}
             color="colors.other"
             textAlign="center"
           >

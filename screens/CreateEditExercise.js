@@ -1,13 +1,8 @@
 import {
-  StyleSheet,
   View,
-  TouchableOpacity,
-  Platform,
   Keyboard,
   TouchableWithoutFeedback,
-  SafeAreaView,
-  ActivityIndicator,
-  FlatList,
+  useWindowDimensions,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import {
@@ -17,27 +12,20 @@ import {
   Icon,
   Button,
   Center,
-  flex,
   Text,
   keyboardDismissHandlerManager,
   FormControl,
-  ScrollView,
   VStack,
   Heading,
   Select,
   CheckIcon,
   HStack,
   Divider,
+  flex,
 } from "native-base";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { MaterialIcons } from "@expo/vector-icons";
 import {
-  auth,
-  createUserWithEmailAndPassword,
-  onAuthStateChanged,
-} from "../firebase";
-import {
-  getUser,
   getExercises,
   secondToMinutesAndSeconds,
   getSingleExercise,
@@ -46,32 +34,21 @@ import { useNavigation } from "@react-navigation/core";
 
 export default function CreateEditExercise({ route }) {
   const [exerciseList, setExerciseList] = useState([]);
-  //new stuff
   const [exerciseName, setExerciseName] = useState("");
-  const [difficulty, setDifficulty] = useState(0);
-  const [basePoints, setBasePoints] = useState(0);
-  const [bodyPart, setBodyPart] = useState("");
-  //end of new stuff
   const [sets, setSets] = useState("");
   const [reps, setReps] = useState("");
   const [duration, setDuration] = useState({ minutes: "", seconds: "" });
   const [rest, setRest] = useState({ minutes: "", seconds: "" });
   const navigation = useNavigation();
-
+  const { width, height } = useWindowDimensions();
   useEffect(() => {
     if (route.params.propsFromSearch) {
       setExerciseName(route.params.propsFromSearch.name);
-      //new stuff
-      // console.log(route.params.propsFromSearch.difficulty);
-      // setDifficulty(route.params.propsFromSearch.difficulty);
-      // setBasePoints(route.params.propsFromSearch.basePoints);
-      // setBodyPart(route.params.propsFromSearch.bodyPart);
-      //end of new stuff
     }
   }, [route.params.propsFromSearch]);
 
   let optionsArr = [];
-  for (let i = 1; i <= 100; i++) {
+  for (let i = 1; i <= 30; i++) {
     optionsArr.push(i);
   }
   useEffect(() => {
@@ -81,7 +58,6 @@ export default function CreateEditExercise({ route }) {
     };
     let workout = route.params.state;
     if (route.params.index >= 0) {
-      //find exercise with flag on it
       let exercise = workout.exercises[route.params.index];
       if (!isNaN(exercise.duration)) {
         const exDuration = secondToMinutesAndSeconds(exercise.duration);
@@ -120,7 +96,20 @@ export default function CreateEditExercise({ route }) {
       workout: route.params.state,
     });
   }
-  async function handleSubmitExercise() {
+  
+  async function handleSubmitExercise(Delete) {
+    let workout = route.params.state;
+
+    if (Delete) {
+      for (let i = 0; i < workout.exercises.length; ++i) {
+        if (exerciseName == workout.exercises[i].name) {
+          workout.exercises.splice(i, 1);
+          break;
+        }
+      }
+      navigation.navigate("New Workout", { state: workout });
+    }
+    
     const exerciseFromDb = await getSingleExercise(exerciseName);
     const exerciseToAdd = {
       name: exerciseName,
@@ -132,9 +121,6 @@ export default function CreateEditExercise({ route }) {
       duration,
       rest,
     };
-
-    console.log(exerciseToAdd);
-    let workout = route.params.state;
 
     if (route.params.index >= 0) {
       const newExerciseList = workout.exercises.map((exercise, index) => {
@@ -155,37 +141,40 @@ export default function CreateEditExercise({ route }) {
       onPress={Keyboard.dismiss}
     >
       <KeyboardAwareScrollView style={{ backgroundColor: "#1B1B3A" }}>
-        <Box marginTop="5%" alignSelf="center">
-          <Text fontSize="3xl" color="colors.text">
-            Create/Edit Exercise
-          </Text>
-        </Box>
-        <VStack
-          my="4"
-          space={5}
-          w="100%"
-          maxW="300px"
-          divider={
-            <Box px="2">
-              <Divider />
-            </Box>
-          }
-        >
-          <VStack w="100%" space={5} alignSelf="center">
-            <Heading fontSize="lg" color="white">
-              Exercise Name:
-              {exerciseName}
-            </Heading>
-            <Button
-              onPress={handleSearchPress}
-              startIcon={
-                <Icon pl={0} as={MaterialIcons} name="search" size={5} />
-              }
-            >
-              <Text>Change Exercise Name</Text>
-            </Button>
+        <Center alignContent={"center"}>
+          <Box marginTop="15%" alignSelf="center">
+            <Text fontSize="3xl" color="colors.text">
+              Create/Edit Exercise
+            </Text>
+          </Box>
+          <VStack
+            my="4"
+            space={5}
+            w="100%"
+            maxW="300px"
+            divider={
+              <Box px="2">
+                <Divider />
+              </Box>
+            }
+          >
+            <VStack space={5} textAlign={"center"} alignSelf="center">
+              <Heading fontSize="lg" color="white" textAlign={"center"}>
+                Exercise Name:{"\n"}
+                {exerciseName}
+              </Heading>
+              <Button
+                onPress={handleSearchPress}
+                backgroundColor={"colors.text"}
+                startIcon={
+                  <Icon pl={0} as={MaterialIcons} name="search" size={5} />
+                }
+              >
+                <Text color="white">Change Exercise Name</Text>
+              </Button>
+            </VStack>
           </VStack>
-        </VStack>
+        </Center>
         <Center alignContent="center">
           <Box w="3/4" maxWidth="300px" width="100%">
             <FormControl.Label
@@ -250,15 +239,21 @@ export default function CreateEditExercise({ route }) {
             </Select>
           </Box>
         </Center>
-        <Text bold="true" color="colors.text" ml="25%" marginTop={4}>
-          Duration
-        </Text>
-        <HStack width="40%" space={2} marginTop="3">
-          <FormControl>
+        <Box minWidth="200" ml="10%" mr="10%">
+          <Text
+            textAlign={"center"}
+            bold="true"
+            color="colors.text"
+            marginTop={4}
+          >
+            Duration
+          </Text>
+        </Box>
+
+        <HStack space={2} marginTop="3" justifyContent={"center"}>
+          <FormControl width={"40%"}>
             <Input
-              mx="1"
               placeholder="Minutes"
-              w="100%"
               variant="rounded"
               margin="2"
               color="colors.other"
@@ -272,11 +267,9 @@ export default function CreateEditExercise({ route }) {
               }}
             />
           </FormControl>
-          <FormControl>
+          <FormControl width={"40%"}>
             <Input
-              mx="1"
               placeholder="Seconds"
-              w="100%"
               variant="rounded"
               margin="2"
               color="colors.other"
@@ -291,15 +284,20 @@ export default function CreateEditExercise({ route }) {
             />
           </FormControl>
         </HStack>
-        <Text bold="true" color="colors.text" ml="25%" marginTop={4}>
-          Rest Between Sets
-        </Text>
-        <HStack width="40%" space={2} marginTop="3">
-          <FormControl>
+        <Box minWidth="200" ml="10%" mr="10%">
+          <Text
+            textAlign={"center"}
+            bold="true"
+            color="colors.text"
+            marginTop={4}
+          >
+            Rest Between Sets
+          </Text>
+        </Box>
+        <HStack space={2} marginTop="3" justifyContent={"center"}>
+          <FormControl width={"40%"}>
             <Input
-              mx="1"
               placeholder="Minutes"
-              w="100%"
               variant="rounded"
               margin="2"
               color="colors.other"
@@ -313,11 +311,9 @@ export default function CreateEditExercise({ route }) {
               }}
             />
           </FormControl>
-          <FormControl>
+          <FormControl width={"40%"}>
             <Input
-              mx="1"
               placeholder="Seconds"
-              w="100%"
               variant="rounded"
               margin="2"
               color="colors.other"
@@ -335,6 +331,18 @@ export default function CreateEditExercise({ route }) {
         <Box marginHorizontal={50} display={"flex"} flexDirection="row">
           <Button
             width="60%"
+            backgroundColor={"colors.text"}
+            flex={1}
+            margin={5}
+            onPress={() => handleSubmitExercise(true)}
+          >
+            Delete Exercise
+          </Button>
+        </Box>
+        <Box marginHorizontal={50} display={"flex"} flexDirection="row">
+          <Button
+            width="60%"
+            backgroundColor={"colors.text"}
             flex={1}
             margin={5}
             onPress={() => handleSubmitExercise()}
