@@ -123,7 +123,7 @@ const NewWorkout = ({ route }) => {
           height="150%"
           // behavior={behavior}
         >
-          <Box marginTop="20%" alignSelf="center">
+          <Box marginTop="10%" alignSelf="center">
             <Text fontSize="5xl" color="colors.text">
               Create Workout
             </Text>
@@ -266,6 +266,7 @@ const NewWorkout = ({ route }) => {
           <Box marginHorizontal={50} display={"flex"} flexDirection="row">
             <Button
               width="60%"
+              backgroundColor={"colors.text"}
               flex={1}
               margin={5}
               onPress={() => handleNewExercise()}
@@ -277,6 +278,7 @@ const NewWorkout = ({ route }) => {
             <Button
               width="60%"
               flex={1}
+              backgroundColor={"colors.text"}
               margin={5}
               onPress={handleSubmitWorkout}
             >
@@ -435,6 +437,7 @@ const NewWorkout = ({ route }) => {
               width="60%"
               flex={1}
               margin={5}
+              backgroundColor={"colors.text"}
               onPress={() => handleNewExercise()}
             >
               Add Exercise
@@ -444,6 +447,7 @@ const NewWorkout = ({ route }) => {
             <Button
               width="60%"
               flex={1}
+              backgroundColor={"colors.text"}
               margin={5}
               onPress={handleSubmitWorkout}
             >

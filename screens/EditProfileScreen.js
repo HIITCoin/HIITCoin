@@ -5,13 +5,19 @@ import {
   Input,
   Box,
   Button,
+  HStack,
   Text,
+  Pressable,
   FormControl,
 } from "native-base";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { getUser, editUser } from "../misc/helperFunctions";
+import { MaterialIcons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 const EditProfileScreen = () => {
+  const navigation = useNavigation();
+
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [height, setHeight] = useState("");
@@ -68,7 +74,15 @@ const EditProfileScreen = () => {
         height="150%"
         keyboardVerticalOffset={offsetKeyBoard}
       >
-        <Box marginTop="20%" alignSelf="center">
+        <HStack marginTop="10%" justifyContent="space-between">
+          <Pressable onPress={() => navigation.navigate("Home")}>
+            <MaterialIcons name="home" size={50} color="#9067C6" />
+          </Pressable>
+          <Pressable onPress={() => navigation.navigate("Profile")}>
+            <MaterialIcons name="person" color="#9067C6" size={50} />
+          </Pressable>
+        </HStack>
+        <Box marginTop="10%" alignSelf="center">
           <Text fontSize="5xl" color="colors.text">
             Edit Profile
           </Text>
@@ -198,8 +212,14 @@ const EditProfileScreen = () => {
           </FormControl>
         </Box>
         <Box marginHorizontal={50} display={"flex"} flexDirection="row">
-          <Button width="60%" flex={1} margin={5} onPress={handleEdit}>
-            Edit
+          <Button
+            width="60%"
+            backgroundColor={"colors.text"}
+            flex={1}
+            margin={5}
+            onPress={handleEdit}
+          >
+            Submit
           </Button>
         </Box>
       </KeyboardAvoidingView>

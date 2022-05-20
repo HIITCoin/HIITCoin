@@ -30,7 +30,7 @@ const HomeScreen = () => {
 
   return (
     <KeyboardAvoidingView bg="colors.bg" height="100%">
-      <Box marginTop="20%" marginBottom="10%">
+      <Box marginTop="10%" marginBottom="10%">
         <HStack justifyContent="space-between">
           <Pressable onPress={() => console.log("Home pressed")}>
             <MaterialIcons name="home" size={50} color="#9067C6" />
@@ -104,23 +104,7 @@ const HomeScreen = () => {
         >
           <Pressable onPress={() => navigation.navigate("Workouts")}>
             <Text fontSize="xl" color="colors.text" marginLeft="10px">
-              Workout!
-            </Text>
-          </Pressable>
-        </Box>
-        <Box
-          w="100%"
-          h="10"
-          bg="colors.bg"
-          rounded="md"
-          borderWidth="2px"
-          borderColor="colors.text"
-          shadow={3}
-          justifyContent="center"
-        >
-          <Pressable onPress={() => navigation.navigate("Timer")}>
-            <Text fontSize="xl" color="colors.text" marginLeft="10px">
-              Quick Timer
+              Workout
             </Text>
           </Pressable>
         </Box>

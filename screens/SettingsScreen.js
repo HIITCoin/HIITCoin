@@ -8,7 +8,7 @@ const SettingsScreen = () => {
   const navigation = useNavigation();
   return (
     <KeyboardAvoidingView bg="colors.bg" height="100%">
-      <Box marginTop="20%" marginBottom="10%">
+      <Box marginTop="10%" marginBottom="10%">
         <HStack justifyContent="space-between">
           <Pressable onPress={() => navigation.navigate("Home")}>
             <MaterialIcons name="home" size={50} color="#9067C6" />

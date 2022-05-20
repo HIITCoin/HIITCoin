@@ -125,7 +125,7 @@ const Timer = ({ route }) => {
         }
       }
     },
-    timerOn ? 300 : null
+    timerOn ? 1000 : null
   );
 
   useEffect(() => {
