@@ -26,8 +26,8 @@ const WorkoutHistory = () => {
   }, []);
 
   return (
-    <ScrollView bg="colors.bg">
-      <KeyboardAvoidingView bg="colors.bg" height="500%" behavior="padding">
+    <ScrollView>
+      <Box bg="colors.bg">
         <HStack justifyContent="space-between" marginTop="15%">
           <Pressable onPress={() => navigation.navigate("Home")}>
             <MaterialIcons name="home" size={50} color="#9067C6" />
@@ -68,7 +68,7 @@ const WorkoutHistory = () => {
             </Text>
           </Button>
         ))}
-      </KeyboardAvoidingView>
+      </Box>
     </ScrollView>
   );
 };
