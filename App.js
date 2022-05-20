@@ -22,6 +22,7 @@ import CreateEditExercise from "./screens/CreateEditExercise";
 import SearchBarComp from "./helperComponents/SearchBarComp";
 import Timer from "./screens/Timer";
 import Stats from "./screens/Stats";
+import WorkoutHistory from "./screens/WorkoutHistory";
 import { colorTheme } from "./misc/colorTheme";
 
 const Stack = createNativeStackNavigator();
@@ -40,7 +41,7 @@ export default function App() {
             component={LoginScreen}
           />
           <Stack.Screen
-            options={{ headerShown: false }}
+            options={{ headerShown: false, gestureEnabled: false }}
             name="Home"
             component={HomeScreen}
           />
@@ -92,8 +93,8 @@ export default function App() {
           <Stack.Screen
             options={{ headerShown: false }}
             name="SearchBarComp"
-            component={SearchBarComp} 
-           />
+            component={SearchBarComp}
+          />
           <Stack.Screen
             options={{ headerShown: false }}
             name="Timer"
@@ -103,6 +104,11 @@ export default function App() {
             options={{ headerShown: false }}
             name="Stats"
             component={Stats}
+          />
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="WorkoutHistory"
+            component={WorkoutHistory}
           />
         </Stack.Navigator>
       </NavigationContainer>

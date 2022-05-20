@@ -1,44 +1,23 @@
-import {
-  StyleSheet,
-  View,
-  TouchableOpacity,
-  Platform,
-  Keyboard,
-  TouchableWithoutFeedback,
-  SafeAreaView,
-  ActivityIndicator,
-  FlatList,
-} from "react-native";
+import { View, Keyboard, FlatList } from "react-native";
 import React, { useEffect, useState } from "react";
-import {
-  KeyboardAvoidingView,
-  Input,
-  Box,
-  Icon,
-  Button,
-  Center,
-  flex,
-  Text,
-  keyboardDismissHandlerManager,
-  FormControl,
-  ScrollView,
-  VStack,
-  Heading,
-  Select,
-  CheckIcon,
-  HStack,
-  Divider,
-} from "native-base";
+import { Input, Box, Icon, Button, VStack, HStack, Divider } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/core";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const Item = ({ name, setCurrentWord }) => {
-  function handleClick(evt) {
+  function handleClick() {
     setCurrentWord(name);
   }
   return (
     <View>
-      <Button name={name} onPress={handleClick}>
+      <Button
+        name={name}
+        variant="outline"
+        borderColor={"colors.text"}
+        _text={{ color: "white" }}
+        onPress={handleClick}
+      >
         {name}
       </Button>
     </View>
@@ -52,7 +31,7 @@ export default function SearchBarComp({ route }) {
 
   useEffect(() => {
     setCurrentList(propsFromCreateExercise.exerciseList);
-    setCurrentWord(propsFromCreateExercise.exerciseName);
+    setCurrentWord(propsFromCreateExercise.name);
     function reset() {
       setCurrentWord("");
       setCurrentList([]);
@@ -64,7 +43,7 @@ export default function SearchBarComp({ route }) {
   function handleSubmit() {
     console.log(currentWord, "search-result");
     const propsFromSearch = {
-      exerciseName: currentWord,
+      name: currentWord,
       sets: propsFromCreateExercise.sets,
       reps: propsFromCreateExercise.reps,
       duration: propsFromCreateExercise.duration,
@@ -93,17 +72,15 @@ export default function SearchBarComp({ route }) {
     }
   };
   return (
-    <TouchableWithoutFeedback
-      bg="colors.bg"
-      height="100%"
-      onPress={Keyboard.dismiss}
+    <KeyboardAwareScrollView
+      style={{ height: "150%", backgroundColor: "#1B1B3A" }}
     >
       <VStack
         space={5}
         bg="colors.bg"
         w="100%"
         height="100%"
-        maxW="400px"
+        maxW="100%"
         divider={
           <Box px="2">
             <Divider />
@@ -112,10 +89,12 @@ export default function SearchBarComp({ route }) {
       >
         <VStack w="100%" space={5} my="10" alignSelf="center">
           <HStack>
-            <Heading fontSize="lg" color="white" w="50%">
-              Exercise Name
-            </Heading>
-            <Button w="50%" onPress={handleSubmit}>
+            <Button
+              backgroundColor={"colors.text"}
+              w="100%"
+              onPress={handleSubmit}
+              _text={{ fontSize: "2xl" }}
+            >
               Submit
             </Button>
           </HStack>
@@ -145,6 +124,7 @@ export default function SearchBarComp({ route }) {
                 size="6"
                 color="gray.400"
                 onPress={() => {
+                  setCurrentWord("");
                   Keyboard.dismiss;
                 }}
                 as={<MaterialIcons name="close" />}
@@ -158,6 +138,6 @@ export default function SearchBarComp({ route }) {
           />
         </VStack>
       </VStack>
-    </TouchableWithoutFeedback>
+    </KeyboardAwareScrollView>
   );
 }
