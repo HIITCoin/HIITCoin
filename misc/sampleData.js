@@ -47,7 +47,7 @@ export const sampleWorkoutInList = {
 //sample workout in user -workout-history-
 export const sampleWorkoutInHistory = {
   name: "sample workout name",
-  total: 0,
+  total: 100,
   bodyPoints: {},
   exercises: [exerciseInWorkout, exerciseInWorkout2],
   rounds: 2,

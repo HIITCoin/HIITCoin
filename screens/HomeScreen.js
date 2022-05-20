@@ -31,12 +31,21 @@ import {
   getUser,
   getUserWorkouts,
 } from "../misc/helperFunctions";
-
+import { getWorkoutHistory } from "../misc/helperFunctions";
 const HomeScreen = () => {
   const navigation = useNavigation();
   const auth = getAuth();
   const exCollection = collection(db, "Exercises");
+  const [arrWorkoutHistory, setArrWorkoutHistory] = useState([]);
 
+  useEffect(async () => {
+    const workHistory = async () => {
+      let arrWorkoutHistory = await getWorkoutHistory();
+      return arrWorkoutHistory;
+    };
+    let arrWorkoutHistory = await workHistory();
+    setArrWorkoutHistory(arrWorkoutHistory);
+  }, []);
   useEffect(() => {
     const getExer = async () => {
       let arr = [];
