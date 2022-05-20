@@ -19,7 +19,7 @@ const ProfileScreen = () => {
 
   return (
     <KeyboardAvoidingView bg="colors.bg" height="100%">
-      <Box marginTop="20%" marginBottom="10%">
+      <Box marginTop="10%" marginBottom="10%">
         <HStack justifyContent="space-between">
           <Pressable onPress={() => navigation.navigate("Home")}>
             <MaterialIcons name="home" size={50} color="#9067C6" />
@@ -46,22 +46,6 @@ const ProfileScreen = () => {
           <Pressable onPress={() => navigation.navigate("Personal Info")}>
             <Text fontSize="xl" color="colors.text" marginLeft="10px">
               Personal Info
-            </Text>
-          </Pressable>
-        </Box>
-        <Box
-          w="100%"
-          h="10"
-          bg="colors.bg"
-          rounded="md"
-          borderWidth="2px"
-          borderColor="colors.text"
-          shadow={3}
-          justifyContent="center"
-        >
-          <Pressable onPress={() => console.log("Stats pressed")}>
-            <Text fontSize="xl" color="colors.text" marginLeft="10px">
-              Stats
             </Text>
           </Pressable>
         </Box>

@@ -1,19 +1,12 @@
-import {
-  View,
-  Keyboard,
-  TouchableWithoutFeedback,
-  useWindowDimensions,
-} from "react-native";
+import { useWindowDimensions } from "react-native";
 import React, { useEffect, useState } from "react";
 import {
-  KeyboardAvoidingView,
   Input,
   Box,
   Icon,
   Button,
   Center,
   Text,
-  keyboardDismissHandlerManager,
   FormControl,
   VStack,
   Heading,
@@ -21,7 +14,6 @@ import {
   CheckIcon,
   HStack,
   Divider,
-  flex,
 } from "native-base";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -156,7 +148,7 @@ export default function CreateEditExercise({ route }) {
           }
         >
           <VStack space={5} textAlign={"center"} alignSelf="center">
-            <Heading fontSize="lg" color="white" textAlign={"center"}>
+            <Heading fontSize="xl" color="white" textAlign={"center"}>
               Exercise Name:{"\n"}
               {exerciseName}
             </Heading>

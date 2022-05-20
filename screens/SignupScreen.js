@@ -97,9 +97,9 @@ const SignupScreen = () => {
         height="150%"
         keyboardVerticalOffset={offsetKeyBoard} //when keyboard slides up it won't cover the input field and users will see what they type
       >
-        <Box marginTop="20%" alignSelf="center">
+        <Box marginTop="10%" alignSelf="center">
           <Text fontSize="3xl" color="colors.text">
-            Signup
+            Create Account
           </Text>
         </Box>
         <Box alignSelf="center">
@@ -284,8 +284,18 @@ const SignupScreen = () => {
             />
           </FormControl>
         </Box>
-        <Box marginHorizontal={50} display={"flex"} flexDirection="row">
-          <Button width="60%" flex={1} margin={5} onPress={handleSignUp}>
+        <Box
+          width="30%"
+          alignSelf="center"
+          display={"flex"}
+          flexDirection="row"
+        >
+          <Button
+            flex={1}
+            backgroundColor={"colors.text"}
+            margin={5}
+            onPress={handleSignUp}
+          >
             Sign Up
           </Button>
         </Box>

@@ -24,7 +24,7 @@ const PersonalInfoScreen = () => {
 
   return (
     <KeyboardAvoidingView bg="colors.bg" height="100%">
-      <Box marginTop="20%" marginBottom="10%">
+      <Box marginTop="10%" marginBottom="10%">
         <HStack justifyContent="space-between">
           <Pressable onPress={() => navigation.navigate("Home")}>
             <MaterialIcons name="home" size={50} color="#9067C6" />
@@ -49,7 +49,7 @@ const PersonalInfoScreen = () => {
           justifyContent="center"
         >
           <Text fontSize="xl" color="colors.text" marginLeft="10px">
-            Height: {user.height || 0}
+            Height: {user.height || 0} in.
           </Text>
         </Box>
         <Box
@@ -63,7 +63,7 @@ const PersonalInfoScreen = () => {
           justifyContent="center"
         >
           <Text fontSize="xl" color="colors.text" marginLeft="10px">
-            Weight: {user.weight}
+            Weight: {user.weight} lbs.
           </Text>
         </Box>
         <Box
@@ -77,7 +77,7 @@ const PersonalInfoScreen = () => {
           justifyContent="center"
         >
           <Text fontSize="xl" color="colors.text" marginLeft="10px">
-            Age: {user.age}
+            Age: {user.age} years
           </Text>
         </Box>
         <Box
@@ -93,9 +93,9 @@ const PersonalInfoScreen = () => {
           <Text fontSize="xl" color="colors.text" marginLeft="10px">
             Account Made:{" "}
             {JSON.stringify(user.startDate.getMonth() + 1) +
-              " /" +
+              "/" +
               JSON.stringify(user.startDate.getDate()) +
-              " /" +
+              "/" +
               JSON.stringify(user.startDate.getFullYear())}
           </Text>
         </Box>
