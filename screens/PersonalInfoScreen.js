@@ -8,7 +8,7 @@ import { doc, onSnapshot } from "firebase/firestore";
 
 const PersonalInfoScreen = () => {
   const navigation = useNavigation();
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState({ startDate: new Date("May 12, 2001") });
 
   useEffect(() => {
     const unsubscribe = onSnapshot(
@@ -92,11 +92,11 @@ const PersonalInfoScreen = () => {
         >
           <Text fontSize="xl" color="colors.text" marginLeft="10px">
             Account Made:{" "}
-            {`${JSON.stringify(
-              user.startDate.getMonth() + 1
-            )} / ${JSON.stringify(user.startDate.getDate())} / ${JSON.stringify(
-              user.startDate.getFullYear()
-            )}`}
+            {JSON.stringify(user.startDate.getMonth() + 1) +
+              " /" +
+              JSON.stringify(user.startDate.getDate()) +
+              " /" +
+              JSON.stringify(user.startDate.getFullYear())}
           </Text>
         </Box>
       </VStack>
