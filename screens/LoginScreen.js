@@ -1,9 +1,5 @@
-import {
-  View,
-  Platform,
-  Keyboard,
-  TouchableWithoutFeedback,
-} from "react-native";
+import { Platform } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import React, { useEffect, useState } from "react";
 import {
   KeyboardAvoidingView,
@@ -11,10 +7,7 @@ import {
   Box,
   Icon,
   Button,
-  Center,
-  flex,
   Text,
-  keyboardDismissHandlerManager,
 } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
 import {
@@ -59,14 +52,14 @@ const LoginScreen = () => {
   };
   //if user is logged in navigate to home
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+    <KeyboardAwareScrollView>
       <KeyboardAvoidingView
+        height="350%"
         bg="colors.bg"
-        height="100%"
         behavior={behavior}
         keyboardVerticalOffset={offsetKeyBoard} //when keyboard slides up it won't cover the input field and users will see what they type
       >
-        <Box marginTop="30%" alignSelf="center">
+        <Box alignSelf="center">
           <Text fontSize="6xl" color="colors.text">
             HiiTCoin
           </Text>
@@ -113,16 +106,26 @@ const LoginScreen = () => {
             onChangeText={(text) => setPassword(text)}
           />
         </Box>
-        <Box marginHorizontal={50} display={"flex"} flexDirection="row">
-          <Button width="60%" flex={1} margin={5} onPress={handleSignIn}>
-            Sign In
+        <Box justifyContent="center" display="flex" flexDirection="row">
+          <Button
+            backgroundColor={"colors.text"}
+            onPress={handleSignIn}
+            flex={1}
+            _text={{ fontSize: "xl" }}
+          >
+            Login
           </Button>
-          <Button width="60%" flex={1} margin={5} onPress={handleSignUp}>
+          <Button
+            backgroundColor={"colors.text"}
+            onPress={handleSignUp}
+            flex={1}
+            _text={{ fontSize: "xl" }}
+          >
             Sign Up
           </Button>
         </Box>
       </KeyboardAvoidingView>
-    </TouchableWithoutFeedback>
+    </KeyboardAwareScrollView>
   );
 };
 
