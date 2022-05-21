@@ -17,7 +17,9 @@
   <a href="#contributors">Contributors</a>
 </p>
 
-![screenshot](https://ezgif.com/video-to-gif?url=https://i.imgur.com/eZDjl4D.mp4)
+<p align="center">
+  <img src="https://raw.githubusercontent.com/HIITCoin/HiiTCoin/main/assets/ezgif.com-gif-maker.gif" alt="demo" />
+</p>
 
 ## Key Features
 * User can login and access their personal information
