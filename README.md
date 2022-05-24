@@ -81,7 +81,7 @@ This software uses the following open source packages:
 - [Javascript](https://www.javascript.com)
 - [Expo](https://expo.dev)
 - [Native Base](https://nativebase.io)
-- [Graph.js](https://www.chartjs.org/)
+- [React Native Chart Kit](https://www.npmjs.com/package/react-native-chart-kit)
 
 Special thanks to [Fullstack Academy](https://www.fullstackacademy.com/)!
 
