@@ -37,16 +37,15 @@ const Stats = () => {
   }, []);
 
   const calcDate = (milliseconds) => {
-    let time;
+    let time, day, month, year;
     if (typeof milliseconds === "number") time = new Date(milliseconds);
     else time = milliseconds;
-    let day;
-    let month;
     if (typeof time === "object") {
       if (day === undefined) {
         day = time.getDate();
       }
       month = time.getMonth();
+      year = time.getFullYear();
     }
     if (typeof time != "object") {
       day = time;
@@ -96,14 +95,11 @@ const Stats = () => {
       default:
         month = "No month";
     }
-    return [month, day];
+    return [month, day, year];
   };
 
-  //this will be props
-
-  // let arrWorkoutHistory = [sampleWorkoutInHistory, sampleWorkoutInHistory2];
   const calcWeeklyBodyPoints = (arrWorkoutHistory2) => {
-    if (!arrWorkoutHistory2.length) return [0, 0, 0, 0];
+    if (!arrWorkoutHistory2.length) return [0, 0, 0, 0, 0];
     let weekOne = 0;
     let weekTwo = 0;
     let weekThree = 0;
@@ -115,25 +111,25 @@ const Stats = () => {
       );
       let today = new Date();
       today = calcDate(today.getTime());
-      if (date[0] != today[0]) {
-        return "workout not completed this month";
-      }
-      grandTotal += arrWorkoutHistory[i].total;
-      if (date[1] < 8) {
-        weekOne += arrWorkoutHistory[i].total;
-      } else if (date[1] < 15) {
-        weekTwo += arrWorkoutHistory[i].total;
-      } else if (date[1] < 22) {
-        weekThree += arrWorkoutHistory[i].total;
-      } else if (date[1] > 21) {
-        weekFour += arrWorkoutHistory[i].total;
+      if (date[0] === today[0] && date[2] === date[2]) {
+        grandTotal += arrWorkoutHistory[i].total;
+        if (date[1] < 8) {
+          weekOne += arrWorkoutHistory[i].total;
+        } else if (date[1] < 15) {
+          weekTwo += arrWorkoutHistory[i].total;
+        } else if (date[1] < 22) {
+          weekThree += arrWorkoutHistory[i].total;
+        } else if (date[1] > 21) {
+          weekFour += arrWorkoutHistory[i].total;
+        }
       }
     }
     return [weekOne, weekTwo, weekThree, weekFour, grandTotal];
   };
   let [weekOne, weekTwo, weekThree, weekFour, grandTotal] =
     calcWeeklyBodyPoints(arrWorkoutHistory);
-
+  console.log([weekOne, weekTwo, weekThree, weekFour, grandTotal]);
+  console.log(arrWorkoutHistory);
   return (
     <Box bg="colors.bg" height="100%">
       <ScrollView bg="colors.bg" height="100%">
@@ -173,9 +169,6 @@ const Stats = () => {
             fillShadowGradientFrom: "#9067C6",
             fillShadowGradientOpacity: 1,
             fillShadowGradientTo: "#9067C6",
-            // backgroundColor: "#e26a00",
-            //backgroundGradientFrom: "#116a64",
-            // backgroundGradientFrom: "#fb8c00",
             backgroundGradientFrom: "#1B1B3A",
             backgroundGradientTo: "#1B1B3A",
             decimalPlaces: 0, // optional, defaults to 2dp
