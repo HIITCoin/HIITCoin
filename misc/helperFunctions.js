@@ -37,6 +37,15 @@ export const getUser = async () => {
   return user.data();
 };
 
+export const getAllUsers = async () => {
+  const users = await getDocs(collection(db, "Users"));
+  const allUsers = [];
+  users.forEach((doc) => {
+    allUsers.push(doc.data())
+  });
+  return allUsers
+};
+
 export const editUser = async (newData, oldData) => {
   const user = await getUser();
   console.log("before", user);
