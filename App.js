@@ -19,6 +19,7 @@ import ProfileScreen from "./screens/ProfileScreen";
 import SettingsScreen from "./screens/SettingsScreen";
 import EditProfileScreen from "./screens/EditProfileScreen";
 import CreateEditExercise from "./screens/CreateEditExercise";
+import Leaderboard from "./screens/Leaderboard"
 import SearchBarComp from "./helperComponents/SearchBarComp";
 import Timer from "./screens/Timer";
 import Stats from "./screens/Stats";
@@ -109,6 +110,11 @@ export default function App() {
             options={{ headerShown: false }}
             name="WorkoutHistory"
             component={WorkoutHistory}
+          />
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="Leaderboard"
+            component={Leaderboard}
           />
         </Stack.Navigator>
       </NavigationContainer>
